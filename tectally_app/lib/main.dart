@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tectally_app/utils/routes.dart';
-import 'package:tectally_app/views/pages/signin.dart';
 
 void main() {
   runApp(GetMaterialApp(
