@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tectally_app/configs/constants.dart';
 
+// ignore: camel_case_types
 class customTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintMessage;
@@ -36,7 +37,7 @@ class customTextField extends StatelessWidget {
           hintText: hintMessage,
           hintStyle: const TextStyle(
             fontSize: 12,
-            fontWeight: FontWeight.normal,
+            fontWeight: FontWeight.w200,
           ),
           prefixIcon: Icon(icon),
           suffixIcon: isPassword
