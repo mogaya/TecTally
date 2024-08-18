@@ -109,7 +109,7 @@ class SignIn extends StatelessWidget {
                 ),
 
                 GestureDetector(
-                  onTap: () => Get.toNamed("/landing"),
+                  onTap: () => Get.toNamed("/signup"),
                   child: const Row(
                     children: [
                       customText(
