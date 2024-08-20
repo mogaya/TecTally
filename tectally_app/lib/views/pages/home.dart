@@ -1,6 +1,7 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customButton.dart';

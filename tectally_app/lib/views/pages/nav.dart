@@ -6,13 +6,15 @@ import 'package:tectally_app/controllers/nav_controller.dart';
 import 'package:tectally_app/views/pages/home.dart';
 import 'package:tectally_app/views/pages/profile.dart';
 import 'package:tectally_app/views/pages/statistics.dart';
+import 'package:tectally_app/views/pages/test.dart';
 import 'package:tectally_app/views/pages/wish.dart';
 
 NavController navController = Get.put(NavController());
 
 var screenList = [
   Home(),
-  Statistics(),
+  Test(),
+  // Statistics(),
   Profile(),
   Wish(),
 ];

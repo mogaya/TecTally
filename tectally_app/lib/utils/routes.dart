@@ -6,6 +6,7 @@ import 'package:tectally_app/views/pages/profile.dart';
 import 'package:tectally_app/views/pages/signin.dart';
 import 'package:tectally_app/views/pages/signup.dart';
 import 'package:tectally_app/views/pages/statistics.dart';
+import 'package:tectally_app/views/pages/test.dart';
 import 'package:tectally_app/views/pages/wish.dart';
 
 class Routes {
@@ -18,5 +19,8 @@ class Routes {
     GetPage(name: "/statistics", page: () => Statistics()),
     GetPage(name: "/profile", page: () => Profile()),
     GetPage(name: "/wish", page: () => Wish()),
+
+    // Test
+    GetPage(name: "/test", page: () => Test()),
   ];
 }
