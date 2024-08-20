@@ -14,16 +14,19 @@ class PieChart2State extends State<Test> {
   int touchedIndex1 = -1;
   int touchedIndex2 = -1;
   int touchedIndex3 = -1;
+  int touchedIndex4 = -1;
+  int touchedIndex5 = -1;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Statistics"),
-        ),
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Statistics"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 40),
+        child: SingleChildScrollView(
           child: Column(
             children: [
               buildPieChart(
@@ -44,7 +47,7 @@ class PieChart2State extends State<Test> {
                 assetStatus(),
                 buildIndicators([
                   {'color': Colors.green, 'text': 'Working 210'},
-                  {'color': Colors.orange, 'text': 'Faulty 40'},
+                  {'color': Colors.red, 'text': 'Faulty 40'},
                 ]),
                 'Asset Status',
               ),
@@ -56,10 +59,30 @@ class PieChart2State extends State<Test> {
                 (index) => setState(() => touchedIndex3 = index),
                 allocation(),
                 buildIndicators([
-                  {'color': Colors.cyan, 'text': 'Allocated 200'},
-                  {'color': Colors.lime, 'text': 'Waiting 50'},
+                  {'color': Colors.blue, 'text': 'Allocated 200'},
+                  {'color': Colors.orange, 'text': 'Waiting 50'},
                 ]),
                 'Allocation',
+              ),
+              buildPieChart(
+                touchedIndex4,
+                (index) => setState(() => touchedIndex4 = index),
+                licences(),
+                buildIndicators([
+                  {'color': Colors.pink, 'text': 'Allocated 200'},
+                  {'color': Colors.amber, 'text': 'Waiting 50'},
+                ]),
+                'Licenses',
+              ),
+              buildPieChart(
+                touchedIndex5,
+                (index) => setState(() => touchedIndex5 = index),
+                expenses(),
+                buildIndicators([
+                  {'color': Colors.purple, 'text': 'Allocated 200'},
+                  {'color': Colors.teal, 'text': 'Waiting 50'},
+                ]),
+                'Expenses',
               ),
             ],
           ),
@@ -185,7 +208,7 @@ class PieChart2State extends State<Test> {
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.orange,
+            color: Colors.red,
             value: 25,
             title: '25%',
             radius: radius,
@@ -202,6 +225,7 @@ class PieChart2State extends State<Test> {
     });
   }
 
+// Allocation Data
   List<PieChartSectionData> allocation() {
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex3;
@@ -210,7 +234,7 @@ class PieChart2State extends State<Test> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.cyan,
+            color: Colors.blue,
             value: 50,
             title: '50%',
             radius: radius,
@@ -222,7 +246,83 @@ class PieChart2State extends State<Test> {
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.lime,
+            color: Colors.orange,
+            value: 20,
+            title: '20%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
+          );
+
+        default:
+          throw Error();
+      }
+    });
+  }
+
+  // Allocation Data
+  List<PieChartSectionData> licences() {
+    return List.generate(2, (i) {
+      final isTouched = i == touchedIndex4;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 50.0 : 40.0;
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: Colors.pink,
+            value: 50,
+            title: '50%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: Colors.amber,
+            value: 20,
+            title: '20%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
+          );
+
+        default:
+          throw Error();
+      }
+    });
+  }
+
+  // Allocation Data
+  List<PieChartSectionData> expenses() {
+    return List.generate(2, (i) {
+      final isTouched = i == touchedIndex5;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 50.0 : 40.0;
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: Colors.purple,
+            value: 50,
+            title: '50%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: Colors.teal,
             value: 20,
             title: '20%',
             radius: radius,
