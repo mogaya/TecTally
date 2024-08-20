@@ -57,7 +57,7 @@ class Home extends StatelessWidget {
 
             // Slider Area
             SizedBox(
-              height: 200,
+              height: 250,
               width: 350,
               child: Column(
                 children: [
@@ -83,6 +83,9 @@ class Home extends StatelessWidget {
                         );
                       },
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   SmoothPageIndicator(
                     controller: _pageController,

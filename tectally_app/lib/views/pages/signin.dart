@@ -97,7 +97,7 @@ class SignIn extends StatelessWidget {
                   width: 350,
                   child: customButton(
                     text: "SIGN IN",
-                    onPressed: () => Navigator.pushNamed(context, "/home"),
+                    onPressed: () => Navigator.pushNamed(context, "/navigator"),
                     txtFontWeight: FontWeight.w500,
                     txtFontSize: 18,
                     color: secondaryColor,
