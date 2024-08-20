@@ -17,43 +17,73 @@ class PieChart2State extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          buildPieChart(
-            touchedIndex1,
-            (index) => setState(() => touchedIndex1 = index),
-            showingSections1(),
+    return Center(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Statistics"),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildPieChart(
+                touchedIndex1,
+                (index) => setState(() => touchedIndex1 = index),
+                totalAssets(),
+                buildIndicators([
+                  {'color': Colors.blue, 'text': 'Assets 250'},
+                ]),
+                'Total Assets',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              buildPieChart(
+                touchedIndex2,
+                (index) => setState(() => touchedIndex2 = index),
+                assetStatus(),
+                buildIndicators([
+                  {'color': Colors.green, 'text': 'Working 210'},
+                  {'color': Colors.orange, 'text': 'Faulty 40'},
+                ]),
+                'Asset Status',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              buildPieChart(
+                touchedIndex3,
+                (index) => setState(() => touchedIndex3 = index),
+                allocation(),
+                buildIndicators([
+                  {'color': Colors.cyan, 'text': 'Allocated 200'},
+                  {'color': Colors.lime, 'text': 'Waiting 50'},
+                ]),
+                'Allocation',
+              ),
+            ],
           ),
-          SizedBox(height: 10), // spacing between pie charts
-          buildPieChart(
-            touchedIndex2,
-            (index) => setState(() => touchedIndex2 = index),
-            showingSections2(),
-          ),
-          SizedBox(height: 10), // spacing between pie charts
-          buildPieChart(
-            touchedIndex3,
-            (index) => setState(() => touchedIndex3 = index),
-            showingSections3(),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget buildPieChart(int touchedIndex, Function(int) onTouch,
-      List<PieChartSectionData> sections) {
+  Widget buildPieChart(
+      int touchedIndex,
+      Function(int) onTouch,
+      List<PieChartSectionData> sections,
+      List<Widget> indicators,
+      String title) {
     return AspectRatio(
-      aspectRatio: 1.3,
+      aspectRatio: 1.62,
       child: Row(
-        children: <Widget>[
+        children: [
           const SizedBox(
             height: 18,
           ),
           Expanded(
             child: AspectRatio(
-              aspectRatio: 1,
+              aspectRatio: 1.5,
               child: PieChart(
                 PieChartData(
                   pieTouchData: PieTouchData(
@@ -79,30 +109,16 @@ class PieChart2State extends State<Test> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Indicator(
-                color: Colors.blue,
-                text: 'First',
-                isSquare: true,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const SizedBox(height: 4),
-              Indicator(
-                color: Colors.yellow,
-                text: 'Second',
-                isSquare: true,
-              ),
-              const SizedBox(height: 4),
-              Indicator(
-                color: Colors.purple,
-                text: 'Third',
-                isSquare: true,
-              ),
-              const SizedBox(height: 4),
-              Indicator(
-                color: Colors.green,
-                text: 'Fourth',
-                isSquare: true,
-              ),
+              const SizedBox(height: 8),
+              ...indicators,
               const SizedBox(height: 18),
             ],
           ),
@@ -112,83 +128,52 @@ class PieChart2State extends State<Test> {
     );
   }
 
-  List<PieChartSectionData> showingSections1() {
-    return List.generate(4, (i) {
+// Indicators
+  List<Widget> buildIndicators(List<Map<String, dynamic>> indicatorData) {
+    return indicatorData.map((data) {
+      return Column(
+        children: [
+          Indicator(
+            color: data['color'],
+            text: data['text'],
+            isSquare: true,
+          ),
+          const SizedBox(height: 4),
+        ],
+      );
+    }).toList();
+  }
+
+// Assets Chart data
+  List<PieChartSectionData> totalAssets() {
+    return List.generate(1, (i) {
       final isTouched = i == touchedIndex1;
       final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Colors.blue,
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.yellow,
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: Colors.purple,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: Colors.green,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
-        default:
-          throw Error();
-      }
+      final radius = isTouched ? 50.0 : 40.0;
+      return PieChartSectionData(
+        color: Colors.blue,
+        value: 40,
+        title: "100%",
+        radius: radius,
+        titleStyle: TextStyle(
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+          color: textColor,
+        ),
+      );
     });
   }
 
-  // Define similar methods for the other two pie charts
-
-  List<PieChartSectionData> showingSections2() {
-    return List.generate(4, (i) {
+// Asset Status Data
+  List<PieChartSectionData> assetStatus() {
+    return List.generate(2, (i) {
       final isTouched = i == touchedIndex2;
       final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      final radius = isTouched ? 50.0 : 40.0;
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.red,
+            color: Colors.green,
             value: 35,
             title: '35%',
             radius: radius,
@@ -196,7 +181,6 @@ class PieChart2State extends State<Test> {
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: textColor,
-              shadows: shadows,
             ),
           );
         case 1:
@@ -209,47 +193,20 @@ class PieChart2State extends State<Test> {
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: textColor,
-              shadows: shadows,
             ),
           );
-        case 2:
-          return PieChartSectionData(
-            color: Colors.teal,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: Colors.brown,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
+
         default:
           throw Error();
       }
     });
   }
 
-  List<PieChartSectionData> showingSections3() {
-    return List.generate(4, (i) {
+  List<PieChartSectionData> allocation() {
+    return List.generate(2, (i) {
       final isTouched = i == touchedIndex3;
       final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      final radius = isTouched ? 50.0 : 40.0;
       switch (i) {
         case 0:
           return PieChartSectionData(
@@ -261,7 +218,6 @@ class PieChart2State extends State<Test> {
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: textColor,
-              shadows: shadows,
             ),
           );
         case 1:
@@ -274,35 +230,9 @@ class PieChart2State extends State<Test> {
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
               color: textColor,
-              shadows: shadows,
             ),
           );
-        case 2:
-          return PieChartSectionData(
-            color: Colors.indigo,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: Colors.pink,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-              shadows: shadows,
-            ),
-          );
+
         default:
           throw Error();
       }
