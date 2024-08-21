@@ -13,8 +13,8 @@ NavController navController = Get.put(NavController());
 
 var screenList = [
   Home(),
-  Test(),
-  // Statistics(),
+  // Test(),
+  Statistics(),
   Profile(),
   Wish(),
 ];
