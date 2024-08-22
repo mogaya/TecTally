@@ -13,10 +13,10 @@ NavController navController = Get.put(NavController());
 
 var screenList = [
   Home(),
-  // Test(),
   Statistics(),
+  Test(),
+  // Wish(),
   Profile(),
-  Wish(),
 ];
 
 class Nav extends StatelessWidget {
@@ -43,12 +43,12 @@ class Nav extends StatelessWidget {
             color: baseColor,
           ),
           Icon(
-            Icons.person,
+            Icons.bookmark_border_outlined,
             size: 25,
             color: baseColor,
           ),
           Icon(
-            Icons.star_border,
+            Icons.person,
             size: 25,
             color: baseColor,
           ),
