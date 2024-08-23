@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tectally_app/configs/constants.dart';
@@ -17,41 +18,31 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: customSearchDelegete(),
-              );
-            },
-            icon: const Icon(Icons.search),
-          ),
-        ],
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            customText(
+              label: "KARIBU TecTally",
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            customText(
+              label: " Mogaya",
+              fontSize: 24,
+              fontWeight: FontWeight.w300,
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                customText(
-                  label: "KARIBU TecTally",
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                customText(
-                  label: " Mogaya",
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300,
-                ),
-              ],
-            ),
             const SizedBox(
               height: 20,
             ),
@@ -74,7 +65,7 @@ class Home extends StatelessWidget {
                           child: Center(
                             child: Text(
                               'Item ${index + 1}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -85,13 +76,13 @@ class Home extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   SmoothPageIndicator(
                     controller: _pageController,
                     count: _pageCount,
-                    effect: WormEffect(
+                    effect: const WormEffect(
                       dotColor: Colors.grey,
                       activeDotColor: Colors.orange,
                       dotHeight: 10,
@@ -101,7 +92,7 @@ class Home extends StatelessWidget {
                     onDotClicked: (index) {
                       _pageController.animateToPage(
                         index,
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                       );
                     },
@@ -120,28 +111,45 @@ class Home extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Add Asset Button
-                MaterialButton(
-                  onPressed: () => Get.toNamed("/add_asset"),
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
+
+                Container(
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      style: BorderStyle.solid,
                       color: secondaryColor,
                     ),
-                    // color: secondaryColor,
-                    child: const Center(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed("/add_asset");
+                      },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.computer,
+                          SvgPicture.asset(
+                            "assets/svg/add_asset.svg",
+                            width: 60,
+                            height: 60,
                           ),
-                          Text(
-                            "Add Asset",
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            'ADD ASSET',
+                            textAlign: TextAlign.left,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontFamily: "Netflix",
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              letterSpacing: 0.0,
+                              color: textColor,
                             ),
                           ),
                         ],
@@ -149,27 +157,49 @@ class Home extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  width: 30,
+                ),
 
                 // Add User Button
-                MaterialButton(
-                  onPressed: () => Get.toNamed("/add_user"),
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
+                Container(
+                  height: 120,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      style: BorderStyle.solid,
                       color: secondaryColor,
                     ),
-                    child: Center(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                  ),
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed("/add_asset");
+                      },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Icons.person_add_alt_1),
-                          Text(
-                            "Add User",
+                          SvgPicture.asset(
+                            "assets/svg/add_user.svg",
+                            width: 60,
+                            height: 60,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            'ADD USER',
+                            textAlign: TextAlign.left,
                             style: TextStyle(
-                              fontSize: 16,
+                              fontFamily: "Netflix",
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              letterSpacing: 0.0,
+                              color: textColor,
                             ),
                           ),
                         ],
@@ -180,50 +210,100 @@ class Home extends StatelessWidget {
               ],
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
 
             // Asset Inventory Button
-            MaterialButton(
-              onPressed: () => Get.toNamed("/asset_inventory"),
-              child: Container(
-                height: 60,
-                width: 350,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  color: secondaryColor,
-                ),
-                child: Center(
-                  child: Text(
-                    "ASSET INVENTORY",
+            Container(
+              height: 60,
+              width: 350,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.blue,
+                      Colors.blue.shade500,
+                      secondaryColor,
+                      // Colors.blue.shade300,
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(30.0),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 4,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    )
+                  ]),
+              child: Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/asset_inventory");
+                  },
+                  child: const Text(
+                    'ASSET INVENTORY',
+                    textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontFamily: "Netflix",
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      letterSpacing: 0.0,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
 
             // Asset Inventory Button
-            MaterialButton(
-              onPressed: () => Get.toNamed("/all_users"),
-              child: Container(
-                height: 60,
-                width: 350,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  color: secondaryColor,
-                ),
-                child: Center(
-                  child: Text(
-                    "ALL USERS",
+            Container(
+              height: 60,
+              width: 350,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.blue,
+                      Colors.blue.shade500,
+                      secondaryColor,
+                      // Colors.blue.shade300,
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(30.0),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 4,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    )
+                  ]),
+              child: Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/all_users");
+                  },
+                  child: const Text(
+                    'ALL USERS',
+                    textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontFamily: "Netflix",
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      letterSpacing: 0.0,
+                      color: Colors.white,
                     ),
                   ),
                 ),
