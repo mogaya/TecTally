@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Wish extends StatelessWidget {
-  const Wish({super.key});
+class AddAsset extends StatelessWidget {
+  const AddAsset({super.key});
 
   @override
   Widget build(BuildContext context) {
