@@ -177,7 +177,7 @@ class Home extends StatelessWidget {
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Get.toNamed("/add_asset");
+                        Get.toNamed("/add_user");
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
