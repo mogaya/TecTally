@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:tectally_app/configs/constants.dart';
-import 'package:tectally_app/controllers/nav_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customText.dart';
 import 'package:tectally_app/views/components/inputField.dart';
@@ -15,6 +13,7 @@ class AssetIdentity extends StatelessWidget {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: customText(
           label: 'Asset Identification',

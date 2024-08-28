@@ -13,6 +13,7 @@ class AddUser extends StatelessWidget {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: customText(
           label: 'Add User',
