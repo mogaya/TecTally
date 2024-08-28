@@ -8,6 +8,7 @@ import 'package:tectally_app/views/pages/signup.dart';
 import 'package:tectally_app/views/pages/statistics.dart';
 import 'package:tectally_app/views/pages/bookmark.dart';
 import 'package:tectally_app/views/pages/suppPages/addUser.dart';
+import 'package:tectally_app/views/pages/suppPages/allUsers.dart';
 import 'package:tectally_app/views/pages/suppPages/assetIdentity.dart';
 import 'package:tectally_app/views/pages/suppPages/assignInfo.dart';
 import 'package:tectally_app/views/pages/suppPages/licenceInfo.dart';
@@ -34,5 +35,6 @@ class Routes {
     GetPage(name: "/licence_info", page: () => LicenceInfo()),
     GetPage(name: "/assign_info", page: () => AssignInfo()),
     GetPage(name: "/add_user", page: () => AddUser()),
+    GetPage(name: "/all_users", page: () => AllUsers()),
   ];
 }
