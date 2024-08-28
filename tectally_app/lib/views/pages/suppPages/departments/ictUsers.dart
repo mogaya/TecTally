@@ -15,6 +15,7 @@ class _IctUsersState extends State<IctUsers> {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
           label: "IctUsers",

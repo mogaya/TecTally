@@ -15,6 +15,7 @@ class _NetworkingState extends State<Networking> {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
           label: "Networking",

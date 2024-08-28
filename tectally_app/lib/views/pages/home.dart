@@ -17,9 +17,10 @@ class Home extends StatelessWidget {
     final int _pageCount = 5;
 
     return Scaffold(
+      backgroundColor: baseColor,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: baseColor,
         elevation: 0,
         automaticallyImplyLeading: false,
         title: const Row(

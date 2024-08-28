@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-class Mobile extends StatefulWidget {
-  const Mobile({super.key});
+class OtherUsers extends StatefulWidget {
+  const OtherUsers({super.key});
 
   @override
-  State<Mobile> createState() => _MobileState();
+  State<OtherUsers> createState() => _OtherUsersState();
 }
 
-class _MobileState extends State<Mobile> {
+class _OtherUsersState extends State<OtherUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,7 @@ class _MobileState extends State<Mobile> {
         backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
-          label: "Mobile",
+          label: "OtherUsers",
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),

@@ -15,6 +15,7 @@ class _HrUsersState extends State<HrUsers> {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
           label: "HrUsers",

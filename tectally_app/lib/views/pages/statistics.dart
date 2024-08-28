@@ -21,7 +21,9 @@ class PieChart2State extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
           label: "Statistics",

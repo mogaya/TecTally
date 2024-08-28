@@ -15,6 +15,7 @@ class _FinanceUsersState extends State<FinanceUsers> {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
           label: "FinanceUsers",

@@ -15,6 +15,7 @@ class _ComputersState extends State<Computers> {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
           label: "Computers",

@@ -12,6 +12,7 @@ class AssetInventory extends StatelessWidget {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: customText(
           label: "Asset Categories",

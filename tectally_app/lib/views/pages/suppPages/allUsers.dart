@@ -12,6 +12,7 @@ class AllUsers extends StatelessWidget {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: customText(
           label: "Departments",
@@ -241,6 +242,62 @@ class AllUsers extends StatelessWidget {
                       ),
                       customText(
                         label: "PROCUREMENT",
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+
+              // procurement Users
+              GestureDetector(
+                onTap: () => {Get.toNamed('/other_users')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: 330,
+                  height: 150,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          "assets/svg/procurement.svg",
+                          width: 120,
+                          height: 120,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      customText(
+                        label: "OTHER USERS",
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),

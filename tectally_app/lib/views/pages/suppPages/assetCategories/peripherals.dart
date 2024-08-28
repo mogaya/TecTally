@@ -15,6 +15,7 @@ class _PeripheralsState extends State<Peripherals> {
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
+        backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
           label: "Peripherals",
