@@ -59,7 +59,7 @@ class Home extends StatelessWidget {
                       itemCount: _pageCount,
                       itemBuilder: (context, index) {
                         return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10.0),
+                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
                           color: Colors.orange[(index + 1) *
                               100], // Different shade of orange for each container
                           child: Center(
@@ -215,37 +215,37 @@ class Home extends StatelessWidget {
             ),
 
             // Asset Inventory Button
-            Container(
-              height: 60,
-              width: 350,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.blue,
-                      Colors.blue.shade500,
-                      secondaryColor,
-                      // Colors.blue.shade300,
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(30.0),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 4,
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
-                    )
-                  ]),
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    Get.toNamed("/asset_inventory");
-                  },
-                  child: const Text(
+            GestureDetector(
+              onTap: () {
+                Get.toNamed("/asset_inventory");
+              },
+              child: Container(
+                height: 60,
+                width: 350,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      )
+                    ]),
+                child: const Center(
+                  child: Text(
                     'ASSET INVENTORY',
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -265,37 +265,37 @@ class Home extends StatelessWidget {
             ),
 
             // Asset Inventory Button
-            Container(
-              height: 60,
-              width: 350,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.blue,
-                      Colors.blue.shade500,
-                      secondaryColor,
-                      // Colors.blue.shade300,
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(30.0),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 4,
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
-                    )
-                  ]),
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    Get.toNamed("/all_users");
-                  },
-                  child: const Text(
+            GestureDetector(
+              onTap: () {
+                Get.toNamed("/all_users");
+              },
+              child: Container(
+                height: 60,
+                width: 350,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      )
+                    ]),
+                child: const Center(
+                  child: Text(
                     'ALL USERS',
                     textAlign: TextAlign.left,
                     style: TextStyle(

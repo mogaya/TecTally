@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-class AllUsers extends StatelessWidget {
-  const AllUsers({super.key});
+class AssetInventory extends StatelessWidget {
+  const AssetInventory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class AllUsers extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: customText(
-          label: "Departments",
+          label: "Asset Categories",
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
@@ -29,7 +29,7 @@ class AllUsers extends StatelessWidget {
                 height: 20,
               ),
               GestureDetector(
-                onTap: () => {Get.toNamed('/hr_users')},
+                onTap: () => {Get.toNamed('/computers')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -71,7 +71,7 @@ class AllUsers extends StatelessWidget {
                         width: 20,
                       ),
                       customText(
-                        label: "HUMAN RESOURCE",
+                        label: "COMPUTERS",
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -85,7 +85,7 @@ class AllUsers extends StatelessWidget {
 
               // ICT Users
               GestureDetector(
-                onTap: () => {Get.toNamed('/ict_users')},
+                onTap: () => {Get.toNamed('/networking')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -127,7 +127,7 @@ class AllUsers extends StatelessWidget {
                         width: 20,
                       ),
                       customText(
-                        label: "ICT",
+                        label: "NETWORKING",
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -141,7 +141,7 @@ class AllUsers extends StatelessWidget {
 
               // Finance Users
               GestureDetector(
-                onTap: () => {Get.toNamed('/finance_users')},
+                onTap: () => {Get.toNamed('/peripherals')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -183,7 +183,7 @@ class AllUsers extends StatelessWidget {
                         width: 20,
                       ),
                       customText(
-                        label: "FINANCE",
+                        label: "PERIPHERALS",
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -198,7 +198,7 @@ class AllUsers extends StatelessWidget {
 
               // procurement Users
               GestureDetector(
-                onTap: () => {Get.toNamed('/procurement_users')},
+                onTap: () => {Get.toNamed('/mobile')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -240,7 +240,119 @@ class AllUsers extends StatelessWidget {
                         width: 20,
                       ),
                       customText(
-                        label: "PROCUREMENT",
+                        label: "MOBILE DEVICES",
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+
+              // procurement Users
+              GestureDetector(
+                onTap: () => {Get.toNamed('/storage')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: 330,
+                  height: 150,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          "assets/svg/procurement.svg",
+                          width: 120,
+                          height: 120,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      customText(
+                        label: "STORAGE DEVICES",
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+
+              // procurement Users
+              GestureDetector(
+                onTap: () => {Get.toNamed('/others')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: 330,
+                  height: 150,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          "assets/svg/procurement.svg",
+                          width: 120,
+                          height: 120,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      customText(
+                        label: "OTHERS",
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
