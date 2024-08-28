@@ -27,50 +27,36 @@ class Nav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blue,
-              Colors.blue.shade500,
-              secondaryColor,
-              // Colors.blue.shade300,
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+      bottomNavigationBar: CurvedNavigationBar(
+        color: Colors.blue.shade400,
+        backgroundColor: baseColor,
+        buttonBackgroundColor: Colors.blue.shade400,
+        height: 55,
+        items: [
+          Icon(
+            Icons.home_rounded,
+            size: 25,
+            color: baseColor,
           ),
-        ),
-        child: CurvedNavigationBar(
-          color: secondaryColor,
-          backgroundColor: baseColor,
-          buttonBackgroundColor: secondaryColor,
-          height: 55,
-          items: [
-            Icon(
-              Icons.home_rounded,
-              size: 25,
-              color: baseColor,
-            ),
-            Icon(
-              Icons.query_stats_outlined,
-              size: 27,
-              color: baseColor,
-            ),
-            Icon(
-              Icons.bookmark_border_outlined,
-              size: 25,
-              color: baseColor,
-            ),
-            Icon(
-              Icons.person,
-              size: 25,
-              color: baseColor,
-            ),
-          ],
-          onTap: (index) {
-            navController.setSelectedPage(index);
-          },
-        ),
+          Icon(
+            Icons.query_stats_outlined,
+            size: 27,
+            color: baseColor,
+          ),
+          Icon(
+            Icons.bookmark_border_outlined,
+            size: 25,
+            color: baseColor,
+          ),
+          Icon(
+            Icons.person,
+            size: 25,
+            color: baseColor,
+          ),
+        ],
+        onTap: (index) {
+          navController.setSelectedPage(index);
+        },
       ),
       body: Obx(() => screenList[navController.selectedPage.value]),
     );
