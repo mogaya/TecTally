@@ -4,7 +4,7 @@ import 'package:tectally_app/utils/routes.dart';
 
 void main() {
   runApp(GetMaterialApp(
-    initialRoute: "/signin",
+    initialRoute: "/",
     // initialRoute: "/test",
     getPages: Routes.routes,
     debugShowCheckedModeBanner: false,
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: "/signin",
+      initialRoute: "/",
       // initialRoute: "/test",
       getPages: Routes.routes,
       debugShowCheckedModeBanner: false,
