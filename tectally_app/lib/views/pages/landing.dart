@@ -58,7 +58,7 @@ class _LandingState extends State<Landing> {
                     radius: 20,
                     dotHeight: 12,
                     dotWidth: 12,
-                    activeDotColor: Colors.black,
+                    activeDotColor: textColor,
                   ),
                 ),
 
@@ -74,7 +74,7 @@ class _LandingState extends State<Landing> {
                       borderRadius: 40,
                       text: 'SKIP',
                       txtFontWeight: FontWeight.bold,
-                      color: Colors.grey.shade300,
+                      color: Colors.grey.shade400,
                       onPressed: () {
                         _controller.jumpToPage(3);
                       },

@@ -6,6 +6,7 @@ void main() {
   runApp(GetMaterialApp(
     initialRoute: "/",
     // initialRoute: "/test",
+    theme: ThemeData(fontFamily: "Outfit"),
     getPages: Routes.routes,
     debugShowCheckedModeBanner: false,
   ));
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: "/",
       // initialRoute: "/test",
+      theme: ThemeData(fontFamily: "Outfit"),
       getPages: Routes.routes,
       debugShowCheckedModeBanner: false,
     );

@@ -10,6 +10,7 @@ class customText extends StatelessWidget {
   final TextAlign textAlign;
   final TextDecoration txtDecoration;
   final Color txtDecColor;
+  final String? fontFamily;
 
   const customText({
     super.key,
@@ -20,6 +21,7 @@ class customText extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.txtDecoration = TextDecoration.none,
     this.txtDecColor = textColor,
+    this.fontFamily,
   });
 
   @override
@@ -30,6 +32,7 @@ class customText extends StatelessWidget {
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: fontWeight,
+        fontFamily: fontFamily,
         color: labelColor,
         decoration: txtDecoration,
         decorationColor: txtDecColor,

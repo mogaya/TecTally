@@ -146,7 +146,6 @@ class Home extends StatelessWidget {
                             'ADD ASSET',
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              fontFamily: "Netflix",
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                               letterSpacing: 0.0,
@@ -196,7 +195,6 @@ class Home extends StatelessWidget {
                             'ADD USER',
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              fontFamily: "Netflix",
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                               letterSpacing: 0.0,
@@ -250,7 +248,6 @@ class Home extends StatelessWidget {
                     'ASSET INVENTORY',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontFamily: "Netflix",
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       letterSpacing: 0.0,
@@ -300,7 +297,6 @@ class Home extends StatelessWidget {
                     'ALL USERS',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontFamily: "Netflix",
                       fontWeight: FontWeight.w600,
                       fontSize: 18,
                       letterSpacing: 0.0,
