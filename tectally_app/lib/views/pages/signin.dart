@@ -24,7 +24,8 @@ class SignIn extends StatelessWidget {
               children: [
                 customText(
                   label: "Welcome Back",
-                  fontSize: 24,
+                  fontFamily: "OpenSans",
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
 
@@ -35,8 +36,8 @@ class SignIn extends StatelessWidget {
                 customText(
                   label:
                       "Please fill in your username and password to login to your account.",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
                 ),
 
                 SizedBox(
@@ -48,6 +49,8 @@ class SignIn extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Username",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -64,6 +67,8 @@ class SignIn extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Password",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -83,13 +88,15 @@ class SignIn extends StatelessWidget {
                     children: [
                       customText(
                         label: "Forgot Password?",
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
                       ),
                     ],
                   ),
                 ),
 
                 SizedBox(
-                  height: 100,
+                  height: 80,
                 ),
 
                 // signIn button
@@ -98,8 +105,8 @@ class SignIn extends StatelessWidget {
                   child: customButton(
                     text: "SIGN IN",
                     onPressed: () => Navigator.pushNamed(context, "/navigator"),
-                    txtFontWeight: FontWeight.w500,
-                    txtFontSize: 18,
+                    txtFontWeight: FontWeight.w600,
+                    txtFontSize: 22,
                     color: secondaryColor,
                   ),
                 ),
@@ -111,19 +118,23 @@ class SignIn extends StatelessWidget {
                 GestureDetector(
                   onTap: () => Get.toNamed("/signup"),
                   child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       customText(
                         label: "Don't have an account?",
                         labelColor: textColor,
                         txtDecoration: TextDecoration.underline,
-                        fontSize: 16,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                       customText(
                         label: "SignUp",
                         labelColor: secondaryColor,
                         txtDecoration: TextDecoration.underline,
                         txtDecColor: secondaryColor,
-                        fontSize: 16,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ],
                   ),
