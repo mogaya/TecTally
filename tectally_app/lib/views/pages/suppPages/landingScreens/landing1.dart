@@ -14,6 +14,8 @@ class _Landing1State extends State<Landing1>
     with SingleTickerProviderStateMixin {
   // Controller
   late final AnimationController _controller;
+  bool _isLoading = true;
+  // Tracks animation loading
 
   @override
   void initState() {
@@ -38,40 +40,57 @@ class _Landing1State extends State<Landing1>
   Widget build(BuildContext context) {
     return Container(
       color: baseColor,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Center(
-            child: Lottie.network(
-              'https://lottie.host/52849630-19cc-447d-90f1-838d10612440/BJlVl4qOCs.json',
-              controller: _controller,
-              onLoaded: (composition) {
-                // Configure the AnimationController with the duration of the Lottie animation
-                _controller.duration = composition.duration;
-              },
-            ),
-          ),
-          customText(
-            label: "Welcome to TecTally",
-            fontFamily: "OpenSans",
-            fontSize: 30,
-            fontWeight: FontWeight.w900,
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Your journey to efficient IT asset management starts here",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Lottie.network(
+                  'https://lottie.host/52849630-19cc-447d-90f1-838d10612440/BJlVl4qOCs.json',
+                  controller: _controller,
+                  onLoaded: (composition) {
+                    // Configure the AnimationController with the duration of the Lottie animation
+                    setState(() {
+                      _isLoading = false;
+                      // Loading to false
+                    });
+                    _controller.duration = composition.duration;
+                  },
+                ),
               ),
-            ),
+              customText(
+                label: "Welcome to TecTally",
+                fontFamily: "OpenSans",
+                fontSize: 30,
+                fontWeight: FontWeight.w900,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Your journey to efficient IT asset management starts here",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ),
+          if (_isLoading)
+            Center(
+              child: CircularProgressIndicator(
+                color: ascentColor,
+                strokeWidth: 5,
+              ),
+              // Loading Indicator
+            )
         ],
       ),
     );

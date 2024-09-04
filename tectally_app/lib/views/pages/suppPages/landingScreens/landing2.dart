@@ -12,67 +12,58 @@ class Landing2 extends StatefulWidget {
 
 class _Landing2State extends State<Landing2>
     with SingleTickerProviderStateMixin {
-  // Controller
-  // late final AnimationController _controller;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   _controller = AnimationController(
-  //     duration: Duration(seconds: 10),
-  //     vsync: this,
-  //   );
-
-  //   // Start the animation when the page lands
-  //   _controller.forward();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
+  bool _isLoading = true;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: baseColor,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
         children: [
-          Center(
-            child: Lottie.network(
-              'https://lottie.host/07f45c10-b6ef-45be-a73c-6858c1d3ad9c/RBM1oNOaGc.json',
-              // controller: _controller,
-              // onLoaded: (composition) {
-              //   // Configure the AnimationController with the duration of the Lottie animation
-              //   _controller.duration = composition.duration;
-              // },
-            ),
-          ),
-          customText(
-            label: "What you Get",
-            fontFamily: "OpenSans",
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Whether you're managing a small business or a large enterprise, TechTally helps you stay on top of every asset",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                // fontFamily: 'Outfit',
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Lottie.network(
+                  'https://lottie.host/07f45c10-b6ef-45be-a73c-6858c1d3ad9c/RBM1oNOaGc.json',
+                  onLoaded: (composition) {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+                ),
               ),
-            ),
+              customText(
+                label: "What you Get",
+                fontFamily: "OpenSans",
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Whether you're managing a small business or a large enterprise, TechTally helps you stay on top of every asset",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    // fontFamily: 'Outfit',
+                  ),
+                ),
+              ),
+            ],
           ),
+          if (_isLoading)
+            (Center(
+              child: CircularProgressIndicator(
+                color: ascentColor,
+                strokeWidth: 5,
+              ),
+            ))
         ],
       ),
     );

@@ -11,6 +11,7 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: baseColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -24,7 +25,8 @@ class SignIn extends StatelessWidget {
               children: [
                 customText(
                   label: "Welcome Back",
-                  fontSize: 24,
+                  fontSize: 28,
+                  fontFamily: 'OpenSans',
                   fontWeight: FontWeight.bold,
                 ),
 
@@ -35,8 +37,8 @@ class SignIn extends StatelessWidget {
                 customText(
                   label:
                       "Please fill in your username and password to login to your account.",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
                 ),
 
                 SizedBox(
@@ -48,6 +50,8 @@ class SignIn extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Username",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -64,6 +68,8 @@ class SignIn extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Password",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -83,6 +89,8 @@ class SignIn extends StatelessWidget {
                     children: [
                       customText(
                         label: "Forgot Password?",
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ],
                   ),
@@ -98,7 +106,7 @@ class SignIn extends StatelessWidget {
                   child: customButton(
                     text: "SIGN IN",
                     onPressed: () => Navigator.pushNamed(context, "/navigator"),
-                    txtFontWeight: FontWeight.w500,
+                    txtFontWeight: FontWeight.w600,
                     txtFontSize: 18,
                     color: secondaryColor,
                   ),
@@ -108,25 +116,33 @@ class SignIn extends StatelessWidget {
                   height: 20,
                 ),
 
-                GestureDetector(
-                  onTap: () => Get.toNamed("/signup"),
-                  child: const Row(
-                    children: [
-                      customText(
-                        label: "Don't have an account?",
-                        labelColor: textColor,
-                        txtDecoration: TextDecoration.underline,
-                        fontSize: 16,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.toNamed("/signup"),
+                      child: const Row(
+                        children: [
+                          customText(
+                            label: "Don't have an account?",
+                            labelColor: textColor,
+                            txtDecoration: TextDecoration.underline,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          customText(
+                            label: "SignUp",
+                            labelColor: secondaryColor,
+                            txtDecoration: TextDecoration.underline,
+                            txtDecColor: secondaryColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
                       ),
-                      customText(
-                        label: "SignUp",
-                        labelColor: secondaryColor,
-                        txtDecoration: TextDecoration.underline,
-                        txtDecColor: secondaryColor,
-                        fontSize: 16,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               ],
             ),

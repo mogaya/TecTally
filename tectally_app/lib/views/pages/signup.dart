@@ -11,12 +11,14 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: baseColor,
       appBar: AppBar(
         title: const Align(
           alignment: Alignment.center,
           child: customText(
             label: "Create your Account",
-            fontSize: 24,
+            fontFamily: 'OpenSans',
+            fontSize: 28,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -31,21 +33,11 @@ class SignUp extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // customText(
-                //   label: "Create your Account",
-                //   fontSize: 24,
-                //   fontWeight: FontWeight.bold,
-                // ),
-
-                // SizedBox(
-                //   height: 20,
-                // ),
-
                 const customText(
                   label:
                       "Karibu TecTally. Please fill in your details to create your account",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
                 ),
 
                 const SizedBox(
@@ -57,6 +49,8 @@ class SignUp extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Username",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -73,6 +67,8 @@ class SignUp extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Phone",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -89,6 +85,8 @@ class SignUp extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Password",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -105,6 +103,8 @@ class SignUp extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: customText(
                     label: "Confirm Password",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     textAlign: TextAlign.left,
                   ),
                 ),
@@ -126,7 +126,7 @@ class SignUp extends StatelessWidget {
                   child: customButton(
                     text: "SIGN UP",
                     onPressed: () => Navigator.pushNamed(context, "/landing"),
-                    txtFontWeight: FontWeight.w500,
+                    txtFontWeight: FontWeight.w600,
                     txtFontSize: 18,
                     color: secondaryColor,
                   ),
@@ -139,19 +139,23 @@ class SignUp extends StatelessWidget {
                 GestureDetector(
                   onTap: () => Get.toNamed("/signin"),
                   child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       customText(
                         label: "Already have an account?",
                         labelColor: textColor,
                         txtDecoration: TextDecoration.underline,
-                        fontSize: 16,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                       customText(
                         label: "SignIn",
                         labelColor: secondaryColor,
                         txtDecoration: TextDecoration.underline,
                         txtDecColor: secondaryColor,
-                        fontSize: 16,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ],
                   ),
