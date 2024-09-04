@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,13 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final PageController _pageController = PageController();
     final int _pageCount = 5;
+
+    const List<String> sampleImages = [
+      'assets/img/slider01.jpg',
+      'assets/img/slider02.jpg',
+      'assets/img/slider.jpg',
+      'assets/img/slider.jpg'
+    ];
 
     return Scaffold(
       backgroundColor: baseColor,
@@ -44,68 +52,79 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
 
             // Slider Area
-            SizedBox(
-              height: 250,
-              width: 350,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: PageView.builder(
-                      controller: _pageController,
-                      itemCount: _pageCount,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                          color: Colors.orange[(index + 1) *
-                              100], // Different shade of orange for each container
-                          child: Center(
-                            child: Text(
-                              'Item ${index + 1}',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SmoothPageIndicator(
-                    controller: _pageController,
-                    count: _pageCount,
-                    effect: const WormEffect(
-                      dotColor: Colors.grey,
-                      activeDotColor: Colors.orange,
-                      dotHeight: 10,
-                      dotWidth: 10,
-                      spacing: 16.0,
-                    ),
-                    onDotClicked: (index) {
-                      _pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                  ),
-                ],
-              ),
+            // SizedBox(
+            //   height: 250,
+            //   width: 350,
+            //   child: Column(
+            //     children: [
+            //       Expanded(
+            //         child: PageView.builder(
+            //           controller: _pageController,
+            //           itemCount: _pageCount,
+            //           itemBuilder: (context, index) {
+            //             return Container(
+            //               margin: const EdgeInsets.symmetric(horizontal: 10.0),
+            //               color: Colors.orange[(index + 1) *
+            //                   100], // Different shade of orange for each container
+            //               child: Center(
+            //                 child: Text(
+            //                   'Item ${index + 1}',
+            //                   style: const TextStyle(
+            //                     color: Colors.white,
+            //                     fontSize: 24,
+            //                     fontWeight: FontWeight.bold,
+            //                   ),
+            //                 ),
+            //               ),
+            //             );
+            //           },
+            //         ),
+            //       ),
+            //       const SizedBox(
+            //         height: 20,
+            //       ),
+            //       SmoothPageIndicator(
+            //         controller: _pageController,
+            //         count: _pageCount,
+            //         effect: const WormEffect(
+            //           dotColor: Colors.grey,
+            //           activeDotColor: Colors.orange,
+            //           dotHeight: 10,
+            //           dotWidth: 10,
+            //           spacing: 16.0,
+            //         ),
+            //         onDotClicked: (index) {
+            //           _pageController.animateToPage(
+            //             index,
+            //             duration: const Duration(milliseconds: 300),
+            //             curve: Curves.easeInOut,
+            //           );
+            //         },
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
+            FanCarouselImageSlider.sliderType1(
+              imagesLink: sampleImages,
+              isAssets: true,
+              autoPlay: false,
+              sliderHeight: 350,
+              sliderWidth: 700,
+              showIndicator: true,
+              indicatorActiveColor: textColor,
+              initalPageIndex: 2,
             ),
 
             // Buttons Area
 
             const SizedBox(
-              height: 50,
+              height: 30,
             ),
 
             Row(
@@ -114,8 +133,8 @@ class Home extends StatelessWidget {
                 // Add Asset Button
 
                 Container(
-                  height: 120,
-                  width: 120,
+                  height: 100,
+                  width: 100,
                   decoration: BoxDecoration(
                     border: Border.all(
                       style: BorderStyle.solid,
@@ -136,8 +155,8 @@ class Home extends StatelessWidget {
                         children: [
                           SvgPicture.asset(
                             "assets/svg/add_asset.svg",
-                            width: 60,
-                            height: 60,
+                            width: 40,
+                            height: 40,
                           ),
                           const SizedBox(
                             height: 5,
@@ -163,8 +182,8 @@ class Home extends StatelessWidget {
 
                 // Add User Button
                 Container(
-                  height: 120,
-                  width: 120,
+                  height: 100,
+                  width: 100,
                   decoration: BoxDecoration(
                     border: Border.all(
                       style: BorderStyle.solid,
@@ -185,8 +204,8 @@ class Home extends StatelessWidget {
                         children: [
                           SvgPicture.asset(
                             "assets/svg/add_user.svg",
-                            width: 60,
-                            height: 60,
+                            width: 40,
+                            height: 40,
                           ),
                           const SizedBox(
                             height: 5,
@@ -305,6 +324,10 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+
+            SizedBox(
+              height: 60,
             ),
           ],
         ),

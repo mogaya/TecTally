@@ -97,7 +97,7 @@ class SignIn extends StatelessWidget {
                 ),
 
                 SizedBox(
-                  height: 100,
+                  height: 80,
                 ),
 
                 // signIn button
