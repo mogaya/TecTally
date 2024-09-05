@@ -34,17 +34,17 @@ class _Landing3State extends State<Landing3>
                   },
                 ),
               ),
-              customText(
+              const customText(
                 label: " Explore your Dashboard",
                 fontFamily: "OpenSans",
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "View key metrics, track asset performance, and stay informed with real-time notifications.",
                   textAlign: TextAlign.center,
@@ -57,7 +57,7 @@ class _Landing3State extends State<Landing3>
             ],
           ),
           if (_isloading)
-            (Center(
+            (const Center(
               child: CircularProgressIndicator(
                 color: ascentColor,
                 strokeWidth: 5,

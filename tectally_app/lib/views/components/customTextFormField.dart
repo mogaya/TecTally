@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/pages/signin.dart';
 
-// ignore: camel_case_types
-class customTextField extends StatelessWidget {
+class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintMessage;
   final bool obscureText;
@@ -16,7 +15,10 @@ class customTextField extends StatelessWidget {
   final Function()? onTap;
   final InputDecoration? decoration;
 
-  const customTextField({
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+
+  const CustomTextFormField({
     super.key,
     this.controller,
     this.hintMessage,
@@ -27,6 +29,8 @@ class customTextField extends StatelessWidget {
     this.prefIcon,
     this.onTap,
     this.decoration,
+    this.validator,
+    this.keyboardType,
   });
 
   @override
@@ -34,11 +38,18 @@ class customTextField extends StatelessWidget {
     return Obx(
       () {
         bool isHidden = signinController.isHidden.value;
-        return TextField(
+        return TextFormField(
+          keyboardType: keyboardType,
+          validator: validator,
           onTap: onTap,
           obscureText: isPassword && isHidden,
           cursorColor: secondaryColor,
           controller: controller,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
+          ),
           decoration: InputDecoration(
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: textColor),
@@ -46,11 +57,23 @@ class customTextField extends StatelessWidget {
             focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: secondaryColor, width: 2),
             ),
+            // Error border styles to match regular borders
+            errorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: textColor), // Same as enabledBorder
+            ),
+            errorStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            focusedErrorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: secondaryColor, width: 2), // Same as focusedBorder
+            ),
             contentPadding: const EdgeInsets.fromLTRB(15, 16, 15, 16),
             hintText: hintMessage,
             hintStyle: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w200,
+              fontSize: 16,
+              fontWeight: FontWeight.w300,
             ),
             prefixIcon: Icon(icon),
             suffixIcon: isPassword

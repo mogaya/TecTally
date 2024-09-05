@@ -39,7 +39,7 @@ class Routes {
     GetPage(name: "/bookmarks", page: () => Bookmark()),
 
     // Test
-    // GetPage(name: "/test", page: () => Test()),
+    GetPage(name: "/test", page: () => Test()),
 
     // supplimentary Pages
     GetPage(name: "/add_asset", page: () => AssetIdentity()),

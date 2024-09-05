@@ -165,7 +165,7 @@ class _Landing4State extends State<Landing4>
             ],
           ),
           if (_isLoading)
-            (Center(
+            (const Center(
               child: CircularProgressIndicator(
                 color: ascentColor,
                 strokeWidth: 5,
