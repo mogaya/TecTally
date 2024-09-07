@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customText.dart';
-import 'package:tectally_app/views/components/customTextField.dart';
 import 'package:tectally_app/views/components/customTextFormField.dart';
 
 TextEditingController username = TextEditingController();
@@ -12,7 +14,11 @@ TextEditingController email = TextEditingController();
 TextEditingController password = TextEditingController();
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+  SignUp({super.key});
+  final TextEditingController username = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -190,7 +196,7 @@ class _SignUpState extends State<SignUp> {
                       text: "SIGN UP",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Get.toNamed('/signin');
+                          serverSignup();
                         }
                       },
                       txtFontWeight: FontWeight.w600,
@@ -234,5 +240,62 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  Future<void> serverSignup() async {
+    http.Response response;
+    var body = {
+      'username': username.text.trim(),
+      'phone': phone.text.trim(),
+      'email': email.text.trim(),
+      'password': password.text.trim()
+    };
+
+    response = await http
+        .post(Uri.parse("https://mmogaya.com/tectally/signup.php"), body: body);
+
+    if (response.statusCode == 200) {
+      var serverResponse = json.decode(response.body);
+      int signedUp = serverResponse['success'];
+
+      if (signedUp == 1) {
+        // Show a success alert
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Align(
+                alignment: Alignment.center,
+                child: customText(
+                  label: "Success",
+                  labelColor: Colors.green,
+                  fontSize: 24,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: const customText(
+                label: "Sign in was successfull, Signin",
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const customText(
+                    label: "OK",
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  onPressed: () {
+                    // Close the dialog and navigate to sign-in page
+                    Get.offAndToNamed("/signin");
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
 }

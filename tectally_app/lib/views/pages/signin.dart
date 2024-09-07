@@ -198,29 +198,30 @@ class SignIn extends StatelessWidget {
     http.Response response;
     response = await http.get(
       Uri.parse(
-          "https://mmogaya.com/tectally/login.php?phone=${phone.text}&password=${password.text}"),
+          "https://mmogaya.com/tectally/login.php?phone=${phone.text.trim()}&password=${password.text.trim()}"),
     );
+
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
       int loginStatus = serverResponse['success'];
+
       if (loginStatus == 1) {
-        // To Dashboard
+        // Correctly access userdata since it's an object, not a list
         var userData = serverResponse['userdata'];
-        var phone = userData[0]['phone'];
-        print(phone);
+        var phone = userData['phone'];
+
         signinController.updatePhoneNumber(phone);
         Get.toNamed("/navigator");
       } else {
-        // Show an alert dialog when the login fails
+        // Show alert if login fails
         showDialog(
-          // ignore: use_build_context_synchronously
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Align(
                 alignment: Alignment.topCenter,
                 child: customText(
-                  label: "Login Failed !",
+                  label: "Login Failed!",
                   labelColor: Colors.red,
                   fontSize: 24,
                   fontFamily: 'OpenSans',
@@ -235,7 +236,7 @@ class SignIn extends StatelessWidget {
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.of(context).pop();
                   },
                   child: const customText(
                     label: "OK",
