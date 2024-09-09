@@ -1,19 +1,38 @@
 <?php
 require "connect.php";
+
 $flag['success'] = 0;
-$phone = $_GET['phone'];
-$password = $_GET['password'];
-$encrypted_password = md5($password);
+$phone = mysqli_real_escape_string($con, $_GET['phone']);
+$password = $_GET['password'];  // Original password
+$encrypted_password = md5($password);  // Encrypted password using md5
 
-$flag['data'] = array();
+$flag['userdata'] = array();
 
-if ($res = mysqli_query($con, "select * users where phone='$phone' and password='$encrypted_password' limit 1")) {
-    if (mysqli_num_rows($res) > 0) {
+// Use a prepared statement to avoid SQL injection
+$query = "SELECT * FROM users WHERE phone = ? AND password = ? LIMIT 1";
+$stmt = mysqli_prepare($con, $query);
+
+if ($stmt) {
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, "ss", $phone, $encrypted_password);
+
+    // Execute the query
+    mysqli_stmt_execute($stmt);
+
+    // Fetch the result
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($result) > 0) {
         $flag['success'] = 1;
+        $flag['userdata'] = mysqli_fetch_assoc($result);  // Fetch user data
     }
-    while ($row = mysqli_fetch_assoc($res)) {
-        $flag['userdata'][] = $row;
-    }
+
+    // Close the statement
+    mysqli_stmt_close($stmt);
 }
-print(json_encode($flag));
+
+// Return the JSON response
+echo json_encode($flag);
+
+// Close the database connection
 mysqli_close($con);
