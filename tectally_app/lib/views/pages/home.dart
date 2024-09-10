@@ -14,14 +14,15 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PageController _pageController = PageController();
-    final int _pageCount = 5;
+    // final PageController _pageController = PageController();
+    // final int _pageCount = 5;
 
     const List<String> sampleImages = [
-      'assets/img/slider01.jpg',
-      'assets/img/slider02.jpg',
-      'assets/img/slider.jpg',
-      'assets/img/slider.jpg'
+      'assets/img/slide1.jpg',
+      'assets/img/slide2.jpg',
+      'assets/img/slide3.jpg',
+      'assets/img/slide4.jpg',
+      'assets/img/slide5.jpg',
     ];
 
     return Scaffold(
@@ -52,64 +53,6 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // const SizedBox(
-            //   height: 20,
-            // ),
-
-            // Slider Area
-            // SizedBox(
-            //   height: 250,
-            //   width: 350,
-            //   child: Column(
-            //     children: [
-            //       Expanded(
-            //         child: PageView.builder(
-            //           controller: _pageController,
-            //           itemCount: _pageCount,
-            //           itemBuilder: (context, index) {
-            //             return Container(
-            //               margin: const EdgeInsets.symmetric(horizontal: 10.0),
-            //               color: Colors.orange[(index + 1) *
-            //                   100], // Different shade of orange for each container
-            //               child: Center(
-            //                 child: Text(
-            //                   'Item ${index + 1}',
-            //                   style: const TextStyle(
-            //                     color: Colors.white,
-            //                     fontSize: 24,
-            //                     fontWeight: FontWeight.bold,
-            //                   ),
-            //                 ),
-            //               ),
-            //             );
-            //           },
-            //         ),
-            //       ),
-            //       const SizedBox(
-            //         height: 20,
-            //       ),
-            //       SmoothPageIndicator(
-            //         controller: _pageController,
-            //         count: _pageCount,
-            //         effect: const WormEffect(
-            //           dotColor: Colors.grey,
-            //           activeDotColor: Colors.orange,
-            //           dotHeight: 10,
-            //           dotWidth: 10,
-            //           spacing: 16.0,
-            //         ),
-            //         onDotClicked: (index) {
-            //           _pageController.animateToPage(
-            //             index,
-            //             duration: const Duration(milliseconds: 300),
-            //             curve: Curves.easeInOut,
-            //           );
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
-
             FanCarouselImageSlider.sliderType1(
               imagesLink: sampleImages,
               isAssets: true,
@@ -119,113 +62,249 @@ class Home extends StatelessWidget {
               showIndicator: true,
               indicatorActiveColor: textColor,
               initalPageIndex: 2,
+              isClickable: false,
+            ),
+
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: customText(
+                  label: "Quick Access",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
             ),
 
             // Buttons Area
 
-            const SizedBox(
-              height: 30,
-            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Add Asset Button
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Add Asset Button
-
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      style: BorderStyle.solid,
-                      color: secondaryColor,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(30.0),
-                    ),
-                  ),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed("/add_asset");
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/svg/add_asset.svg",
-                            width: 40,
-                            height: 40,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Text(
-                            'ADD ASSET',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              letterSpacing: 0.0,
-                              color: textColor,
+                  Container(
+                    height: 85,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: Colors.grey.shade300,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 4,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          )
+                        ]),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/add_asset");
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/computer.png',
+                              width: 35,
+                              height: 35,
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              'Add asset',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                letterSpacing: 0.0,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
 
-                // Add User Button
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      style: BorderStyle.solid,
-                      color: secondaryColor,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(30.0),
-                    ),
-                  ),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.toNamed("/add_user");
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/svg/add_user.svg",
-                            width: 40,
-                            height: 40,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Text(
-                            'ADD USER',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              letterSpacing: 0.0,
-                              color: textColor,
+                  // Add User Button
+                  Container(
+                    height: 85,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: Colors.grey.shade300,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 4,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          )
+                        ]),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/add_user");
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/user.png',
+                              width: 35,
+                              height: 35,
                             ),
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              'Add user',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                letterSpacing: 0.0,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+
+                  // Search Button
+
+                  Container(
+                    height: 85,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: Colors.grey.shade300,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 4,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          )
+                        ]),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/search");
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/search.png',
+                              width: 35,
+                              height: 35,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              'Search',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                letterSpacing: 0.0,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Scan Button
+
+                  Container(
+                    height: 85,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: Colors.grey.shade300,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 4,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3),
+                          )
+                        ]),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed("/scan");
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/img/scan.png',
+                              width: 35,
+                              height: 35,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              'Scan',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                letterSpacing: 0.0,
+                                color: textColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
 
             const SizedBox(

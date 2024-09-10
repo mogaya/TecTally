@@ -2,11 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customButton.dart';
+import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
-import 'package:tectally_app/views/components/inputField.dart';
 
-class LicenceInfo extends StatelessWidget {
-  const LicenceInfo({super.key});
+class LicenceInfo extends StatefulWidget {
+  LicenceInfo({super.key});
+
+  @override
+  _LicenceInfoState createState() => _LicenceInfoState();
+}
+
+class _LicenceInfoState extends State<LicenceInfo> {
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController _issueDate = TextEditingController();
+  TextEditingController _expiryDate = TextEditingController();
+
+  // Method to display the date picker and update the issue date
+  Future<void> _selectIssueDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null) {
+      setState(() {
+        _issueDate.text = "${picked.day}/${picked.month}/${picked.year}";
+      });
+    }
+  }
+
+  // Method to display the date picker and update the expiry date
+  Future<void> _selectExpiryDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null) {
+      setState(() {
+        _expiryDate.text = "${picked.day}/${picked.month}/${picked.year}";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +56,7 @@ class LicenceInfo extends StatelessWidget {
       backgroundColor: baseColor,
       appBar: AppBar(
         backgroundColor: baseColor,
+        shadowColor: baseColor,
         centerTitle: true,
         title: customText(
           label: 'Licence Information',
@@ -28,98 +71,188 @@ class LicenceInfo extends StatelessWidget {
               maxHeight: 650,
               maxWidth: 320,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Licence Type | Name input area
-                const SizedBox(
-                  width: 320,
-                  child: imputField(
-                    label: 'Licence Type | Name',
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                // Date of Issue input area
-                const SizedBox(
-                  width: 320,
-                  child: imputField(
-                    label: 'Date of Issue',
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                // Expiry Date input area
-                const SizedBox(
-                  width: 320,
-                  child: imputField(
-                    label: 'Expiry Date',
-                  ),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                // Licence No. input area
-                const SizedBox(
-                  width: 320,
-                  child: imputField(
-                    label: 'Licence No.',
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                // Save Button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    customButton(
-                      text: "SKIP",
-                      onPressed: () => {},
-                      borderRadius: 30,
-                      txtFontSize: 18,
-                      color: baseColor,
-                      txtFontWeight: FontWeight.bold,
-                      txtColor: textColor,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Licence Name / Type input area
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: customText(
+                        label: "Licence Name / Type",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    customButton(
-                      text: "SAVE",
-                      onPressed: () => Get.toNamed('/assign_info'),
-                      borderRadius: 30,
-                      txtFontSize: 18,
-                      txtFontWeight: FontWeight.bold,
-                    ),
-                  ],
-                ),
+                  ),
+                  customDetailsInput(
+                    hintMessage: 'Licence Name / Type',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Licence Name / Type is required';
+                      }
+                      return null;
+                    },
+                  ),
 
-                SizedBox(
-                  height: 40,
-                ),
+                  const SizedBox(height: 10),
 
-                customText(
-                  label: "3 / 4",
-                  fontWeight: FontWeight.w300,
-                  labelColor: secondaryColor,
-                  fontSize: 20,
-                ),
-              ],
+                  // Date of Issue input area
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: customText(
+                        label: "Issue Date",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _issueDate,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Select Date',
+                      suffixIcon: Icon(Icons.calendar_today),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                    ),
+                    onTap: () {
+                      _selectIssueDate(context);
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Issue Date is required';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // Date of Expiry input area
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: customText(
+                        label: "Expiry Date",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _expiryDate,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Select Date',
+                      suffixIcon: Icon(Icons.calendar_today),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                    ),
+                    onTap: () {
+                      _selectExpiryDate(context);
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Expiry Date is required';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // Licence No. input area
+                  const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: customText(
+                        label: "Licence No",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  customDetailsInput(
+                    hintMessage: 'Licence No',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Licence No is required';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Save Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      customButton(
+                        text: "SKIP",
+                        onPressed: () => {},
+                        borderRadius: 30,
+                        txtFontSize: 18,
+                        color: baseColor,
+                        txtFontWeight: FontWeight.bold,
+                        txtColor: textColor,
+                      ),
+                      SizedBox(width: 10),
+                      customButton(
+                        text: "SAVE",
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            Get.toNamed('/assign_info');
+                          }
+                        },
+                        borderRadius: 30,
+                        txtFontSize: 18,
+                        txtFontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 40),
+
+                  customText(
+                    label: "3 / 4",
+                    fontWeight: FontWeight.w600,
+                    labelColor: secondaryColor,
+                    fontSize: 20,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

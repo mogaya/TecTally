@@ -22,7 +22,7 @@ class _Landing1State extends State<Landing1>
     super.initState();
 
     _controller = AnimationController(
-      duration: Duration(seconds: 10),
+      duration: const Duration(seconds: 10),
       vsync: this,
     );
 
@@ -61,17 +61,17 @@ class _Landing1State extends State<Landing1>
                   },
                 ),
               ),
-              customText(
+              const customText(
                 label: "Welcome to TecTally",
                 fontFamily: "OpenSans",
                 fontSize: 30,
                 fontWeight: FontWeight.w900,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "Your journey to efficient IT asset management starts here",
                   textAlign: TextAlign.center,
@@ -84,7 +84,7 @@ class _Landing1State extends State<Landing1>
             ],
           ),
           if (_isLoading)
-            Center(
+            const Center(
               child: CircularProgressIndicator(
                 color: ascentColor,
                 strokeWidth: 5,
