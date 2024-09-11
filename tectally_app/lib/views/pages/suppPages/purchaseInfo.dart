@@ -23,7 +23,38 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
       context: context,
       initialDate: DateTime.now(), // Current date is shown by default
       firstDate: DateTime(2000), // The earliest date allowed
-      lastDate: DateTime(2101), // The latest date allowed
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.blue, // Header background color
+            hintColor: Colors.blue, // Selection color
+            colorScheme: const ColorScheme.light(
+              primary: Colors.blue, // Header text color
+              onPrimary: Colors.white, // Header text on color
+              onSurface: Colors.black, // Body text color
+            ),
+            dialogBackgroundColor:
+                Colors.white, // Background color of the dialog
+            textTheme: const TextTheme(
+              headlineMedium: TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.bold), // Selected date
+              bodyMedium: TextStyle(fontSize: 16, color: Colors.grey),
+              // Days on the calendar
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                // primary: Colors.blue, // Button text color
+                textStyle: const TextStyle(
+                  fontSize: 18, // Set your desired font size here
+                  fontWeight: FontWeight.bold, // Set your desired font weight
+                ),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      }, // The latest date allowed
     );
 
     if (picked != null) {

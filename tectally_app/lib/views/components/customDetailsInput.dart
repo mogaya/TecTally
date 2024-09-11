@@ -22,30 +22,33 @@ class customDetailsInput extends StatelessWidget {
       validator: validator,
       controller: controller,
       decoration: InputDecoration(
-        hintText: hintMessage,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.blue,
-            width: 2.0,
+          hintText: hintMessage,
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
           ),
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-        errorStyle: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blue,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.green, width: 2.0),
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue, width: 2.0),
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          ),
+          errorStyle: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+          focusedErrorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.green, width: 2.0),
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          )),
     );
   }
 }

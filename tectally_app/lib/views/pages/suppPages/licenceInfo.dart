@@ -25,6 +25,37 @@ class _LicenceInfoState extends State<LicenceInfo> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.blue, // Header background color
+            hintColor: Colors.blue, // Selection color
+            colorScheme: const ColorScheme.light(
+              primary: Colors.blue, // Header text color
+              onPrimary: Colors.white, // Header text on color
+              onSurface: Colors.black, // Body text color
+            ),
+            dialogBackgroundColor:
+                Colors.white, // Background color of the dialog
+            textTheme: const TextTheme(
+              headlineMedium: TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.bold), // Selected date
+              bodyMedium: TextStyle(fontSize: 16, color: Colors.grey),
+              // Days on the calendar
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                // primary: Colors.blue, // Button text color
+                textStyle: const TextStyle(
+                  fontSize: 18, // Set your desired font size here
+                  fontWeight: FontWeight.bold, // Set your desired font weight
+                ),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null) {
@@ -41,6 +72,37 @@ class _LicenceInfoState extends State<LicenceInfo> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.blue, // Header background color
+            hintColor: Colors.blue, // Selection color
+            colorScheme: const ColorScheme.light(
+              primary: Colors.blue, // Header text color
+              onPrimary: Colors.white, // Header text on color
+              onSurface: Colors.black, // Body text color
+            ),
+            dialogBackgroundColor:
+                Colors.white, // Background color of the dialog
+            textTheme: const TextTheme(
+              headlineMedium: TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.bold), // Selected date
+              bodyMedium: TextStyle(fontSize: 16, color: Colors.grey),
+              // Days on the calendar
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                // primary: Colors.blue, // Button text color
+                textStyle: const TextStyle(
+                  fontSize: 18, // Set your desired font size here
+                  fontWeight: FontWeight.bold, // Set your desired font weight
+                ),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null) {
@@ -132,6 +194,21 @@ class _LicenceInfoState extends State<LicenceInfo> {
                         borderSide: BorderSide(color: Colors.green, width: 2.0),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      errorStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
                     ),
                     onTap: () {
                       _selectIssueDate(context);
@@ -174,6 +251,21 @@ class _LicenceInfoState extends State<LicenceInfo> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      errorStyle: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 2.0,
+                        ),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                     ),
@@ -228,7 +320,9 @@ class _LicenceInfoState extends State<LicenceInfo> {
                         txtFontWeight: FontWeight.bold,
                         txtColor: textColor,
                       ),
-                      SizedBox(width: 10),
+                      SizedBox(
+                        width: 10,
+                      ),
                       customButton(
                         text: "SAVE",
                         onPressed: () {

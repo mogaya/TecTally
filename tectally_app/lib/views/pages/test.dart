@@ -1,68 +1,116 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/views/components/customButton.dart';
+import 'package:tectally_app/views/components/customText.dart';
+import 'package:tectally_app/views/components/inputField.dart';
 
-class Test extends StatefulWidget {
-  @override
-  _TestState createState() => _TestState();
-}
-
-class _TestState extends State<Test> {
-  // Controller to hold selected date in text form
-  TextEditingController _dateController = TextEditingController();
-
-  // Method to display the date picker and update the text field
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(), // Current date is shown by default
-      firstDate: DateTime(2000), // The earliest date allowed
-      lastDate: DateTime(2101), // The latest date allowed
-    );
-
-    if (picked != null) {
-      setState(() {
-        // Formatting the date to a readable format
-        _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
-      });
-    }
-  }
+class Test extends StatelessWidget {
+  const Test({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: baseColor,
       appBar: AppBar(
-        title: Text('Date Input Field Example'),
+        backgroundColor: baseColor,
+        centerTitle: true,
+        title: customText(
+          label: 'Add User',
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: _dateController,
-              readOnly: true, // So the user cannot directly type in the date
-              decoration: InputDecoration(
-                labelText: 'Select Date',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.calendar_today), // Adds a calendar icon
-              ),
-              onTap: () {
-                // When tapped, show the date picker
-                _selectDate(context);
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Date is required';
-                }
-                return null;
-              },
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            constraints: BoxConstraints(
+              maxHeight: 650,
+              maxWidth: 320,
             ),
-          ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Employee Name input area
+                const SizedBox(
+                  width: 320,
+                  child: imputField(
+                    label: 'Employee Name',
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                // Department input area
+                const SizedBox(
+                  width: 320,
+                  child: imputField(
+                    label: 'Department',
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                // Rank input area
+                const SizedBox(
+                  width: 320,
+                  child: imputField(
+                    label: 'Rank',
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                // Email input area
+                const SizedBox(
+                  width: 320,
+                  child: imputField(
+                    label: 'Email',
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                // Phone input area
+                const SizedBox(
+                  width: 320,
+                  child: imputField(
+                    label: 'Phone',
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+
+                // Save Button
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: customButton(
+                    text: "SAVE",
+                    onPressed: () => Get.toNamed('/purchase_info'),
+                    borderRadius: 30,
+                    txtFontSize: 18,
+                  ),
+                ),
+
+                SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
-
-void main() => runApp(MaterialApp(
-      home: Test(),
-    ));
