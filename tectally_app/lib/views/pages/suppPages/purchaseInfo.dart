@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/assetId_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
@@ -15,7 +19,11 @@ class PurchaseInfo extends StatefulWidget {
 class _PurchaseInfoState extends State<PurchaseInfo> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _purchaseDate = TextEditingController();
+  final TextEditingController _price = TextEditingController();
+  final TextEditingController _supplier = TextEditingController();
+  final TextEditingController _warrantyNo = TextEditingController();
+  AssetidController assetidController = Get.put(AssetidController());
 
   // Method to display the date picker and update the text field
   Future<void> _selectDate(BuildContext context) async {
@@ -60,7 +68,7 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
     if (picked != null) {
       setState(() {
         // Formatting the date to a readable format
-        _dateController.text = "${picked.day}/${picked.month}/${picked.year}";
+        _purchaseDate.text = "${picked.year}-${picked.month}-${picked.day}";
       });
     }
   }
@@ -73,7 +81,7 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
         backgroundColor: baseColor,
         shadowColor: baseColor,
         centerTitle: true,
-        title: customText(
+        title: const customText(
           label: 'Purchase Information',
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -82,7 +90,7 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxHeight: 650,
               maxWidth: 320,
             ),
@@ -106,7 +114,7 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
                     ),
                   ),
                   TextFormField(
-                    controller: _dateController,
+                    controller: _purchaseDate,
                     readOnly:
                         true, // So the user cannot directly type in the date
                     decoration: const InputDecoration(
@@ -163,6 +171,7 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _price,
                     hintMessage: 'Price',
                     keyboardType: TextInputType.phone,
                     validator: (value) {
@@ -191,6 +200,7 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _supplier,
                     hintMessage: 'Supplier Name',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -218,6 +228,7 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _warrantyNo,
                     hintMessage: 'Warranty No',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -244,14 +255,15 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
                         txtFontWeight: FontWeight.bold,
                         txtColor: textColor,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       customButton(
                         text: "SAVE",
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            Get.toNamed('/licence_info');
+                            purchaseInfo();
+                            // Get.toNamed('/licence_info');
                           }
                         },
                         borderRadius: 30,
@@ -261,11 +273,11 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
                     ],
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
 
-                  customText(
+                  const customText(
                     label: "2 / 4",
                     fontWeight: FontWeight.w600,
                     labelColor: secondaryColor,
@@ -278,5 +290,31 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
         ),
       ),
     );
+  }
+
+  // purchase Info logic
+  Future<void> purchaseInfo() async {
+    http.Response response;
+    var body = {
+      'ast_id': '${assetidController.assetId.value}',
+      'ast_purchase_date': _purchaseDate.text.trim(),
+      'ast_price': _price.text.trim(),
+      'ast_supplier': _supplier.text.trim(),
+      'ast_warranty': _warrantyNo.text.trim(),
+    };
+    print(assetidController.assetId.value);
+
+    response = await http.post(
+        Uri.parse("https://mmogaya.com/tectally/add_asset/purchase_info.php"),
+        body: body);
+
+    if (response.statusCode == 200) {
+      var serverResponse = json.decode(response.body);
+      int success = serverResponse['success'];
+
+      if (success == 1) {
+        Get.toNamed("/licence_info");
+      }
+    }
   }
 }
