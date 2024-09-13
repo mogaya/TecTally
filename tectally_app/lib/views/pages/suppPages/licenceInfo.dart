@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/assetId_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
@@ -15,8 +19,11 @@ class LicenceInfo extends StatefulWidget {
 class _LicenceInfoState extends State<LicenceInfo> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _issueDate = TextEditingController();
-  TextEditingController _expiryDate = TextEditingController();
+  final TextEditingController _licenceName = TextEditingController();
+  final TextEditingController _issueDate = TextEditingController();
+  final TextEditingController _expiryDate = TextEditingController();
+  final TextEditingController _licenceNo = TextEditingController();
+  AssetidController assetidController = Get.put(AssetidController());
 
   // Method to display the date picker and update the issue date
   Future<void> _selectIssueDate(BuildContext context) async {
@@ -60,7 +67,7 @@ class _LicenceInfoState extends State<LicenceInfo> {
 
     if (picked != null) {
       setState(() {
-        _issueDate.text = "${picked.day}/${picked.month}/${picked.year}";
+        _issueDate.text = "${picked.year}-${picked.month}-${picked.day}";
       });
     }
   }
@@ -107,7 +114,7 @@ class _LicenceInfoState extends State<LicenceInfo> {
 
     if (picked != null) {
       setState(() {
-        _expiryDate.text = "${picked.day}/${picked.month}/${picked.year}";
+        _expiryDate.text = "${picked.year}-${picked.month}-${picked.day}";
       });
     }
   }
@@ -120,7 +127,7 @@ class _LicenceInfoState extends State<LicenceInfo> {
         backgroundColor: baseColor,
         shadowColor: baseColor,
         centerTitle: true,
-        title: customText(
+        title: const customText(
           label: 'Licence Information',
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -129,7 +136,7 @@ class _LicenceInfoState extends State<LicenceInfo> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxHeight: 650,
               maxWidth: 320,
             ),
@@ -153,6 +160,7 @@ class _LicenceInfoState extends State<LicenceInfo> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _licenceName,
                     hintMessage: 'Licence Name / Type',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -296,6 +304,7 @@ class _LicenceInfoState extends State<LicenceInfo> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _licenceNo,
                     hintMessage: 'Licence No',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -320,14 +329,15 @@ class _LicenceInfoState extends State<LicenceInfo> {
                         txtFontWeight: FontWeight.bold,
                         txtColor: textColor,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       customButton(
                         text: "SAVE",
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            Get.toNamed('/assign_info');
+                            licenceInfo();
+                            // Get.toNamed('/assign_info');
                           }
                         },
                         borderRadius: 30,
@@ -337,9 +347,11 @@ class _LicenceInfoState extends State<LicenceInfo> {
                     ],
                   ),
 
-                  SizedBox(height: 40),
+                  const SizedBox(
+                    height: 40,
+                  ),
 
-                  customText(
+                  const customText(
                     label: "3 / 4",
                     fontWeight: FontWeight.w600,
                     labelColor: secondaryColor,
@@ -352,5 +364,31 @@ class _LicenceInfoState extends State<LicenceInfo> {
         ),
       ),
     );
+  }
+
+  // licence Info logic
+  Future<void> licenceInfo() async {
+    http.Response response;
+    var body = {
+      'ast_id': '${assetidController.assetId.value}',
+      'ast_licence': _licenceName.text.trim(),
+      'ast_licence_date': _issueDate.text.trim(),
+      'ast_licence_expiry': _expiryDate.text.trim(),
+      'ast_licence_no': _licenceNo.text.trim(),
+    };
+    print(assetidController.assetId.value);
+
+    response = await http.post(
+        Uri.parse("https://mmogaya.com/tectally/add_asset/licence_info.php"),
+        body: body);
+
+    if (response.statusCode == 200) {
+      var serverResponse = json.decode(response.body);
+      int success = serverResponse['success'];
+
+      if (success == 1) {
+        Get.toNamed("/assign_info");
+      }
+    }
   }
 }
