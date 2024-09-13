@@ -5,7 +5,7 @@ import 'package:tectally_app/utils/routes.dart';
 void main() {
   runApp(GetMaterialApp(
     // initialRoute: "/",
-    initialRoute: "/add_user",
+    initialRoute: "/add_asset",
     theme: ThemeData(fontFamily: "Outfit"),
     getPages: Routes.routes,
     debugShowCheckedModeBanner: false,
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       // initialRoute: "/",
-      initialRoute: "/add_user",
+      initialRoute: "/add_asset",
       theme: ThemeData(fontFamily: "Outfit"),
       getPages: Routes.routes,
       debugShowCheckedModeBanner: false,

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
@@ -89,7 +92,7 @@ class _AssignInfoState extends State<AssignInfo> {
         backgroundColor: baseColor,
         shadowColor: baseColor,
         centerTitle: true,
-        title: customText(
+        title: const customText(
           label: 'Assignment Information',
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -98,7 +101,7 @@ class _AssignInfoState extends State<AssignInfo> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxHeight: 650,
               maxWidth: 320,
             ),
@@ -320,9 +323,11 @@ class _AssignInfoState extends State<AssignInfo> {
                     ),
                   ),
 
-                  SizedBox(height: 40),
+                  const SizedBox(
+                    height: 40,
+                  ),
 
-                  customText(
+                  const customText(
                     label: "4 / 4",
                     fontWeight: FontWeight.w600,
                     labelColor: secondaryColor,
