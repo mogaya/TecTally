@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/assetId_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
@@ -26,12 +31,14 @@ class _AssignInfoState extends State<AssignInfo> {
     'Faulty',
   ];
 
-  final TextEditingController _textController = TextEditingController();
+  final TextEditingController _assignedTo = TextEditingController();
+  final TextEditingController _dateAssigned = TextEditingController();
+  final TextEditingController _department = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
+  AssetidController assetidController = Get.put(AssetidController());
+
   String? _selectedValue;
   String? _selectedStatus;
-
-  TextEditingController _dateAssigned = TextEditingController();
 
   // Method to display the date picker and update the Date assigned
   Future<void> _selectdateAssigned(BuildContext context) async {
@@ -75,7 +82,7 @@ class _AssignInfoState extends State<AssignInfo> {
 
     if (picked != null) {
       setState(() {
-        _dateAssigned.text = "${picked.day}/${picked.month}/${picked.year}";
+        _dateAssigned.text = "${picked.year}-${picked.month}-${picked.day}";
       });
     }
   }
@@ -121,6 +128,7 @@ class _AssignInfoState extends State<AssignInfo> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _assignedTo,
                     hintMessage: 'Assigned to',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -178,7 +186,7 @@ class _AssignInfoState extends State<AssignInfo> {
                       setState(
                         () {
                           _selectedValue = newValue;
-                          _textController.text =
+                          _department.text =
                               newValue ?? ''; // Update text field if needed
                         },
                       );
@@ -310,6 +318,7 @@ class _AssignInfoState extends State<AssignInfo> {
                       text: "COMPLETE",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          AssignInfo();
                           // Get.toNamed('/assign_info');
                         }
                       },
@@ -336,5 +345,31 @@ class _AssignInfoState extends State<AssignInfo> {
         ),
       ),
     );
+  }
+
+  // AssignInfo logic
+  Future<void> AssignInfo() async {
+    http.Response response;
+    var body = {
+      'ast_id': '${assetidController.assetId.value}',
+      'ast_asignee': _assignedTo.text.trim(),
+      'ast_department': _department.text.trim(),
+      'ast_issue_date': _dateAssigned.text.trim(),
+      'ast_status': _statusController.text.trim(),
+    };
+    print(assetidController.assetId.value);
+
+    response = await http.post(
+        Uri.parse("https://mmogaya.com/tectally/add_asset/assign_info.php"),
+        body: body);
+
+    if (response.statusCode == 200) {
+      var serverResponse = json.decode(response.body);
+      int success = serverResponse['success'];
+
+      if (success == 1) {
+        Get.toNamed("/navigator");
+      }
+    }
   }
 }

@@ -29,40 +29,40 @@ import 'package:tectally_app/views/pages/test.dart';
 
 class Routes {
   static var routes = [
-    GetPage(name: "/", page: () => Landing()),
-    GetPage(name: "/signin", page: () => SignIn()),
+    GetPage(name: "/", page: () => const Landing()),
+    GetPage(name: "/signin", page: () => const SignIn()),
     GetPage(name: "/signup", page: () => SignUp()),
-    GetPage(name: "/navigator", page: () => Nav()),
-    GetPage(name: "/home", page: () => Home()),
-    GetPage(name: "/statistics", page: () => Statistics()),
-    GetPage(name: "/profile", page: () => Profile()),
-    GetPage(name: "/bookmarks", page: () => Bookmark()),
+    GetPage(name: "/navigator", page: () => const Nav()),
+    GetPage(name: "/home", page: () => const Home()),
+    GetPage(name: "/statistics", page: () => const Statistics()),
+    GetPage(name: "/profile", page: () => const Profile()),
+    GetPage(name: "/bookmarks", page: () => const Bookmark()),
 
     // Test
-    GetPage(name: "/test", page: () => Test()),
+    GetPage(name: "/test", page: () => const Test()),
 
     // supplimentary Pages
-    GetPage(name: "/add_asset", page: () => AssetIdentity()),
+    GetPage(name: "/add_asset", page: () => const AssetIdentity()),
     GetPage(name: "/purchase_info", page: () => PurchaseInfo()),
     GetPage(name: "/licence_info", page: () => LicenceInfo()),
     GetPage(name: "/assign_info", page: () => AssignInfo()),
-    GetPage(name: "/add_user", page: () => AddUser()),
-    GetPage(name: "/all_users", page: () => AllUsers()),
-    GetPage(name: "/asset_inventory", page: () => AssetInventory()),
+    GetPage(name: "/add_user", page: () => const AddUser()),
+    GetPage(name: "/all_users", page: () => const AllUsers()),
+    GetPage(name: "/asset_inventory", page: () => const AssetInventory()),
 
     // departments
-    GetPage(name: "/hr_users", page: () => HrUsers()),
-    GetPage(name: "/ict_users", page: () => IctUsers()),
-    GetPage(name: "/finance_users", page: () => FinanceUsers()),
-    GetPage(name: "/procurement_users", page: () => ProcurementUsers()),
-    GetPage(name: "/other_users", page: () => OtherUsers()),
+    GetPage(name: "/hr_users", page: () => const HrUsers()),
+    GetPage(name: "/ict_users", page: () => const IctUsers()),
+    GetPage(name: "/finance_users", page: () => const FinanceUsers()),
+    GetPage(name: "/procurement_users", page: () => const ProcurementUsers()),
+    GetPage(name: "/other_users", page: () => const OtherUsers()),
 
     // asset categories
-    GetPage(name: "/computers", page: () => Computers()),
-    GetPage(name: "/mobile", page: () => Mobile()),
-    GetPage(name: "/networking", page: () => Networking()),
-    GetPage(name: "/others", page: () => Others()),
-    GetPage(name: "/peripherals", page: () => Peripherals()),
-    GetPage(name: "/storage", page: () => Storage()),
+    GetPage(name: "/computers", page: () => const Computers()),
+    GetPage(name: "/mobile", page: () => const Mobile()),
+    GetPage(name: "/networking", page: () => const Networking()),
+    GetPage(name: "/others", page: () => const Others()),
+    GetPage(name: "/peripherals", page: () => const Peripherals()),
+    GetPage(name: "/storage", page: () => const Storage()),
   ];
 }
