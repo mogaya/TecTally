@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
-import 'package:tectally_app/controllers/assetId_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
@@ -25,11 +24,11 @@ class _AddUserState extends State<AddUser> {
     'Procurement',
     'Others'
   ];
-  final TextEditingController _emp_name = TextEditingController();
+  final TextEditingController _empName = TextEditingController();
   final TextEditingController _department = TextEditingController();
-  final TextEditingController _emp_role = TextEditingController();
-  final TextEditingController _emp_email = TextEditingController();
-  final TextEditingController _emp_phone = TextEditingController();
+  final TextEditingController _empRole = TextEditingController();
+  final TextEditingController _emEmail = TextEditingController();
+  final TextEditingController _empPhone = TextEditingController();
 
   String? _selectedValue;
 
@@ -73,7 +72,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
-                    controller: _emp_name,
+                    controller: _empName,
                     hintMessage: 'Employee Name',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -163,7 +162,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
-                    controller: _emp_role,
+                    controller: _empRole,
                     hintMessage: 'Job role',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -188,7 +187,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
-                    controller: _emp_email,
+                    controller: _emEmail,
                     hintMessage: 'Email',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -224,7 +223,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
-                    controller: _emp_phone,
+                    controller: _empPhone,
                     hintMessage: 'Phone',
                     keyboardType: TextInputType.phone,
                     validator: (value) {
@@ -271,11 +270,11 @@ class _AddUserState extends State<AddUser> {
   Future<void> AddUser() async {
     http.Response response;
     var body = {
-      'emp_name': _emp_name.text.trim(),
+      'emp_name': _empName.text.trim(),
       'emp_dpt': _department.text.trim(),
-      'emp_role': _emp_role.text.trim(),
-      'emp_email': _emp_email.text.trim(),
-      'emp_phone': _emp_phone.text.trim(),
+      'emp_role': _empRole.text.trim(),
+      'emp_email': _emEmail.text.trim(),
+      'emp_phone': _empPhone.text.trim(),
     };
 
     response = await http.post(

@@ -14,7 +14,7 @@ class AssetInventory extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: baseColor,
         centerTitle: true,
-        title: customText(
+        title: const customText(
           label: "Asset Categories",
           fontSize: 28,
           fontWeight: FontWeight.bold,
@@ -26,9 +26,11 @@ class AssetInventory extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
+
+              // Computers
               GestureDetector(
                 onTap: () => {Get.toNamed('/computers')},
                 child: Container(
@@ -62,29 +64,29 @@ class AssetInventory extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/hr.svg",
-                          width: 80,
-                          height: 80,
+                        child: Image.asset(
+                          "assets/img/computers.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
+                      const customText(
                         label: "COMPUTERS",
-                        fontSize: 18,
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
-              // ICT Users
+              // Networking
               GestureDetector(
                 onTap: () => {Get.toNamed('/networking')},
                 child: Container(
@@ -118,29 +120,29 @@ class AssetInventory extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/ict.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/networking.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
+                      const customText(
                         label: "NETWORKING",
-                        fontSize: 18,
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
-              // Finance Users
+              // Peripherals
               GestureDetector(
                 onTap: () => {Get.toNamed('/peripherals')},
                 child: Container(
@@ -174,18 +176,18 @@ class AssetInventory extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/finance2.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/peripherals.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
+                      const customText(
                         label: "PERIPHERALS",
-                        fontSize: 18,
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
@@ -193,11 +195,11 @@ class AssetInventory extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
-              // procurement Users
+              // Mobile
               GestureDetector(
                 onTap: () => {Get.toNamed('/mobile')},
                 child: Container(
@@ -231,29 +233,29 @@ class AssetInventory extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/procurement.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/mobile.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
-                        label: "MOBILE DEVICES",
-                        fontSize: 18,
+                      const customText(
+                        label: "MOBILE",
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
-              // procurement Users
+              // Storage
               GestureDetector(
                 onTap: () => {Get.toNamed('/storage')},
                 child: Container(
@@ -287,29 +289,85 @@ class AssetInventory extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/procurement.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/storage.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
-                        label: "STORAGE DEVICES",
-                        fontSize: 18,
+                      const customText(
+                        label: "STORAGE",
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
-              // procurement Users
+              // Printers
+              GestureDetector(
+                onTap: () => {Get.toNamed('/printers')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: 330,
+                  height: 150,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          "assets/img/printers.png",
+                          width: 150,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const customText(
+                        label: "PRINTERS",
+                        fontSize: 20,
+                        labelColor: baseColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+
+              // Others
               GestureDetector(
                 onTap: () => {Get.toNamed('/others')},
                 child: Container(
@@ -343,25 +401,25 @@ class AssetInventory extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/procurement.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/others.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
+                      const customText(
                         label: "OTHERS",
-                        fontSize: 18,
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
             ],
