@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/assetId_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
@@ -21,7 +25,12 @@ class _AddUserState extends State<AddUser> {
     'Procurement',
     'Others'
   ];
-  final TextEditingController _textController = TextEditingController();
+  final TextEditingController _emp_name = TextEditingController();
+  final TextEditingController _department = TextEditingController();
+  final TextEditingController _emp_role = TextEditingController();
+  final TextEditingController _emp_email = TextEditingController();
+  final TextEditingController _emp_phone = TextEditingController();
+
   String? _selectedValue;
 
   @override
@@ -64,6 +73,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _emp_name,
                     hintMessage: 'Employee Name',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -130,7 +140,7 @@ class _AddUserState extends State<AddUser> {
                       setState(
                         () {
                           _selectedValue = newValue;
-                          _textController.text =
+                          _department.text =
                               newValue ?? ''; // Update text field if needed
                         },
                       );
@@ -153,6 +163,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _emp_role,
                     hintMessage: 'Job role',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -177,6 +188,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _emp_email,
                     hintMessage: 'Email',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -212,6 +224,7 @@ class _AddUserState extends State<AddUser> {
                     ),
                   ),
                   customDetailsInput(
+                    controller: _emp_phone,
                     hintMessage: 'Phone',
                     keyboardType: TextInputType.phone,
                     validator: (value) {
@@ -238,20 +251,13 @@ class _AddUserState extends State<AddUser> {
                       txtFontWeight: FontWeight.bold,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Get.toNamed('/purchase_info');
+                          AddUser();
                         }
                       },
                       borderRadius: 30,
                       txtFontSize: 18,
                     ),
                   ),
-                  // const SizedBox(height: 40),
-                  // const customText(
-                  //   label: "1 / 4",
-                  //   fontWeight: FontWeight.w600,
-                  //   labelColor: secondaryColor,
-                  //   fontSize: 20,
-                  // ),
                 ],
               ),
             ),
@@ -259,5 +265,30 @@ class _AddUserState extends State<AddUser> {
         ),
       ),
     );
+  }
+
+  // AddUser logic
+  Future<void> AddUser() async {
+    http.Response response;
+    var body = {
+      'emp_name': _emp_name.text.trim(),
+      'emp_dpt': _department.text.trim(),
+      'emp_role': _emp_role.text.trim(),
+      'emp_email': _emp_email.text.trim(),
+      'emp_phone': _emp_phone.text.trim(),
+    };
+
+    response = await http.post(
+        Uri.parse("https://mmogaya.com/tectally/add_emp.php"),
+        body: body);
+
+    if (response.statusCode == 200) {
+      var serverResponse = json.decode(response.body);
+      int success = serverResponse['success'];
+
+      if (success == 1) {
+        Get.toNamed("/navigator");
+      }
+    }
   }
 }
