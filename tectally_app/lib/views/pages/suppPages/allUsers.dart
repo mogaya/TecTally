@@ -14,7 +14,7 @@ class AllUsers extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: baseColor,
         centerTitle: true,
-        title: customText(
+        title: const customText(
           label: "Departments",
           fontSize: 28,
           fontWeight: FontWeight.bold,
@@ -26,9 +26,67 @@ class AllUsers extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
+
+              // Board users
+              GestureDetector(
+                onTap: () => {Get.toNamed('/board_users')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: 330,
+                  height: 150,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          "assets/img/board.png",
+                          width: 150,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const customText(
+                        label: "BOARD",
+                        fontSize: 20,
+                        labelColor: baseColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+
+              // Hr users
               GestureDetector(
                 onTap: () => {Get.toNamed('/hr_users')},
                 child: Container(
@@ -62,81 +120,25 @@ class AllUsers extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/hr.svg",
-                          width: 80,
-                          height: 80,
+                        child: Image.asset(
+                          "assets/img/hr.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
-                        label: "HUMAN RESOURCE",
-                        fontSize: 18,
+                      const customText(
+                        label: "HR",
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
-
-              // ICT Users
-              GestureDetector(
-                onTap: () => {Get.toNamed('/ict_users')},
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.blue,
-                        Colors.blue.shade500,
-                        secondaryColor,
-                        // Colors.blue.shade300,
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(35),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 4,
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  width: 330,
-                  height: 150,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/ict.svg",
-                          width: 120,
-                          height: 120,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      customText(
-                        label: "ICT",
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
@@ -174,30 +176,29 @@ class AllUsers extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/finance2.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/finance.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
+                      const customText(
                         label: "FINANCE",
-                        fontSize: 18,
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
-              // procurement Users
+              // Procurement Users
               GestureDetector(
                 onTap: () => {Get.toNamed('/procurement_users')},
                 child: Container(
@@ -231,29 +232,142 @@ class AllUsers extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/procurement.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/procurement.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
+                      const customText(
                         label: "PROCUREMENT",
-                        fontSize: 18,
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+
+              const SizedBox(
                 height: 15,
               ),
 
-              // procurement Users
+              // ICT Users
+              GestureDetector(
+                onTap: () => {Get.toNamed('/ict_users')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: 330,
+                  height: 150,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          "assets/img/ict.png",
+                          width: 150,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const customText(
+                        label: "ICT",
+                        fontSize: 20,
+                        labelColor: baseColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+
+              // PR Users
+              GestureDetector(
+                onTap: () => {Get.toNamed('/pr_users')},
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.blue,
+                        Colors.blue.shade500,
+                        secondaryColor,
+                        // Colors.blue.shade300,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(35),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: 330,
+                  height: 150,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          "assets/img/pr.png",
+                          width: 150,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      const customText(
+                        label: "PR",
+                        fontSize: 20,
+                        labelColor: baseColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+
+              // Other Users
               GestureDetector(
                 onTap: () => {Get.toNamed('/other_users')},
                 child: Container(
@@ -287,25 +401,25 @@ class AllUsers extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/procurement.svg",
-                          width: 120,
-                          height: 120,
+                        child: Image.asset(
+                          "assets/img/others.png",
+                          width: 150,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
-                      customText(
+                      const customText(
                         label: "OTHER USERS",
-                        fontSize: 18,
+                        fontSize: 20,
+                        labelColor: baseColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
             ],
