@@ -7,8 +7,8 @@ $ast_tag = mysqli_real_escape_string($con, $_POST["ast_tag"]);
 $ast_serial = mysqli_real_escape_string($con, $_POST["ast_serial"]);
 $ast_category = mysqli_real_escape_string($con, $_POST["ast_category"]);
 
-// Initialize the response flag
 $response = [
+// Initialize the response flag
     'success' => 0,
     'ast_id' => null,  // Include ast_id in the response
 ];
