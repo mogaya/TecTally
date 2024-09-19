@@ -22,6 +22,7 @@ class _AssetIdentityState extends State<AssetIdentity> {
     'Computer',
     'Mobile',
     'Networking',
+    'Printer',
     'Peripheral',
     'Storage',
     'Others'

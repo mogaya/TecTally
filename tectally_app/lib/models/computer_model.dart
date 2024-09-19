@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables
 
-class ComputerModel {
+class AssetModel {
   var ast_id;
   var ast_name;
   var ast_tag;
@@ -19,7 +19,7 @@ class ComputerModel {
   var ast_issue_date;
   var ast_status;
 
-  ComputerModel({
+  AssetModel({
     this.ast_id,
     this.ast_name,
     this.ast_tag,
@@ -39,8 +39,8 @@ class ComputerModel {
     this.ast_status,
   });
 
-  factory ComputerModel.fromJson(Map<String, dynamic> json) {
-    return ComputerModel(
+  factory AssetModel.fromJson(Map<String, dynamic> json) {
+    return AssetModel(
       ast_id: json['ast_id'],
       ast_name: json['ast_name'],
       ast_tag: json['ast_tag'],

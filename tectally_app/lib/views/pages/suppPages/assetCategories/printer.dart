@@ -3,26 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
-import 'package:tectally_app/controllers/asset_categories_controllers/computer_controller.dart';
+import 'package:tectally_app/controllers/asset_categories_controllers/printer_controller.dart';
 import 'package:tectally_app/models/computer_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-ComputerController computerController = Get.put(ComputerController());
+// printerController printerController = Get.put(printerController());
+PrinterController printerController = Get.put(PrinterController());
 
-class Computers extends StatefulWidget {
-  const Computers({super.key});
+class Printers extends StatefulWidget {
+  const Printers({super.key});
 
   @override
-  State<Computers> createState() => _ComputersState();
+  State<Printers> createState() => _PrintersState();
 }
 
-class _ComputersState extends State<Computers> {
+class _PrintersState extends State<Printers> {
   final SearchController _searchController = SearchController();
 
   @override
   void initState() {
     super.initState();
-    getComputers();
+    getPrinters();
   }
 
   @override
@@ -33,7 +34,7 @@ class _ComputersState extends State<Computers> {
         backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
-          label: "Computers",
+          label: "Printers",
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
@@ -81,7 +82,7 @@ class _ComputersState extends State<Computers> {
               () => ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: computerController.computerList.length,
+                itemCount: printerController.printerList.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -98,14 +99,14 @@ class _ComputersState extends State<Computers> {
                               },
                               child: customText(
                                 label:
-                                    "${computerController.computerList[index].ast_name}",
+                                    "${printerController.printerList[index].ast_name}",
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             customText(
                               label:
-                                  "Tag No. ${computerController.computerList[index].ast_tag}",
+                                  "Tag No. ${printerController.printerList[index].ast_tag}",
                               fontSize: 16,
                               fontWeight: FontWeight.normal,
                             ),
@@ -124,7 +125,7 @@ class _ComputersState extends State<Computers> {
                   );
                   // return ListTile(
                   //   title: Text(
-                  //       "${computerController.computerList[index].ast_name}"),
+                  //       "${printerController.printerList[index].ast_name}"),
                   // );
                 },
               ),
@@ -144,7 +145,7 @@ class _ComputersState extends State<Computers> {
             title: Align(
               alignment: Alignment.center,
               child: customText(
-                label: "${computerController.computerList[index].ast_name}",
+                label: "${printerController.printerList[index].ast_name}",
                 fontSize: 24,
                 labelColor: secondaryColor,
                 // fontFamily: 'OpenSans',
@@ -166,8 +167,7 @@ class _ComputersState extends State<Computers> {
                         fontWeight: FontWeight.bold,
                       ),
                       customText(
-                        label:
-                            "${computerController.computerList[index].ast_id}",
+                        label: "${printerController.printerList[index].ast_id}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -186,7 +186,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_tag}",
+                            "${printerController.printerList[index].ast_tag}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -195,7 +195,7 @@ class _ComputersState extends State<Computers> {
 
                   // customText(
                   //   label:
-                  //       "Asset Tag No: ${computerController.computerList[index].ast_tag}",
+                  //       "Asset Tag No: ${printerController.printerList[index].ast_tag}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -212,7 +212,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_serial}",
+                            "${printerController.printerList[index].ast_serial}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -232,7 +232,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_category}",
+                            "${printerController.printerList[index].ast_category}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -240,7 +240,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Category: ${computerController.computerList[index].ast_category}",
+                  //       "Category: ${printerController.printerList[index].ast_category}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -257,7 +257,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_purchase_date}",
+                            "${printerController.printerList[index].ast_purchase_date}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -265,7 +265,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Purchase Date: ${computerController.computerList[index].ast_purchase_date}",
+                  //       "Purchase Date: ${printerController.printerList[index].ast_purchase_date}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -282,7 +282,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_price}",
+                            "${printerController.printerList[index].ast_price}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -290,7 +290,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Price: ${computerController.computerList[index].ast_price}",
+                  //       "Price: ${printerController.printerList[index].ast_price}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -307,7 +307,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_supplier}",
+                            "${printerController.printerList[index].ast_supplier}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -315,7 +315,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Supplier: ${computerController.computerList[index].ast_supplier}",
+                  //       "Supplier: ${printerController.printerList[index].ast_supplier}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -332,7 +332,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_warranty}",
+                            "${printerController.printerList[index].ast_warranty}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -340,7 +340,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Waranty No: ${computerController.computerList[index].ast_warranty}",
+                  //       "Waranty No: ${printerController.printerList[index].ast_warranty}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -357,7 +357,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence}",
+                            "${printerController.printerList[index].ast_licence}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -365,7 +365,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Licence Name: ${computerController.computerList[index].ast_licence}",
+                  //       "Licence Name: ${printerController.printerList[index].ast_licence}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -382,7 +382,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence_date}",
+                            "${printerController.printerList[index].ast_licence_date}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -390,7 +390,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Licence Issue Date: ${computerController.computerList[index].ast_licence_date}",
+                  //       "Licence Issue Date: ${printerController.printerList[index].ast_licence_date}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -407,7 +407,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence_expiry}",
+                            "${printerController.printerList[index].ast_licence_expiry}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -415,7 +415,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Licence Expiry Date: ${computerController.computerList[index].ast_licence_expiry}",
+                  //       "Licence Expiry Date: ${printerController.printerList[index].ast_licence_expiry}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -432,7 +432,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence_no}",
+                            "${printerController.printerList[index].ast_licence_no}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -440,7 +440,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Licence No: ${computerController.computerList[index].ast_licence_no}",
+                  //       "Licence No: ${printerController.printerList[index].ast_licence_no}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -457,7 +457,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_asignee}",
+                            "${printerController.printerList[index].ast_asignee}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -465,7 +465,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Assigned to: ${computerController.computerList[index].ast_asignee}",
+                  //       "Assigned to: ${printerController.printerList[index].ast_asignee}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -482,7 +482,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_department}",
+                            "${printerController.printerList[index].ast_department}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -490,7 +490,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Department: ${computerController.computerList[index].ast_department}",
+                  //       "Department: ${printerController.printerList[index].ast_department}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -507,7 +507,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_issue_date}",
+                            "${printerController.printerList[index].ast_issue_date}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -515,7 +515,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Date of Issue: ${computerController.computerList[index].ast_issue_date}",
+                  //       "Date of Issue: ${printerController.printerList[index].ast_issue_date}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -532,7 +532,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_status}",
+                            "${printerController.printerList[index].ast_status}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -540,7 +540,7 @@ class _ComputersState extends State<Computers> {
                   ),
                   // customText(
                   //   label:
-                  //       "Asset Status: ${computerController.computerList[index].ast_status}",
+                  //       "Asset Status: ${printerController.printerList[index].ast_status}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
@@ -554,18 +554,18 @@ class _ComputersState extends State<Computers> {
         });
   }
 
-  Future<void> getComputers() async {
+  Future<void> getPrinters() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/asset_categories/computers.php"),
+      Uri.parse("https://mmogaya.com/tectally/asset_categories/printers.php"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
-      var computerResponse = serverResponse['computers'] as List;
-      var computerList = computerResponse
+      var computerResponse = serverResponse['printers'] as List;
+      var printerList = computerResponse
           .map((computer) => AssetModel.fromJson(computer))
           .toList();
-      computerController.updateComputerList(computerList);
+      printerController.updatePrinterList(printerList);
     } else {
       print("Error Occurred");
     }

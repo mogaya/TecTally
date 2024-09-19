@@ -14,6 +14,7 @@ import 'package:tectally_app/views/pages/suppPages/assetCategories/mobile.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/networking.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/others.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/peripherals.dart';
+import 'package:tectally_app/views/pages/suppPages/assetCategories/printer.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/storage.dart';
 import 'package:tectally_app/views/pages/suppPages/assetIdentity.dart';
 import 'package:tectally_app/views/pages/suppPages/assetInventory.dart';
@@ -64,5 +65,6 @@ class Routes {
     GetPage(name: "/others", page: () => const Others()),
     GetPage(name: "/peripherals", page: () => const Peripherals()),
     GetPage(name: "/storage", page: () => const Storage()),
+    GetPage(name: "/printers", page: () => const Printers()),
   ];
 }
