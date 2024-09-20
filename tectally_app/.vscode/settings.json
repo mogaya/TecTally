@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "C:/Users/mogaya/Desktop/FLUTTER/TecTally/tectally_app/linux"
+  "cmake.sourceDirectory": "C:/Users/mogaya/Desktop/FLUTTER/TecTally/tectally_app/linux",
+  "cmake.ignoreCMakeListsMissing": true
 }

@@ -38,99 +38,108 @@ class _ComputersState extends State<Computers> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Search Area
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SearchAnchor(
-                  builder: (BuildContext context, SearchController controller) {
-                return SearchBar(
-                  controller: _searchController,
-                  padding: const WidgetStatePropertyAll<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 16.0)),
-                  onTap: () {
-                    _searchController.openView();
-                  },
-                  onChanged: (_) {
-                    _searchController.openView();
-                  },
-                  leading: const Icon(Icons.search),
-                );
-              }, suggestionsBuilder:
+      body: Obx(
+        () {
+          if (computerController.computerList.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Search Area
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SearchAnchor(builder:
                       (BuildContext context, SearchController controller) {
-                return List<ListTile>.generate(5, (int index) {
-                  final String item = 'item $index';
-                  return ListTile(
-                    title: Text(item),
-                    onTap: () {
-                      setState(() {
-                        controller.closeView(item);
-                      });
-                    },
-                  );
-                });
-              }),
-            ),
+                    return SearchBar(
+                      controller: _searchController,
+                      padding: const WidgetStatePropertyAll<EdgeInsets>(
+                          EdgeInsets.symmetric(horizontal: 16.0)),
+                      onTap: () {
+                        _searchController.openView();
+                      },
+                      onChanged: (_) {
+                        _searchController.openView();
+                      },
+                      leading: const Icon(Icons.search),
+                    );
+                  }, suggestionsBuilder:
+                      (BuildContext context, SearchController controller) {
+                    return List<ListTile>.generate(5, (int index) {
+                      final String item = 'item $index';
+                      return ListTile(
+                        title: Text(item),
+                        onTap: () {
+                          setState(() {
+                            controller.closeView(item);
+                          });
+                        },
+                      );
+                    });
+                  }),
+                ),
 
-            // Assets List
-            Obx(
-              () => ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: computerController.computerList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                // Assets List
+                Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: computerController.computerList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showAssetDetails(context, index);
+                                  },
+                                  child: customText(
+                                    label:
+                                        "${computerController.computerList[index].ast_name}",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                customText(
+                                  label:
+                                      "Tag No. ${computerController.computerList[index].ast_tag}",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ],
+                            ),
                             GestureDetector(
-                              onTap: () {
-                                showAssetDetails(context, index);
-                              },
-                              child: customText(
-                                label:
-                                    "${computerController.computerList[index].ast_name}",
-                                fontSize: 20,
+                              child: const customText(
+                                label: "REMOVE",
                                 fontWeight: FontWeight.bold,
+                                labelColor: Colors.red,
+                                fontSize: 18,
                               ),
-                            ),
-                            customText(
-                              label:
-                                  "Tag No. ${computerController.computerList[index].ast_tag}",
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                            ),
+                            )
                           ],
                         ),
-                        GestureDetector(
-                          child: const customText(
-                            label: "REMOVE",
-                            fontWeight: FontWeight.bold,
-                            labelColor: Colors.red,
-                            fontSize: 18,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                  // return ListTile(
-                  //   title: Text(
-                  //       "${computerController.computerList[index].ast_name}"),
-                  // );
-                },
-              ),
+                      );
+                      // return ListTile(
+                      //   title: Text(
+                      //       "${computerController.computerList[index].ast_name}"),
+                      // );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
