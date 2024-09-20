@@ -55,7 +55,7 @@ class Routes {
     // departments
     GetPage(name: "/board", page: () => const Board()),
     GetPage(name: "/hr", page: () => const Hr()),
-    GetPage(name: "/ict_users", page: () => const IctUsers()),
+    GetPage(name: "/ict", page: () => const Ict()),
     GetPage(name: "/finance", page: () => const Finance()),
     GetPage(name: "/procurement_users", page: () => const ProcurementUsers()),
     GetPage(name: "/other_users", page: () => const OtherUsers()),

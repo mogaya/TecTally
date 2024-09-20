@@ -1,99 +1,364 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/departments/ict_controller.dart';
+import 'package:tectally_app/models/employee_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-class IctUsers extends StatefulWidget {
-  const IctUsers({super.key});
+// IctController ictController = Get.put(IctController());
+
+IctController ictController = Get.put(IctController());
+
+class Ict extends StatefulWidget {
+  const Ict({super.key});
 
   @override
-  State<IctUsers> createState() => _IctUsersState();
+  State<Ict> createState() => _IctState();
 }
 
-class _IctUsersState extends State<IctUsers> {
+class _IctState extends State<Ict> {
+  final SearchController _searchController = SearchController();
+
+  @override
+  void initState() {
+    super.initState();
+    getIct();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // getIct();
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
         backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
-          label: "IctUsers",
+          label: "Ict Employees",
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SearchAnchor(
-                  builder: (BuildContext context, SearchController controller) {
-                return SearchBar(
-                  controller: controller,
-                  padding: const WidgetStatePropertyAll<EdgeInsets>(
-                      EdgeInsets.symmetric(horizontal: 16.0)),
-                  onTap: () {
-                    controller.openView();
-                  },
-                  onChanged: (_) {
-                    controller.openView();
-                  },
-                  leading: const Icon(Icons.search),
-                );
-              }, suggestionsBuilder:
-                      (BuildContext context, SearchController controller) {
-                return List<ListTile>.generate(5, (int index) {
-                  final String item = 'item $index';
-                  return ListTile(
-                    title: Text(item),
-                    onTap: () {
-                      setState(() {
-                        controller.closeView(item);
+      body: Obx(
+        () {
+          if (ictController.ictList.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Search Area
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SearchAnchor(
+                    builder:
+                        (BuildContext context, SearchController controller) {
+                      return SearchBar(
+                        controller: _searchController,
+                        padding: const WidgetStatePropertyAll<EdgeInsets>(
+                            EdgeInsets.symmetric(horizontal: 16.0)),
+                        onTap: () {
+                          _searchController.openView();
+                        },
+                        onChanged: (query) {
+                          ictController.filterIct(
+                              query); // Filters the computer list based on the query
+                          _searchController.openView();
+                        },
+                        leading: const Icon(Icons.search),
+                      );
+                    },
+
+                    // Builds a list of suggestions based on user's input
+                    suggestionsBuilder:
+                        (BuildContext context, SearchController controller) {
+                      return List<ListTile>.generate(5, (int index) {
+                        final String item = 'item $index';
+                        return ListTile(
+                          title: Text(item),
+                          onTap: () {
+                            setState(() {
+                              controller.closeView(item);
+                            });
+                          },
+                        );
                       });
                     },
-                  );
-                });
-              }),
+                  ),
+                ),
+
+                // Assets List
+                Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: ictController.filteredIctList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showAssetDetails(context, index);
+                                  },
+                                  child: customText(
+                                    label:
+                                        "${ictController.filteredIctList[index].emp_name}",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                customText(
+                                  label:
+                                      "Phone: ${ictController.filteredIctList[index].emp_phone}",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: const customText(
+                                            label:
+                                                "Do you want to delete this Employee?",
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          actions: [
+                                            // Cancel Button
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () =>
+                                                      Navigator.pop(context),
+                                                  child: const customText(
+                                                    label: "Cancel",
+                                                    labelColor: Colors.green,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+
+                                                // Yes Button
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    deleteEmployee(
+                                                      ictController
+                                                          .filteredIctList[
+                                                              index]
+                                                          .emp_id,
+                                                    );
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const customText(
+                                                    label: "Yes",
+                                                    labelColor: Colors.red,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ));
+                              },
+                              child: const customText(
+                                label: "DELETE",
+                                fontWeight: FontWeight.bold,
+                                labelColor: Colors.red,
+                                fontSize: 18,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
+          );
+        },
+      ),
+    );
+  }
+
+  // Show Ict Employee Details
+  Future<dynamic> showAssetDetails(BuildContext context, int index) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Align(
+            alignment: Alignment.center,
+            child: customText(
+              label: "${ictController.filteredIctList[index].emp_name}",
+              fontSize: 24,
+              labelColor: secondaryColor,
+              // fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: SizedBox(
+            height: 220,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
                       const customText(
-                        label: "John Doe",
+                        label: "Employee ID: ",
                         fontSize: 20,
+                        fontFamily: "OpenSans",
                         fontWeight: FontWeight.bold,
                       ),
                       customText(
-                        label: "Emp No. CA001",
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
+                        label: "${ictController.filteredIctList[index].emp_id}",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  GestureDetector(
-                    child: customText(
-                      label: "REMOVE",
-                      fontWeight: FontWeight.bold,
-                      labelColor: Colors.red,
-                      fontSize: 18,
-                    ),
-                  )
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: [
+                      const customText(
+                        label: "Employee Department: ",
+                        fontSize: 20,
+                        fontFamily: "OpenSans",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      customText(
+                        label:
+                            "${ictController.filteredIctList[index].emp_dpt}",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: [
+                      const customText(
+                        label: "Employee Role: ",
+                        fontSize: 20,
+                        fontFamily: "OpenSans",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      customText(
+                        label:
+                            "${ictController.filteredIctList[index].emp_role}",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const customText(
+                        label: "Employee Email: ",
+                        fontSize: 20,
+                        fontFamily: "OpenSans",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      customText(
+                        label:
+                            "${ictController.filteredIctList[index].emp_email}",
+                        fontSize: 20,
+                        labelColor: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: [
+                      const customText(
+                        label: "Employee Phone: ",
+                        fontSize: 20,
+                        fontFamily: "OpenSans",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      customText(
+                        label:
+                            "${ictController.filteredIctList[index].emp_phone}",
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Connecting to API to Pull Ict
+  Future<void> getIct() async {
+    http.Response response;
+    response = await http.get(
+      Uri.parse("https://mmogaya.com/tectally/departments/ict.php"),
+    );
+    if (response.statusCode == 200) {
+      var serverResponse = json.decode(response.body);
+      var ictResponse = serverResponse['ict'] as List;
+      var ictList =
+          ictResponse.map((ict) => EmployeeModel.fromJson(ict)).toList();
+      ictController.updateIctList(ictList);
+    } else {
+      print("Error Occurred");
+    }
+  }
+
+  // Delete Asset Logic
+  Future<void> deleteEmployee(emp_id) async {
+    http.Response response;
+    response = await http.get(
+      Uri.parse(
+        "https://mmogaya.com/tectally/departments/delete_employee.php?emp_id=$emp_id",
       ),
     );
+    if (response.statusCode == 200) {
+      getIct();
+    } else {
+      print("Error Ocurred");
+    }
   }
 }

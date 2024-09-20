@@ -258,7 +258,7 @@ class AllUsers extends StatelessWidget {
 
               // ICT Users
               GestureDetector(
-                onTap: () => {Get.toNamed('/ict_users')},
+                onTap: () => {Get.toNamed('/ict')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
