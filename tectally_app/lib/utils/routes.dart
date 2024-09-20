@@ -62,7 +62,7 @@ class Routes {
     GetPage(name: "/computers", page: () => const Computers()),
     GetPage(name: "/mobile", page: () => const Mobile()),
     GetPage(name: "/networking", page: () => const Networking()),
-    GetPage(name: "/others", page: () => const Others()),
+    GetPage(name: "/others", page: () => const OtherAssets()),
     GetPage(name: "/peripherals", page: () => const Peripherals()),
     GetPage(name: "/storage", page: () => const Storage()),
     GetPage(name: "/printers", page: () => const Printers()),
