@@ -3,46 +3,45 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
-import 'package:tectally_app/controllers/departments/board_controller.dart';
+import 'package:tectally_app/controllers/departments/finance_controller.dart';
 import 'package:tectally_app/models/employee_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// boardController boardController = Get.put(boardController());
-BoardController boardController = Get.put(BoardController());
+FinanceController financeController = Get.put(FinanceController());
 
-class Board extends StatefulWidget {
-  const Board({super.key});
+class Finance extends StatefulWidget {
+  const Finance({super.key});
 
   @override
-  State<Board> createState() => _BoardState();
+  State<Finance> createState() => _FinanceState();
 }
 
-class _BoardState extends State<Board> {
+class _FinanceState extends State<Finance> {
   final SearchController _searchController = SearchController();
 
   @override
   void initState() {
     super.initState();
-    getBoard();
+    getFinance();
   }
 
   @override
   Widget build(BuildContext context) {
-    // getBoard();
+    // getFinance();
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
         backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
-          label: "Board Members",
+          label: "Finance Employees",
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
       ),
       body: Obx(
         () {
-          if (boardController.boardList.isEmpty) {
+          if (financeController.financeList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -66,7 +65,7 @@ class _BoardState extends State<Board> {
                           _searchController.openView();
                         },
                         onChanged: (query) {
-                          boardController.filterBoard(
+                          financeController.filterFinance(
                               query); // Filters the computer list based on the query
                           _searchController.openView();
                         },
@@ -97,7 +96,7 @@ class _BoardState extends State<Board> {
                   () => ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: boardController.filteredBoardList.length,
+                    itemCount: financeController.filteredFinanceList.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -114,14 +113,14 @@ class _BoardState extends State<Board> {
                                   },
                                   child: customText(
                                     label:
-                                        "${boardController.filteredBoardList[index].emp_name}",
+                                        "${financeController.filteredFinanceList[index].emp_name}",
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 customText(
                                   label:
-                                      "Phone: ${boardController.filteredBoardList[index].emp_phone}",
+                                      "Phone: ${financeController.filteredFinanceList[index].emp_phone}",
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -160,8 +159,8 @@ class _BoardState extends State<Board> {
                                                 GestureDetector(
                                                   onTap: () {
                                                     deleteEmployee(
-                                                      boardController
-                                                          .filteredBoardList[
+                                                      financeController
+                                                          .filteredFinanceList[
                                                               index]
                                                           .emp_id,
                                                     );
@@ -200,7 +199,7 @@ class _BoardState extends State<Board> {
     );
   }
 
-  // Show Board Employee Details
+  // Show Finance Employee Details
   Future<dynamic> showAssetDetails(BuildContext context, int index) {
     return showDialog(
       context: context,
@@ -209,7 +208,7 @@ class _BoardState extends State<Board> {
           title: Align(
             alignment: Alignment.center,
             child: customText(
-              label: "${boardController.filteredBoardList[index].emp_name}",
+              label: "${financeController.filteredFinanceList[index].emp_name}",
               fontSize: 24,
               labelColor: secondaryColor,
               // fontFamily: 'OpenSans',
@@ -234,7 +233,7 @@ class _BoardState extends State<Board> {
                       ),
                       customText(
                         label:
-                            "${boardController.filteredBoardList[index].emp_id}",
+                            "${financeController.filteredFinanceList[index].emp_id}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -253,7 +252,7 @@ class _BoardState extends State<Board> {
                       ),
                       customText(
                         label:
-                            "${boardController.filteredBoardList[index].emp_dpt}",
+                            "${financeController.filteredFinanceList[index].emp_dpt}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -272,7 +271,7 @@ class _BoardState extends State<Board> {
                       ),
                       customText(
                         label:
-                            "${boardController.filteredBoardList[index].emp_role}",
+                            "${financeController.filteredFinanceList[index].emp_role}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -292,7 +291,7 @@ class _BoardState extends State<Board> {
                       ),
                       customText(
                         label:
-                            "${boardController.filteredBoardList[index].emp_email}",
+                            "${financeController.filteredFinanceList[index].emp_email}",
                         fontSize: 20,
                         labelColor: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -312,7 +311,7 @@ class _BoardState extends State<Board> {
                       ),
                       customText(
                         label:
-                            "${boardController.filteredBoardList[index].emp_phone}",
+                            "${financeController.filteredFinanceList[index].emp_phone}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -330,18 +329,19 @@ class _BoardState extends State<Board> {
     );
   }
 
-  // Connecting to API to Pull Board
-  Future<void> getBoard() async {
+  // Connecting to API to Pull Finance
+  Future<void> getFinance() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/departments/board.php"),
+      Uri.parse("https://mmogaya.com/tectally/departments/finance.php"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
-      var boardResponse = serverResponse['board'] as List;
-      var boardList =
-          boardResponse.map((board) => EmployeeModel.fromJson(board)).toList();
-      boardController.updateBoardList(boardList);
+      var financeResponse = serverResponse['finance'] as List;
+      var financeList = financeResponse
+          .map((finance) => EmployeeModel.fromJson(finance))
+          .toList();
+      financeController.updateFinanceList(financeList);
     } else {
       print("Error Occurred");
     }
@@ -356,7 +356,7 @@ class _BoardState extends State<Board> {
       ),
     );
     if (response.statusCode == 200) {
-      getBoard();
+      getFinance();
     } else {
       print("Error Ocurred");
     }

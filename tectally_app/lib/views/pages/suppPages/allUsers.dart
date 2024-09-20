@@ -143,7 +143,9 @@ class AllUsers extends StatelessWidget {
 
               // Finance Users
               GestureDetector(
-                onTap: () => {Get.toNamed('/finance_users')},
+                onTap: () => {
+                  Get.toNamed('/finance'),
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
