@@ -27,6 +27,7 @@ class _ComputersState extends State<Computers> {
 
   @override
   Widget build(BuildContext context) {
+    // getComputers();
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
@@ -53,34 +54,41 @@ class _ComputersState extends State<Computers> {
                 // Search Area
                 Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: SearchAnchor(builder:
-                      (BuildContext context, SearchController controller) {
-                    return SearchBar(
-                      controller: _searchController,
-                      padding: const WidgetStatePropertyAll<EdgeInsets>(
-                          EdgeInsets.symmetric(horizontal: 16.0)),
-                      onTap: () {
-                        _searchController.openView();
-                      },
-                      onChanged: (_) {
-                        _searchController.openView();
-                      },
-                      leading: const Icon(Icons.search),
-                    );
-                  }, suggestionsBuilder:
-                      (BuildContext context, SearchController controller) {
-                    return List<ListTile>.generate(5, (int index) {
-                      final String item = 'item $index';
-                      return ListTile(
-                        title: Text(item),
+                  child: SearchAnchor(
+                    builder:
+                        (BuildContext context, SearchController controller) {
+                      return SearchBar(
+                        controller: _searchController,
+                        padding: const WidgetStatePropertyAll<EdgeInsets>(
+                            EdgeInsets.symmetric(horizontal: 16.0)),
                         onTap: () {
-                          setState(() {
-                            controller.closeView(item);
-                          });
+                          _searchController.openView();
                         },
+                        onChanged: (query) {
+                          computerController.filterComputers(
+                              query); // Filters the computer list based on the query
+                          _searchController.openView();
+                        },
+                        leading: const Icon(Icons.search),
                       );
-                    });
-                  }),
+                    },
+
+                    // Builds a list of suggestions based on user's input
+                    suggestionsBuilder:
+                        (BuildContext context, SearchController controller) {
+                      return List<ListTile>.generate(5, (int index) {
+                        final String item = 'item $index';
+                        return ListTile(
+                          title: Text(item),
+                          onTap: () {
+                            setState(() {
+                              controller.closeView(item);
+                            });
+                          },
+                        );
+                      });
+                    },
+                  ),
                 ),
 
                 // Assets List
@@ -88,7 +96,7 @@ class _ComputersState extends State<Computers> {
                   () => ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: computerController.computerList.length,
+                    itemCount: computerController.filteredComputerList.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -105,22 +113,73 @@ class _ComputersState extends State<Computers> {
                                   },
                                   child: customText(
                                     label:
-                                        "${computerController.computerList[index].ast_name}",
+                                        "${computerController.filteredComputerList[index].ast_name}",
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 customText(
                                   label:
-                                      "Tag No. ${computerController.computerList[index].ast_tag}",
+                                      "Tag No. ${computerController.filteredComputerList[index].ast_tag}",
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ],
                             ),
                             GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                          content: const customText(
+                                            label:
+                                                "Do you want to delete this Asset?",
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          actions: [
+                                            // Cancel Button
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () =>
+                                                      Navigator.pop(context),
+                                                  child: const customText(
+                                                    label: "Cancel",
+                                                    labelColor: Colors.green,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+
+                                                // Yes Button
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    deleteAsset(
+                                                      computerController
+                                                          .filteredComputerList[
+                                                              index]
+                                                          .ast_id,
+                                                    );
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const customText(
+                                                    label: "Yes",
+                                                    labelColor: Colors.red,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ));
+                              },
                               child: const customText(
-                                label: "REMOVE",
+                                label: "DELETE",
                                 fontWeight: FontWeight.bold,
                                 labelColor: Colors.red,
                                 fontSize: 18,
@@ -131,7 +190,7 @@ class _ComputersState extends State<Computers> {
                       );
                       // return ListTile(
                       //   title: Text(
-                      //       "${computerController.computerList[index].ast_name}"),
+                      //       "${computerController.filteredComputerList[index].ast_name}"),
                       // );
                     },
                   ),
@@ -147,21 +206,24 @@ class _ComputersState extends State<Computers> {
   // Show Computer Details
   Future<dynamic> showAssetDetails(BuildContext context, int index) {
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Align(
-              alignment: Alignment.center,
-              child: customText(
-                label: "${computerController.computerList[index].ast_name}",
-                fontSize: 24,
-                labelColor: secondaryColor,
-                // fontFamily: 'OpenSans',
-                fontWeight: FontWeight.bold,
-              ),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Align(
+            alignment: Alignment.center,
+            child: customText(
+              label:
+                  "${computerController.filteredComputerList[index].ast_name}",
+              fontSize: 24,
+              labelColor: secondaryColor,
+              // fontFamily: 'OpenSans',
+              fontWeight: FontWeight.bold,
             ),
-            content: Container(
-              height: 500,
+          ),
+          content: SizedBox(
+            height: 500,
+            child: FittedBox(
+              fit: BoxFit.contain,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,13 +238,13 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_id}",
+                            "${computerController.filteredComputerList[index].ast_id}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -195,7 +257,7 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_tag}",
+                            "${computerController.filteredComputerList[index].ast_tag}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -204,11 +266,11 @@ class _ComputersState extends State<Computers> {
 
                   // customText(
                   //   label:
-                  //       "Asset Tag No: ${computerController.computerList[index].ast_tag}",
+                  //       "Asset Tag No: ${computerController.filteredComputerList[index].ast_tag}",
                   //   fontSize: 20,
                   //   fontWeight: FontWeight.bold,
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -221,14 +283,14 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_serial}",
+                            "${computerController.filteredComputerList[index].ast_serial}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -241,21 +303,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_category}",
+                            "${computerController.filteredComputerList[index].ast_category}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Category: ${computerController.computerList[index].ast_category}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -266,21 +324,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_purchase_date}",
+                            "${computerController.filteredComputerList[index].ast_purchase_date}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Purchase Date: ${computerController.computerList[index].ast_purchase_date}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -291,21 +345,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_price}",
+                            "${computerController.filteredComputerList[index].ast_price}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Price: ${computerController.computerList[index].ast_price}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -316,21 +366,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_supplier}",
+                            "${computerController.filteredComputerList[index].ast_supplier}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Supplier: ${computerController.computerList[index].ast_supplier}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -341,21 +387,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_warranty}",
+                            "${computerController.filteredComputerList[index].ast_warranty}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Waranty No: ${computerController.computerList[index].ast_warranty}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -366,21 +408,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence}",
+                            "${computerController.filteredComputerList[index].ast_licence}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Licence Name: ${computerController.computerList[index].ast_licence}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -391,21 +429,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence_date}",
+                            "${computerController.filteredComputerList[index].ast_licence_date}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Licence Issue Date: ${computerController.computerList[index].ast_licence_date}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -416,21 +450,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence_expiry}",
+                            "${computerController.filteredComputerList[index].ast_licence_expiry}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Licence Expiry Date: ${computerController.computerList[index].ast_licence_expiry}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -441,21 +471,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_licence_no}",
+                            "${computerController.filteredComputerList[index].ast_licence_no}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Licence No: ${computerController.computerList[index].ast_licence_no}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -466,21 +492,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_asignee}",
+                            "${computerController.filteredComputerList[index].ast_asignee}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Assigned to: ${computerController.computerList[index].ast_asignee}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -491,21 +513,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_department}",
+                            "${computerController.filteredComputerList[index].ast_department}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Department: ${computerController.computerList[index].ast_department}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -516,21 +534,17 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_issue_date}",
+                            "${computerController.filteredComputerList[index].ast_issue_date}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Date of Issue: ${computerController.computerList[index].ast_issue_date}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
+
                   Row(
                     children: [
                       const customText(
@@ -541,28 +555,26 @@ class _ComputersState extends State<Computers> {
                       ),
                       customText(
                         label:
-                            "${computerController.computerList[index].ast_status}",
+                            "${computerController.filteredComputerList[index].ast_status}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ],
                   ),
-                  // customText(
-                  //   label:
-                  //       "Asset Status: ${computerController.computerList[index].ast_status}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  SizedBox(
+
+                  const SizedBox(
                     height: 5,
                   ),
                 ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
+  // Connecting to API to Pull Computers
   Future<void> getComputers() async {
     http.Response response;
     response = await http.get(
@@ -577,6 +589,21 @@ class _ComputersState extends State<Computers> {
       computerController.updateComputerList(computerList);
     } else {
       print("Error Occurred");
+    }
+  }
+
+  // Delete Asset Logic
+  Future<void> deleteAsset(ast_id) async {
+    http.Response response;
+    response = await http.get(
+      Uri.parse(
+        "https://mmogaya.com/tectally/asset_categories/delete_asset.php?ast_id=$ast_id",
+      ),
+    );
+    if (response.statusCode == 200) {
+      getComputers();
+    } else {
+      print("Error Ocurred");
     }
   }
 }
