@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/computer_controller.dart';
-import 'package:tectally_app/models/computer_model.dart';
+import 'package:tectally_app/models/asset_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
 ComputerController computerController = Get.put(ComputerController());
@@ -188,10 +188,6 @@ class _ComputersState extends State<Computers> {
                           ],
                         ),
                       );
-                      // return ListTile(
-                      //   title: Text(
-                      //       "${computerController.filteredComputerList[index].ast_name}"),
-                      // );
                     },
                   ),
                 ),
