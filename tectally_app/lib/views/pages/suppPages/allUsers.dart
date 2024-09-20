@@ -31,7 +31,7 @@ class AllUsers extends StatelessWidget {
 
               // Board users
               GestureDetector(
-                onTap: () => {Get.toNamed('/board_users')},
+                onTap: () => {Get.toNamed('/board')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

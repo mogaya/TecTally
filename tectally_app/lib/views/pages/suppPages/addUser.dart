@@ -18,11 +18,13 @@ class AddUser extends StatefulWidget {
 class _AddUserState extends State<AddUser> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _options = [
+    'Board',
+    'PR',
     'Finance',
     'Human Resource',
     'ICT',
     'Procurement',
-    'Others'
+    'Other Departments'
   ];
   final TextEditingController _empName = TextEditingController();
   final TextEditingController _department = TextEditingController();
