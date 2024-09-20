@@ -263,13 +263,6 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
-                  // customText(
-                  //   label:
-                  //       "Asset Tag No: ${computerController.filteredComputerList[index].ast_tag}",
-                  //   fontSize: 20,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
                   const SizedBox(
                     height: 5,
                   ),
@@ -289,7 +282,6 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
@@ -309,11 +301,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -330,11 +320,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -351,11 +339,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -372,11 +358,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -393,11 +377,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -414,11 +396,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -435,11 +415,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -456,11 +434,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -477,11 +453,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -498,11 +472,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -519,11 +491,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -540,11 +510,9 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
-
                   Row(
                     children: [
                       const customText(
@@ -561,7 +529,6 @@ class _ComputersState extends State<Computers> {
                       ),
                     ],
                   ),
-
                   const SizedBox(
                     height: 5,
                   ),
