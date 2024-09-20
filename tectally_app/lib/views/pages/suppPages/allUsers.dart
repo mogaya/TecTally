@@ -87,7 +87,7 @@ class AllUsers extends StatelessWidget {
 
               // Hr users
               GestureDetector(
-                onTap: () => {Get.toNamed('/hr_users')},
+                onTap: () => {Get.toNamed('/hr')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
