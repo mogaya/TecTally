@@ -370,7 +370,9 @@ class AllUsers extends StatelessWidget {
 
               // Other Users
               GestureDetector(
-                onTap: () => {Get.toNamed('/other_users')},
+                onTap: () => {
+                  Get.toNamed('/other_departments'),
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

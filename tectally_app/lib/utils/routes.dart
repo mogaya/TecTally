@@ -23,7 +23,7 @@ import 'package:tectally_app/views/pages/suppPages/departments/board.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/finance.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/hr.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/ictUsers.dart';
-import 'package:tectally_app/views/pages/suppPages/departments/otherUsers.dart';
+import 'package:tectally_app/views/pages/suppPages/departments/other_departments.dart';
 import 'package:tectally_app/views/pages/suppPages/licenceInfo.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/procurementUsers.dart';
 import 'package:tectally_app/views/pages/suppPages/purchaseInfo.dart';
@@ -58,7 +58,7 @@ class Routes {
     GetPage(name: "/ict", page: () => const Ict()),
     GetPage(name: "/finance", page: () => const Finance()),
     GetPage(name: "/procurement_users", page: () => const ProcurementUsers()),
-    GetPage(name: "/other_users", page: () => const OtherUsers()),
+    GetPage(name: "/other_departments", page: () => const OtherDepartments()),
 
     // asset categories
     GetPage(name: "/computers", page: () => const Computers()),
