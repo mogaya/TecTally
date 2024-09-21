@@ -314,7 +314,7 @@ class AllUsers extends StatelessWidget {
 
               // PR Users
               GestureDetector(
-                onTap: () => {Get.toNamed('/pr_users')},
+                onTap: () => {Get.toNamed('/pr')},
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

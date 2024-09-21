@@ -3,47 +3,46 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
-import 'package:tectally_app/controllers/departments/other_departments_controller.dart';
+import 'package:tectally_app/controllers/departments/pr_controller.dart';
 import 'package:tectally_app/models/employee_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// OtherDepartmentsController otherDepartmentsController = Get.put(OtherDepartmentsController());
-OtherDepartmentsController otherDepartmentsController =
-    Get.put(OtherDepartmentsController());
+// PrController prController = Get.put(PrController());
+PrController prController = Get.put(PrController());
 
-class OtherDepartments extends StatefulWidget {
-  const OtherDepartments({super.key});
+class Pr extends StatefulWidget {
+  const Pr({super.key});
 
   @override
-  State<OtherDepartments> createState() => _OtherDepartmentsState();
+  State<Pr> createState() => _PrState();
 }
 
-class _OtherDepartmentsState extends State<OtherDepartments> {
+class _PrState extends State<Pr> {
   final SearchController _searchController = SearchController();
 
   @override
   void initState() {
     super.initState();
-    getOtherDepartments();
+    getPr();
   }
 
   @override
   Widget build(BuildContext context) {
-    // getOtherDepartments();
+    // getPr();
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
         backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
-          label: "Other Employees",
+          label: "Pr Employees",
           fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
       ),
       body: Obx(
         () {
-          if (otherDepartmentsController.otherDepartmentsList.isEmpty) {
+          if (prController.prList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -67,7 +66,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                           _searchController.openView();
                         },
                         onChanged: (query) {
-                          otherDepartmentsController.filterOtherDepartments(
+                          prController.filterPr(
                               query); // Filters the computer list based on the query
                           _searchController.openView();
                         },
@@ -98,8 +97,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                   () => ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: otherDepartmentsController
-                        .filteredOtherDepartmentsList.length,
+                    itemCount: prController.filteredPrList.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -116,14 +114,14 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                                   },
                                   child: customText(
                                     label:
-                                        "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_name}",
+                                        "${prController.filteredPrList[index].emp_name}",
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 customText(
                                   label:
-                                      "Phone: ${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_phone}",
+                                      "Phone: ${prController.filteredPrList[index].emp_phone}",
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
                                 ),
@@ -162,9 +160,8 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                                                 GestureDetector(
                                                   onTap: () {
                                                     deleteEmployee(
-                                                      otherDepartmentsController
-                                                          .filteredOtherDepartmentsList[
-                                                              index]
+                                                      prController
+                                                          .filteredPrList[index]
                                                           .emp_id,
                                                     );
                                                     Navigator.pop(context);
@@ -202,7 +199,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
     );
   }
 
-  // Show OtherDepartments Employee Details
+  // Show Pr Employee Details
   Future<dynamic> showAssetDetails(BuildContext context, int index) {
     return showDialog(
       context: context,
@@ -211,8 +208,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
           title: Align(
             alignment: Alignment.center,
             child: customText(
-              label:
-                  "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_name}",
+              label: "${prController.filteredPrList[index].emp_name}",
               fontSize: 24,
               labelColor: secondaryColor,
               // fontFamily: 'OpenSans',
@@ -236,8 +232,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                         fontWeight: FontWeight.bold,
                       ),
                       customText(
-                        label:
-                            "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_id}",
+                        label: "${prController.filteredPrList[index].emp_id}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -246,8 +241,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
                       const customText(
                         label: "Employee Department: ",
@@ -256,8 +250,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                         fontWeight: FontWeight.bold,
                       ),
                       customText(
-                        label:
-                            "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_dpt}",
+                        label: "${prController.filteredPrList[index].emp_dpt}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -275,8 +268,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                         fontWeight: FontWeight.bold,
                       ),
                       customText(
-                        label:
-                            "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_role}",
+                        label: "${prController.filteredPrList[index].emp_role}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -296,7 +288,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                       ),
                       customText(
                         label:
-                            "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_email}",
+                            "${prController.filteredPrList[index].emp_email}",
                         fontSize: 20,
                         labelColor: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -316,7 +308,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
                       ),
                       customText(
                         label:
-                            "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_phone}",
+                            "${prController.filteredPrList[index].emp_phone}",
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -334,22 +326,17 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
     );
   }
 
-  // Connecting to API to Pull OtherDepartments
-  Future<void> getOtherDepartments() async {
+  // Connecting to API to Pull Pr
+  Future<void> getPr() async {
     http.Response response;
     response = await http.get(
-      Uri.parse(
-          "https://mmogaya.com/tectally/departments/other_departments.php"),
+      Uri.parse("https://mmogaya.com/tectally/departments/pr.php"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
-      var otherDepartmentsResponse =
-          serverResponse['other_departments'] as List;
-      var otherDepartmentsList = otherDepartmentsResponse
-          .map((otherDepartments) => EmployeeModel.fromJson(otherDepartments))
-          .toList();
-      otherDepartmentsController
-          .updateOtherDepartmentsList(otherDepartmentsList);
+      var prResponse = serverResponse['pr'] as List;
+      var prList = prResponse.map((pr) => EmployeeModel.fromJson(pr)).toList();
+      prController.updatePrList(prList);
     } else {
       print("Error Occurred");
     }
@@ -364,7 +351,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
       ),
     );
     if (response.statusCode == 200) {
-      getOtherDepartments();
+      getPr();
     } else {
       print("Error Ocurred");
     }
