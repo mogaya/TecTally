@@ -6,7 +6,7 @@ import 'package:tectally_app/views/pages/profile.dart';
 import 'package:tectally_app/views/pages/signin.dart';
 import 'package:tectally_app/views/pages/signup.dart';
 import 'package:tectally_app/views/pages/statistics.dart';
-import 'package:tectally_app/views/pages/bookmark.dart';
+import 'package:tectally_app/views/pages/downloads.dart';
 import 'package:tectally_app/views/pages/suppPages/addUser.dart';
 import 'package:tectally_app/views/pages/suppPages/allUsers.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/computers.dart';
@@ -39,7 +39,7 @@ class Routes {
     GetPage(name: "/home", page: () => const Home()),
     GetPage(name: "/statistics", page: () => const Statistics()),
     GetPage(name: "/profile", page: () => const Profile()),
-    GetPage(name: "/bookmarks", page: () => const Bookmark()),
+    GetPage(name: "/downloads", page: () => const Downloads()),
 
     // Test
     GetPage(name: "/test", page: () => const Test()),

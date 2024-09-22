@@ -6,15 +6,15 @@ import 'package:tectally_app/controllers/nav_controller.dart';
 import 'package:tectally_app/views/pages/home.dart';
 import 'package:tectally_app/views/pages/profile.dart';
 import 'package:tectally_app/views/pages/statistics.dart';
-import 'package:tectally_app/views/pages/bookmark.dart';
+import 'package:tectally_app/views/pages/downloads.dart';
 
 NavController navController = Get.put(NavController());
 
 var screenList = [
-  Home(),
-  Statistics(),
-  Bookmark(),
-  Profile(),
+  const Home(),
+  const Statistics(),
+  const Downloads(),
+  const Profile(),
 ];
 
 class Nav extends StatelessWidget {
@@ -29,7 +29,7 @@ class Nav extends StatelessWidget {
         backgroundColor: baseColor,
         buttonBackgroundColor: Colors.blue.shade400,
         height: 55,
-        items: [
+        items: const [
           Icon(
             Icons.home_rounded,
             size: 25,
@@ -41,7 +41,7 @@ class Nav extends StatelessWidget {
             color: baseColor,
           ),
           Icon(
-            Icons.bookmark_border_outlined,
+            Icons.file_download_outlined,
             size: 25,
             color: baseColor,
           ),
