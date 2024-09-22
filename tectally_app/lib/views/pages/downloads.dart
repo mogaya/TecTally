@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customElevatedBtn.dart';
 import 'dart:io';
 import 'package:tectally_app/views/components/customText.dart';
@@ -15,13 +16,15 @@ class _DownloadsState extends State<Downloads> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: baseColor,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: baseColor,
         centerTitle: true,
-        title: const Text(
-          "Downloads",
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        title: const customText(
+          label: 'Downloads',
+          fontFamily: 'OpenSans',
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
         ),
       ),
       body: SingleChildScrollView(
@@ -34,20 +37,250 @@ class _DownloadsState extends State<Downloads> {
                 "Select download file:",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
+              Wrap(
+                children: [
+                  // Download All Employees File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('all_employees');
+                    },
+                    text: "All Employees",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download All Assets File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('all_assets');
+                    },
+                    text: "All Assets",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+
               const Text(
                 "Employees Section:",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              Row(
+              Wrap(
                 children: [
                   // Download Board File
                   customElevatedBtn(
                     onPressed: () {
-                      downloadBoard();
+                      download('board');
                     },
-                    text: "Board File",
+                    text: "Board",
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Public Relations File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('public_relations');
+                    },
+                    text: "Public Relations",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download ICT File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('ict');
+                    },
+                    text: "ICT",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Finance File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('finance');
+                    },
+                    text: "Finance",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download HR File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('human_resource');
+                    },
+                    text: "Human Resource",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Board File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('procurement');
+                    },
+                    text: "Procurement",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // 'Download' Board File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('other_departments');
+                    },
+                    text: "Other Departments",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+
+              // Assets Section
+              SizedBox(
+                height: 20,
+              ),
+              const Text(
+                "Assets Section:",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              Wrap(
+                children: [
+                  // Download Computer File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('computers');
+                    },
+                    text: "Computers",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Printer File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('printers');
+                    },
+                    text: "Printers",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Mobile File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('mobiles');
+                    },
+                    text: "Mobiles",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Peripheral File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('peripherals');
+                    },
+                    text: "Peripherals",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Storage File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('storage');
+                    },
+                    text: "Storage",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Networking File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('networking');
+                    },
+                    text: "Networking",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
+                  ),
+
+                  // Download Others File
+                  customElevatedBtn(
+                    onPressed: () {
+                      download('other_assets');
+                    },
+                    text: "Other Assets",
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+
+                  SizedBox(
+                    width: 10,
                   ),
                 ],
               ),
@@ -58,17 +291,25 @@ class _DownloadsState extends State<Downloads> {
     );
   }
 
-  Future<void> downloadBoard() async {
+  Future<void> download(file_name) async {
+    //Loading circle
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     try {
       // Step 1: Make the HTTP request to download the file
       final response = await http.get(
-        Uri.parse("https://mmogaya.com/tectally/asset_categories/download.php"),
+        Uri.parse('https://mmogaya.com/tectally/downloads/$file_name.php'),
       );
 
       if (response.statusCode == 200) {
         // Step 2: Get the "Downloads" directory path
         final directory = Directory('/storage/emulated/0/Download');
-        final filePath = '${directory.path}/downloaded_file.csv';
+        final filePath = '${directory.path}/$file_name.csv';
 
         // Step 3: Write the file to the "Downloads" directory
         final file = File(filePath);
@@ -85,7 +326,7 @@ class _DownloadsState extends State<Downloads> {
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
-            duration: const Duration(seconds: 6),
+            duration: const Duration(seconds: 5),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -100,5 +341,7 @@ class _DownloadsState extends State<Downloads> {
     } catch (e) {
       print("Error Occurred: $e");
     }
+
+    Navigator.of(context).pop();
   }
 }
