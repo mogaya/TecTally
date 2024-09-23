@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/statistics/asset_tally_controller.dart';
 import 'package:tectally_app/views/components/customText.dart';
 import 'package:tectally_app/views/components/indicator.dart';
+
+AssetTallyController assetTallyController = Get.put(AssetTallyController());
 
 class Statistics extends StatefulWidget {
   const Statistics({super.key});
@@ -12,11 +19,14 @@ class Statistics extends StatefulWidget {
 }
 
 class PieChart2State extends State<Statistics> {
+  int touchedIndex = -1;
   int touchedIndex1 = -1;
-  int touchedIndex2 = -1;
-  int touchedIndex3 = -1;
-  int touchedIndex4 = -1;
-  int touchedIndex5 = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    getStatistics();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,71 +42,149 @@ class PieChart2State extends State<Statistics> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 40),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              buildPieChart(
-                touchedIndex1,
-                (index) => setState(() => touchedIndex1 = index),
-                totalAssets(),
-                buildIndicators([
-                  {'color': Colors.blue, 'text': 'Assets 250'},
-                ]),
-                'Total Assets',
+      body: Obx(
+        () {
+          if (assetTallyController.totalAssets.value == 0) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 40),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  buildPieChart(
+                    touchedIndex,
+                    (index) => setState(() => touchedIndex = index),
+                    assetsTally(),
+                    buildIndicators([
+                      {
+                        'color': Colors.red,
+                        'text':
+                            'Computers: ${assetTallyController.computersTally.value}'
+                      },
+                      {
+                        'color': Colors.green,
+                        'text':
+                            'Mobiles: ${assetTallyController.mobilesTally.value}'
+                      },
+                      {
+                        'color': Colors.orange,
+                        'text':
+                            'Networking: ${assetTallyController.networkingTally.value}'
+                      },
+                      {
+                        'color': Colors.blue,
+                        'text':
+                            'Printers: ${assetTallyController.printersTally.value}'
+                      },
+                      {
+                        'color': Colors.yellow,
+                        'text':
+                            'Peripherals: ${assetTallyController.peripheralsTally.value}'
+                      },
+                      {
+                        'color': Colors.indigo,
+                        'text':
+                            'Storage: ${assetTallyController.storageTally.value}'
+                      },
+                      {
+                        'color': Colors.purple,
+                        'text':
+                            'OtherAssets: ${assetTallyController.othersAssetsTally.value}'
+                      },
+                    ]),
+                    'Asset Categories',
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  buildPieChart(
+                    touchedIndex1,
+                    (index) => setState(() => touchedIndex1 = index),
+                    employeeTally(),
+                    buildIndicators([
+                      {
+                        'color': Colors.red,
+                        'text':
+                            'Computers: ${assetTallyController.computersTally.value}'
+                      },
+                      {
+                        'color': Colors.green,
+                        'text':
+                            'Mobiles: ${assetTallyController.mobilesTally.value}'
+                      },
+                      {
+                        'color': Colors.orange,
+                        'text':
+                            'Networking: ${assetTallyController.networkingTally.value}'
+                      },
+                      {
+                        'color': Colors.blue,
+                        'text':
+                            'Printers: ${assetTallyController.printersTally.value}'
+                      },
+                      {
+                        'color': Colors.yellow,
+                        'text':
+                            'Peripherals: ${assetTallyController.peripheralsTally.value}'
+                      },
+                      {
+                        'color': Colors.indigo,
+                        'text':
+                            'Storage: ${assetTallyController.storageTally.value}'
+                      },
+                      {
+                        'color': Colors.purple,
+                        'text':
+                            'OtherAssets: ${assetTallyController.othersAssetsTally.value}'
+                      },
+                    ]),
+                    'Department Tally',
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              buildPieChart(
-                touchedIndex2,
-                (index) => setState(() => touchedIndex2 = index),
-                assetStatus(),
-                buildIndicators([
-                  {'color': Colors.green, 'text': 'Working 210'},
-                  {'color': Colors.red, 'text': 'Faulty 40'},
-                ]),
-                'Asset Status',
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              buildPieChart(
-                touchedIndex3,
-                (index) => setState(() => touchedIndex3 = index),
-                allocation(),
-                buildIndicators([
-                  {'color': Colors.blue, 'text': 'Allocated 200'},
-                  {'color': Colors.orange, 'text': 'Waiting 50'},
-                ]),
-                'Allocation',
-              ),
-              buildPieChart(
-                touchedIndex4,
-                (index) => setState(() => touchedIndex4 = index),
-                licences(),
-                buildIndicators([
-                  {'color': Colors.pink, 'text': 'Allocated 200'},
-                  {'color': Colors.amber, 'text': 'Waiting 50'},
-                ]),
-                'Licenses',
-              ),
-              buildPieChart(
-                touchedIndex5,
-                (index) => setState(() => touchedIndex5 = index),
-                expenses(),
-                buildIndicators([
-                  {'color': Colors.purple, 'text': 'Allocated 200'},
-                  {'color': Colors.teal, 'text': 'Waiting 50'},
-                ]),
-                'Expenses',
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  Future<void> getStatistics() async {
+    try {
+      final response = await http
+          .get(Uri.parse("https://mmogaya.com/tectally/statistics.php"));
+
+      if (response.statusCode == 200) {
+        final serverResponse = json.decode(response.body);
+
+        assetTallyController
+            .updateTotalAssets(int.parse(serverResponse['total_assets']));
+        assetTallyController.updateComputers(
+            int.parse(serverResponse['assets_by_category']['Computer']));
+        assetTallyController.updateMobiles(
+            int.parse(serverResponse['assets_by_category']['Mobile']));
+        assetTallyController.updateNetworking(
+            int.parse(serverResponse['assets_by_category']['Networking']));
+        assetTallyController.updatePrinters(
+            int.parse(serverResponse['assets_by_category']['Printer']));
+        assetTallyController.updatePeripherals(
+            int.parse(serverResponse['assets_by_category']['Peripheral']));
+        assetTallyController.updateStorage(
+            int.parse(serverResponse['assets_by_category']['Storage']));
+        assetTallyController.updateOtherAssets(
+            int.parse(serverResponse['assets_by_category']['Others']));
+
+        print("Total Assets: ${assetTallyController.totalAssets.value}");
+      } else {
+        print("Error Occurred: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Exception: $e");
+    }
   }
 
   Widget buildPieChart(
@@ -159,7 +247,7 @@ class PieChart2State extends State<Statistics> {
     );
   }
 
-// Indicators
+  // Indicators
   List<Widget> buildIndicators(List<Map<String, dynamic>> indicatorData) {
     return indicatorData.map((data) {
       return Column(
@@ -175,175 +263,261 @@ class PieChart2State extends State<Statistics> {
     }).toList();
   }
 
-// Assets Chart data
-  List<PieChartSectionData> totalAssets() {
-    return List.generate(1, (i) {
-      final isTouched = i == touchedIndex1;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 50.0 : 40.0;
-      return PieChartSectionData(
-        color: Colors.blue,
-        value: 40,
-        title: "100%",
-        radius: radius,
-        titleStyle: TextStyle(
-          fontSize: fontSize,
-          fontWeight: FontWeight.bold,
-          color: textColor,
-        ),
-      );
-    });
+  // Asset Status Data
+  List<PieChartSectionData> assetsTally() {
+    // Helper function to calculate percentage
+    double calculatePercentage(int assetValue) {
+      return assetTallyController.totalAssets.value != 0
+          ? (assetValue / assetTallyController.totalAssets.value) * 100
+          : 0;
+    }
+
+    return List.generate(
+      7,
+      (i) {
+        final isTouched = i == touchedIndex;
+        final fontSize = isTouched ? 25.0 : 16.0;
+        final radius = isTouched ? 50.0 : 40.0;
+
+        switch (i) {
+          // Computers
+          case 0:
+            return PieChartSectionData(
+              color: Colors.red,
+              value: assetTallyController.computersTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.computersTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          // Mobiles
+          case 1:
+            return PieChartSectionData(
+              color: Colors.green,
+              value: assetTallyController.mobilesTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.mobilesTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          // Networking
+          case 2:
+            return PieChartSectionData(
+              color: Colors.orange,
+              value: assetTallyController.networkingTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.networkingTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          // Printers
+          case 3:
+            return PieChartSectionData(
+              color: Colors.blue,
+              value: assetTallyController.printersTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.printersTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          // Peripherals
+          case 4:
+            return PieChartSectionData(
+              color: Colors.yellow,
+              value: assetTallyController.peripheralsTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.peripheralsTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          // Storage
+          case 5:
+            return PieChartSectionData(
+              color: Colors.indigo,
+              value: assetTallyController.storageTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.storageTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          // OtherAssets
+          case 6:
+            return PieChartSectionData(
+              color: Colors.purple.shade300,
+              value: assetTallyController.othersAssetsTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.othersAssetsTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          default:
+            throw Error();
+        }
+      },
+    );
   }
 
-// Asset Status Data
-  List<PieChartSectionData> assetStatus() {
-    return List.generate(2, (i) {
-      final isTouched = i == touchedIndex2;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 50.0 : 40.0;
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Colors.green,
-            value: 35,
-            title: '35%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.red,
-            value: 25,
-            title: '25%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
+  // Asset Employee Data
+  List<PieChartSectionData> employeeTally() {
+    // Helper function to calculate percentage
+    double calculatePercentage(int assetValue) {
+      return assetTallyController.totalAssets.value != 0
+          ? (assetValue / assetTallyController.totalAssets.value) * 100
+          : 0;
+    }
 
-        default:
-          throw Error();
-      }
-    });
-  }
+    return List.generate(
+      7,
+      (i) {
+        final isTouched = i == touchedIndex1;
+        final fontSize = isTouched ? 25.0 : 16.0;
+        final radius = isTouched ? 50.0 : 40.0;
 
-// Allocation Data
-  List<PieChartSectionData> allocation() {
-    return List.generate(2, (i) {
-      final isTouched = i == touchedIndex3;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 50.0 : 40.0;
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Colors.blue,
-            value: 50,
-            title: '50%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.orange,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
+        switch (i) {
+          // Computers
+          case 0:
+            return PieChartSectionData(
+              color: Colors.red,
+              value: assetTallyController.computersTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.computersTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
 
-        default:
-          throw Error();
-      }
-    });
-  }
+          // Mobiles
+          case 1:
+            return PieChartSectionData(
+              color: Colors.green,
+              value: assetTallyController.mobilesTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.mobilesTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
 
-  // Allocation Data
-  List<PieChartSectionData> licences() {
-    return List.generate(2, (i) {
-      final isTouched = i == touchedIndex4;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 50.0 : 40.0;
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Colors.pink,
-            value: 50,
-            title: '50%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.amber,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
+          // Networking
+          case 2:
+            return PieChartSectionData(
+              color: Colors.orange,
+              value: assetTallyController.networkingTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.networkingTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
 
-        default:
-          throw Error();
-      }
-    });
-  }
+          // Printers
+          case 3:
+            return PieChartSectionData(
+              color: Colors.blue,
+              value: assetTallyController.printersTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.printersTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
 
-  // Allocation Data
-  List<PieChartSectionData> expenses() {
-    return List.generate(2, (i) {
-      final isTouched = i == touchedIndex5;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 50.0 : 40.0;
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: Colors.purple,
-            value: 50,
-            title: '50%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: Colors.teal,
-            value: 20,
-            title: '20%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
-          );
+          // Peripherals
+          case 4:
+            return PieChartSectionData(
+              color: Colors.yellow,
+              value: assetTallyController.peripheralsTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.peripheralsTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
 
-        default:
-          throw Error();
-      }
-    });
+          // Storage
+          case 5:
+            return PieChartSectionData(
+              color: Colors.indigo,
+              value: assetTallyController.storageTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.storageTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          // OtherAssets
+          case 6:
+            return PieChartSectionData(
+              color: Colors.purple.shade300,
+              value: assetTallyController.othersAssetsTally.value.toDouble(),
+              title:
+                  '${calculatePercentage(assetTallyController.othersAssetsTally.value).toStringAsFixed(0)}%',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            );
+
+          default:
+            throw Error();
+        }
+      },
+    );
   }
 }
