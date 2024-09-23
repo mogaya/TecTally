@@ -500,7 +500,7 @@ class Home extends StatelessWidget {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Get.toNamed("/scan");
+                          Get.toNamed("/barcode_scanner");
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

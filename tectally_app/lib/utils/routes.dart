@@ -19,6 +19,7 @@ import 'package:tectally_app/views/pages/suppPages/assetCategories/storage.dart'
 import 'package:tectally_app/views/pages/suppPages/assetIdentity.dart';
 import 'package:tectally_app/views/pages/suppPages/assetInventory.dart';
 import 'package:tectally_app/views/pages/suppPages/assignInfo.dart';
+import 'package:tectally_app/views/pages/suppPages/barcodeScanner.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/board.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/finance.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/hr.dart';
@@ -52,6 +53,7 @@ class Routes {
     GetPage(name: "/add_user", page: () => const AddUser()),
     GetPage(name: "/all_users", page: () => const AllUsers()),
     GetPage(name: "/asset_inventory", page: () => const AssetInventory()),
+    GetPage(name: "/barcode_scanner", page: () => const Barcodescanner()),
 
     // departments
     GetPage(name: "/board", page: () => const Board()),

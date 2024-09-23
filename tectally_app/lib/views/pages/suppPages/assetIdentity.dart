@@ -142,7 +142,11 @@ class _AssetIdentityState extends State<AssetIdentity> {
                       ),
                       const SizedBox(width: 5),
                       GestureDetector(
-                        onTap: () => {}, // Handle tap
+                        onTap: () => {
+                          Get.toNamed(
+                            '/barcode_scanner',
+                          )
+                        }, // Handle tap
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
