@@ -49,7 +49,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -65,7 +65,7 @@ class _DownloadsState extends State<Downloads> {
                 ],
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
 
@@ -85,7 +85,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -99,7 +99,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -113,7 +113,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -127,7 +127,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -141,7 +141,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -155,7 +155,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -169,14 +169,14 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                 ],
               ),
 
               // Assets Section
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               const Text(
@@ -195,7 +195,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -209,7 +209,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -223,7 +223,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -237,7 +237,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -251,7 +251,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -265,7 +265,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
 
@@ -279,7 +279,7 @@ class _DownloadsState extends State<Downloads> {
                     fontWeight: FontWeight.bold,
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                 ],

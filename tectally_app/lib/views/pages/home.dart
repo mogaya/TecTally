@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/views/components/customButton.dart';
+import 'package:tectally_app/views/components/customElevatedBtn.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
 class Home extends StatelessWidget {
@@ -219,7 +220,232 @@ class Home extends StatelessWidget {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Get.toNamed("/search");
+                          // Get.toNamed("/search");
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SizedBox(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Search Board Members
+                                      Wrap(
+                                        children: [
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/board');
+                                            },
+                                            text: "Board",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search pr Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/pr');
+                                            },
+                                            text: "Public Relations ",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search ict Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/ict');
+                                            },
+                                            text: "ICT",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search finance Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/finance');
+                                            },
+                                            text: "Finance",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search Human Resource
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/hr');
+                                            },
+                                            text: "Human Resource",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search procurement Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/procurement');
+                                            },
+                                            text: "Procurement",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search OtherDepartments Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/other_departments');
+                                            },
+                                            text: "Other Departments",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+
+                                      const SizedBox(
+                                        height: 50,
+                                      ),
+
+                                      // Assets Section
+                                      Wrap(
+                                        children: [
+                                          // Search Computers
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/computers');
+                                            },
+                                            text: "Computers",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search Networking Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/networking');
+                                            },
+                                            text: "Networking",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search Board Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/printers');
+                                            },
+                                            text: "Printers",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search Storage Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/storage');
+                                            },
+                                            text: "Storage",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search Mobile
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/mobile');
+                                            },
+                                            text: "Mobiles",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search Peripherals Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/peripherals');
+                                            },
+                                            text: "Peripherals",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+
+                                          // Search Printers Members
+                                          customElevatedBtn(
+                                            onPressed: () {
+                                              Get.toNamed('/others');
+                                            },
+                                            text: "Other Assets",
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
