@@ -8,7 +8,6 @@ import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/statistics/asset_tally_controller.dart';
 import 'package:tectally_app/views/components/customText.dart';
 import 'package:tectally_app/views/components/indicator.dart';
-import 'package:tectally_app/views/pages/suppPages/assetCategories/others.dart';
 
 AssetTallyController assetTallyController = Get.put(AssetTallyController());
 
