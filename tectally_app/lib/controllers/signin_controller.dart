@@ -7,8 +7,10 @@ class SigninController extends GetxController {
   }
 
   var phoneNumber = ''.obs;
+  var userId = 1.obs;
+  var userName = ''.obs;
 
-  updatePhoneNumber(num) {
-    phoneNumber.value = num;
-  }
+  void updatePhoneNumber(String phone) => phoneNumber.value = phone;
+  void updateUserId(int num) => userId.value = num;
+  void updateUserName(String name) => userName.value = name;
 }

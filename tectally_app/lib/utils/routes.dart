@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tectally_app/views/pages/edit_profile.dart';
 import 'package:tectally_app/views/pages/home.dart';
 import 'package:tectally_app/views/pages/landing.dart';
 import 'package:tectally_app/views/pages/nav.dart';
@@ -40,6 +41,7 @@ class Routes {
     GetPage(name: "/home", page: () => const Home()),
     GetPage(name: "/statistics", page: () => const Statistics()),
     GetPage(name: "/profile", page: () => const Profile()),
+    GetPage(name: "/edit_profile", page: () => const EditProfile()),
     GetPage(name: "/downloads", page: () => const Downloads()),
 
     // Test

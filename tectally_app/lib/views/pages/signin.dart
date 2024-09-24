@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/controllers/signin_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customTextFormField.dart';
@@ -11,6 +12,7 @@ import 'package:tectally_app/views/components/customText.dart';
 TextEditingController phone = TextEditingController();
 TextEditingController password = TextEditingController();
 SigninController signinController = Get.put(SigninController());
+ProfileController profileController = Get.put(ProfileController());
 
 class SignIn extends StatelessWidget {
   const SignIn({super.key});
@@ -206,11 +208,11 @@ class SignIn extends StatelessWidget {
       int loginStatus = serverResponse['success'];
 
       if (loginStatus == 1) {
-        // Correctly access userdata since it's an object, not a list
         var userData = serverResponse['userdata'];
-        var phone = userData['phone'];
+        profileController.updateUserPhone(userData['user_phone']);
+        profileController.updateUserId(userData['user_id']);
+        profileController.updateUserName(userData['user_name']);
 
-        signinController.updatePhoneNumber(phone);
         Get.toNamed("/navigator");
       } else {
         // Show alert if login fails

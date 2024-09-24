@@ -6,9 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
+import 'package:tectally_app/controllers/signin_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customElevatedBtn.dart';
 import 'package:tectally_app/views/components/customText.dart';
+
+ProfileController profileController = Get.put(ProfileController());
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -33,20 +37,31 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            customText(
-              label: "KARIBU TecTally",
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+        title: FittedBox(
+          child: Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const customText(
+                  label: "KARIBU TecTally",
+                  fontSize: 28,
+                  fontFamily: 'OpenSans',
+                  labelColor: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                customText(
+                  label: profileController.userName.value,
+                  fontSize: 28,
+                  fontFamily: 'OpenSans',
+                  labelColor: ascentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ],
             ),
-            customText(
-              label: " Mogaya",
-              fontSize: 24,
-              fontWeight: FontWeight.w300,
-            ),
-          ],
+          ),
         ),
       ),
       body: SingleChildScrollView(
