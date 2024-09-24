@@ -23,7 +23,7 @@ class _DownloadsState extends State<Downloads> {
         title: const customText(
           label: 'Downloads',
           fontFamily: 'OpenSans',
-          fontSize: 24,
+          fontSize: 28,
           fontWeight: FontWeight.bold,
         ),
       ),

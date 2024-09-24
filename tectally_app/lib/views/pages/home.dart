@@ -27,10 +27,10 @@ class Home extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: baseColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: baseColor,
+        backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
         title: const Row(

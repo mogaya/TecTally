@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:animated_number/animated_number.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,6 +58,7 @@ class PieChart2State extends State<Statistics> {
         title: const customText(
           label: "Statistics",
           fontSize: 28,
+          fontFamily: 'OpenSans',
           fontWeight: FontWeight.bold,
         ),
         automaticallyImplyLeading: false,
@@ -82,6 +84,128 @@ class PieChart2State extends State<Statistics> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: customText(
+                                label: "Assets Tally",
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              height: 85,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  style: BorderStyle.solid,
+                                  color: Colors.grey.shade300,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(15.0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 4,
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 3),
+                                  )
+                                ],
+                              ),
+                              child: FittedBox(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: AnimatedNumber(
+                                      startValue: 0,
+                                      endValue: assetTallyController
+                                          .totalAssets.value
+                                          .toDouble(),
+                                      duration: const Duration(seconds: 5),
+                                      decimalPoint: 0,
+                                      isFloatingPoint: false,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: ascentColor,
+                                        fontFamily: 'OpenSans',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: customText(
+                                label: "Employee Tally",
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              height: 85,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  style: BorderStyle.solid,
+                                  color: Colors.grey.shade300,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(15.0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 4,
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 3),
+                                  )
+                                ],
+                              ),
+                              child: FittedBox(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: AnimatedNumber(
+                                      startValue: 0,
+                                      endValue: employeeTallyController
+                                          .totalEmployees.value
+                                          .toDouble(),
+                                      duration: const Duration(seconds: 5),
+                                      decimalPoint: 0,
+                                      isFloatingPoint: false,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: ascentColor,
+                                        fontFamily: 'OpenSans',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -278,7 +402,8 @@ class PieChart2State extends State<Statistics> {
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
+                  fontFamily: 'OpenSans',
                   fontWeight: FontWeight.bold,
                 ),
               ),
