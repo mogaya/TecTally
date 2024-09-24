@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -6,10 +7,13 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/statistics/asset_tally_controller.dart';
+import 'package:tectally_app/controllers/statistics/employee_tally_controller.dart';
 import 'package:tectally_app/views/components/customText.dart';
 import 'package:tectally_app/views/components/indicator.dart';
 
 AssetTallyController assetTallyController = Get.put(AssetTallyController());
+EmployeeTallyController employeeTallyController =
+    Get.put(EmployeeTallyController());
 
 class Statistics extends StatefulWidget {
   const Statistics({super.key});
@@ -21,11 +25,26 @@ class Statistics extends StatefulWidget {
 class PieChart2State extends State<Statistics> {
   int touchedIndex = -1;
   int touchedIndex1 = -1;
+  bool showNoAssetsText = false;
 
   @override
   void initState() {
     super.initState();
     getStatistics();
+
+    // Set a timeout of 5 seconds to display "No assets" text
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        if (assetTallyController.totalAssets.value &
+                employeeTallyController.totalEmployees.value ==
+            0) {
+          setState(() {
+            showNoAssetsText = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -44,9 +63,20 @@ class PieChart2State extends State<Statistics> {
       ),
       body: Obx(
         () {
+          if (showNoAssetsText) {
+            return const Center(
+                child: customText(
+              label: 'No Statistics: Add Data',
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              labelColor: Colors.red,
+            ));
+          }
+
           if (assetTallyController.totalAssets.value == 0) {
             return const Center(child: CircularProgressIndicator());
           }
+
           return Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 40),
             child: SingleChildScrollView(
@@ -63,37 +93,37 @@ class PieChart2State extends State<Statistics> {
                       {
                         'color': Colors.red,
                         'text':
-                            'Computers: ${assetTallyController.computersTally.value}'
+                            'computers: ${assetTallyController.computersTally.value}'
                       },
                       {
                         'color': Colors.green,
                         'text':
-                            'Mobiles: ${assetTallyController.mobilesTally.value}'
+                            'mobiles: ${assetTallyController.mobilesTally.value}'
                       },
                       {
                         'color': Colors.orange,
                         'text':
-                            'Networking: ${assetTallyController.networkingTally.value}'
+                            'networking: ${assetTallyController.networkingTally.value}'
                       },
                       {
                         'color': Colors.blue,
                         'text':
-                            'Printers: ${assetTallyController.printersTally.value}'
+                            'printers: ${assetTallyController.printersTally.value}'
                       },
                       {
                         'color': Colors.yellow,
                         'text':
-                            'Peripherals: ${assetTallyController.peripheralsTally.value}'
+                            'peripherals: ${assetTallyController.peripheralsTally.value}'
                       },
                       {
                         'color': Colors.indigo,
                         'text':
-                            'Storage: ${assetTallyController.storageTally.value}'
+                            'storage: ${assetTallyController.storageTally.value}'
                       },
                       {
                         'color': Colors.purple,
                         'text':
-                            'OtherAssets: ${assetTallyController.othersAssetsTally.value}'
+                            'otherAssets: ${assetTallyController.othersAssetsTally.value}'
                       },
                     ]),
                     'Asset Categories',
@@ -109,37 +139,34 @@ class PieChart2State extends State<Statistics> {
                       {
                         'color': Colors.red,
                         'text':
-                            'Computers: ${assetTallyController.computersTally.value}'
+                            'board: ${employeeTallyController.boardTally.value}'
                       },
                       {
                         'color': Colors.green,
-                        'text':
-                            'Mobiles: ${assetTallyController.mobilesTally.value}'
+                        'text': 'pr: ${employeeTallyController.prTally.value}'
                       },
                       {
                         'color': Colors.orange,
                         'text':
-                            'Networking: ${assetTallyController.networkingTally.value}'
+                            'finance: ${employeeTallyController.financeTally.value}'
                       },
                       {
                         'color': Colors.blue,
-                        'text':
-                            'Printers: ${assetTallyController.printersTally.value}'
+                        'text': 'hr: ${employeeTallyController.hrTally.value}'
                       },
                       {
                         'color': Colors.yellow,
-                        'text':
-                            'Peripherals: ${assetTallyController.peripheralsTally.value}'
+                        'text': 'ict: ${employeeTallyController.ictTally.value}'
                       },
                       {
                         'color': Colors.indigo,
                         'text':
-                            'Storage: ${assetTallyController.storageTally.value}'
+                            'procurement: ${employeeTallyController.procurementTally.value}'
                       },
                       {
                         'color': Colors.purple,
                         'text':
-                            'OtherAssets: ${assetTallyController.othersAssetsTally.value}'
+                            'Others: ${employeeTallyController.otherDepartmentsTally.value}'
                       },
                     ]),
                     'Department Tally',
@@ -161,6 +188,7 @@ class PieChart2State extends State<Statistics> {
       if (response.statusCode == 200) {
         final serverResponse = json.decode(response.body);
 
+        // Asset Tally Section
         assetTallyController
             .updateTotalAssets(int.parse(serverResponse['total_assets']));
         assetTallyController.updateComputers(
@@ -177,6 +205,24 @@ class PieChart2State extends State<Statistics> {
             int.parse(serverResponse['assets_by_category']['Storage']));
         assetTallyController.updateOtherAssets(
             int.parse(serverResponse['assets_by_category']['Others']));
+
+        // Employees Tally
+        employeeTallyController
+            .updateTotalEmployees(int.parse(serverResponse['total_employees']));
+        employeeTallyController.updateBoardTally(
+            int.parse(serverResponse['employees_by_department']['Board']));
+        employeeTallyController.updatePrTally(
+            int.parse(serverResponse['employees_by_department']['PR']));
+        employeeTallyController.updateFinanceTally(
+            int.parse(serverResponse['employees_by_department']['Finance']));
+        employeeTallyController.updateHrTally(int.parse(
+            serverResponse['employees_by_department']['Human Resource']));
+        employeeTallyController.updateIctTally(
+            int.parse(serverResponse['employees_by_department']['ICT']));
+        employeeTallyController.updateProcurementTally(int.parse(
+            serverResponse['employees_by_department']['Procurement']));
+        employeeTallyController.updateOtherDepartmentsTally(int.parse(
+            serverResponse['employees_by_department']['Other Departments']));
 
         print("Total Assets: ${assetTallyController.totalAssets.value}");
       } else {
@@ -409,13 +455,13 @@ class PieChart2State extends State<Statistics> {
         final radius = isTouched ? 50.0 : 40.0;
 
         switch (i) {
-          // Computers
+          // board
           case 0:
             return PieChartSectionData(
               color: Colors.red,
-              value: assetTallyController.computersTally.value.toDouble(),
+              value: employeeTallyController.boardTally.value.toDouble(),
               title:
-                  '${calculatePercentage(assetTallyController.computersTally.value).toStringAsFixed(0)}%',
+                  '${calculatePercentage(employeeTallyController.boardTally.value).toStringAsFixed(0)}%',
               radius: radius,
               titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -424,13 +470,13 @@ class PieChart2State extends State<Statistics> {
               ),
             );
 
-          // Mobiles
+          // pr
           case 1:
             return PieChartSectionData(
               color: Colors.green,
-              value: assetTallyController.mobilesTally.value.toDouble(),
+              value: employeeTallyController.prTally.value.toDouble(),
               title:
-                  '${calculatePercentage(assetTallyController.mobilesTally.value).toStringAsFixed(0)}%',
+                  '${calculatePercentage(employeeTallyController.prTally.value).toStringAsFixed(0)}%',
               radius: radius,
               titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -439,13 +485,13 @@ class PieChart2State extends State<Statistics> {
               ),
             );
 
-          // Networking
+          // finance
           case 2:
             return PieChartSectionData(
               color: Colors.orange,
-              value: assetTallyController.networkingTally.value.toDouble(),
+              value: employeeTallyController.financeTally.value.toDouble(),
               title:
-                  '${calculatePercentage(assetTallyController.networkingTally.value).toStringAsFixed(0)}%',
+                  '${calculatePercentage(employeeTallyController.financeTally.value).toStringAsFixed(0)}%',
               radius: radius,
               titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -454,13 +500,13 @@ class PieChart2State extends State<Statistics> {
               ),
             );
 
-          // Printers
+          // hr
           case 3:
             return PieChartSectionData(
               color: Colors.blue,
-              value: assetTallyController.printersTally.value.toDouble(),
+              value: employeeTallyController.hrTally.value.toDouble(),
               title:
-                  '${calculatePercentage(assetTallyController.printersTally.value).toStringAsFixed(0)}%',
+                  '${calculatePercentage(employeeTallyController.hrTally.value).toStringAsFixed(0)}%',
               radius: radius,
               titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -469,13 +515,13 @@ class PieChart2State extends State<Statistics> {
               ),
             );
 
-          // Peripherals
+          // ict
           case 4:
             return PieChartSectionData(
               color: Colors.yellow,
-              value: assetTallyController.peripheralsTally.value.toDouble(),
+              value: employeeTallyController.ictTally.value.toDouble(),
               title:
-                  '${calculatePercentage(assetTallyController.peripheralsTally.value).toStringAsFixed(0)}%',
+                  '${calculatePercentage(employeeTallyController.ictTally.value).toStringAsFixed(0)}%',
               radius: radius,
               titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -484,13 +530,13 @@ class PieChart2State extends State<Statistics> {
               ),
             );
 
-          // Storage
+          // procurement
           case 5:
             return PieChartSectionData(
               color: Colors.indigo,
-              value: assetTallyController.storageTally.value.toDouble(),
+              value: employeeTallyController.procurementTally.value.toDouble(),
               title:
-                  '${calculatePercentage(assetTallyController.storageTally.value).toStringAsFixed(0)}%',
+                  '${calculatePercentage(employeeTallyController.procurementTally.value).toStringAsFixed(0)}%',
               radius: radius,
               titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -499,13 +545,14 @@ class PieChart2State extends State<Statistics> {
               ),
             );
 
-          // OtherAssets
+          // OtherDepartments
           case 6:
             return PieChartSectionData(
               color: Colors.purple.shade300,
-              value: assetTallyController.othersAssetsTally.value.toDouble(),
+              value: employeeTallyController.otherDepartmentsTally.value
+                  .toDouble(),
               title:
-                  '${calculatePercentage(assetTallyController.othersAssetsTally.value).toStringAsFixed(0)}%',
+                  '${calculatePercentage(employeeTallyController.otherDepartmentsTally.value).toStringAsFixed(0)}%',
               radius: radius,
               titleStyle: TextStyle(
                 fontSize: fontSize,
