@@ -9,7 +9,7 @@ $encrypted_password = md5($password);  // Encrypted password using md5
 $flag['userdata'] = array();
 
 // Use a prepared statement to avoid SQL injection
-$query = "SELECT * FROM users WHERE phone = ? AND password = ? LIMIT 1";
+$query = "SELECT * FROM users WHERE user_phone = ? AND user_password = ? LIMIT 1";
 $stmt = mysqli_prepare($con, $query);
 
 if ($stmt) {
