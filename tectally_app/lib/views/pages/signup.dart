@@ -243,6 +243,16 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<void> serverSignup() async {
+    //Loading
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
     http.Response response;
     var body = {
       'username': username.text.trim(),
@@ -257,6 +267,8 @@ class _SignUpState extends State<SignUp> {
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
       int signedUp = serverResponse['success'];
+
+      Navigator.pop(context);
 
       if (signedUp == 1) {
         // Show a success alert
@@ -275,7 +287,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               content: const customText(
-                label: "Sign in was successfull, Signin",
+                label: "Sign Up was successfull, SignIn",
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),

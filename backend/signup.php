@@ -11,7 +11,7 @@ $password = md5(mysqli_real_escape_string($con, $_POST["password"]));
 $flag['success'] = 0;
 
 // Proper query with 'INSERT INTO'
-$query = "INSERT INTO users (id, username, phone, email, password, role, photo, created_at) 
+$query = "INSERT INTO users (user_id, user_name, user_phone, user_email, user_password, user_role, user_photo, created_at) 
           VALUES ('', '$username', '$phone', '$email', '$password',1, 'ProfilePic.png', now())";
 
 // Execute the query
