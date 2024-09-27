@@ -30,6 +30,7 @@ import 'package:tectally_app/views/pages/suppPages/departments/pr.dart';
 import 'package:tectally_app/views/pages/suppPages/licenceInfo.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/procurement.dart';
 import 'package:tectally_app/views/pages/suppPages/purchaseInfo.dart';
+import 'package:tectally_app/views/pages/suppPages/search_emp.dart';
 import 'package:tectally_app/views/pages/test.dart';
 
 class Routes {
@@ -52,6 +53,7 @@ class Routes {
     GetPage(name: "/purchase_info", page: () => PurchaseInfo()),
     GetPage(name: "/licence_info", page: () => LicenceInfo()),
     GetPage(name: "/assign_info", page: () => AssignInfo()),
+    GetPage(name: "/search_emp", page: () => const SearchEmp()),
     GetPage(name: "/add_user", page: () => const AddUser()),
     GetPage(name: "/all_users", page: () => const AllUsers()),
     GetPage(name: "/asset_inventory", page: () => const AssetInventory()),

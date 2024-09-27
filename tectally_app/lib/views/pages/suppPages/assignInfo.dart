@@ -5,9 +5,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/assetId_controller.dart';
+import 'package:tectally_app/controllers/asset_categories_controllers/search_emp_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
+
+SearchEmpController searchEmpController = Get.put(SearchEmpController());
 
 class AssignInfo extends StatefulWidget {
   AssignInfo({super.key});
@@ -127,15 +130,49 @@ class _AssignInfoState extends State<AssignInfo> {
                       ),
                     ),
                   ),
-                  customDetailsInput(
-                    controller: _assignedTo,
-                    hintMessage: 'Assigned to',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Assigned to is required';
-                      }
-                      return null;
-                    },
+                  Row(
+                    children: [
+                      Obx(
+                        () => SizedBox(
+                          width: 275,
+                          child: customDetailsInput(
+                            enabled: false,
+                            controller: TextEditingController(
+                                text: searchEmpController.selectedEmp.value),
+                            hintMessage: 'Assigned to',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Assigned to is required';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () => {
+                          Get.toNamed(
+                            '/search_emp',
+                          )
+                        }, // Handle tap
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Image.asset(
+                              'assets/img/search.png',
+                              height: 35,
+                            ),
+                            const customText(
+                              label: "search",
+                              fontSize: 15,
+                              labelColor: secondaryColor,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
 
                   const SizedBox(height: 10),
@@ -153,46 +190,60 @@ class _AssignInfoState extends State<AssignInfo> {
                       ),
                     ),
                   ),
-                  DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Select Department',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.blue,
-                          width: 2.0,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                      errorStyle: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    items: _options.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(
-                        () {
-                          _selectedValue = newValue;
-                          _department.text =
-                              newValue ?? ''; // Update text field if needed
-                        },
-                      );
+
+                  customDetailsInput(
+                    enabled: false,
+                    controller: TextEditingController(
+                        text: searchEmpController.selectedDeparment.value),
+                    hintMessage: 'Department',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Department is required';
+                      }
+                      return null;
                     },
-                    value: _selectedValue,
                   ),
+
+                  // DropdownButtonFormField<String>(
+                  //   decoration: const InputDecoration(
+                  //     labelText: 'Select Department',
+                  //     enabledBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(
+                  //         color: Colors.blue,
+                  //         width: 2.0,
+                  //       ),
+                  //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(color: Colors.green, width: 2.0),
+                  //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  //     ),
+                  //     errorBorder: OutlineInputBorder(
+                  //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                  //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                  //     ),
+                  //     errorStyle: TextStyle(
+                  //       fontSize: 15,
+                  //       fontWeight: FontWeight.bold,
+                  //     ),
+                  //   ),
+                  //   items: _options.map((String value) {
+                  //     return DropdownMenuItem<String>(
+                  //       value: value,
+                  //       child: Text(value),
+                  //     );
+                  //   }).toList(),
+                  //   onChanged: (newValue) {
+                  //     setState(
+                  //       () {
+                  //         _selectedValue = newValue;
+                  //         _department.text =
+                  //             newValue ?? ''; // Update text field if needed
+                  //       },
+                  //     );
+                  //   },
+                  //   value: _selectedValue,
+                  // ),
 
                   const SizedBox(height: 10),
 
