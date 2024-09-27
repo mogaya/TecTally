@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/profile/profile_controller.dart';
-import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
 ProfileController profileController = Get.put(ProfileController());
@@ -22,7 +21,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    getProfile();
+    // getProfile();
   }
 
   @override

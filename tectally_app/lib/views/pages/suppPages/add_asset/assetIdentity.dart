@@ -5,9 +5,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/assetId_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
+
+ProfileController profileController = Get.put(ProfileController());
 
 class AssetIdentity extends StatefulWidget {
   const AssetIdentity({Key? key}) : super(key: key);
@@ -263,6 +266,7 @@ class _AssetIdentityState extends State<AssetIdentity> {
       'ast_tag': _tagNo.text.trim(),
       'ast_serial': _serialNo.text.trim(),
       'ast_category': _category.text.trim(),
+      'user_id': '${profileController.userId.value}',
     };
 
     response = await http.post(
@@ -276,6 +280,7 @@ class _AssetIdentityState extends State<AssetIdentity> {
       if (success == 1) {
         var assetId = serverResponse['ast_id'];
         print(assetId);
+
         assetidController.updateAssetId(assetId);
         Get.toNamed("/purchase_info");
       }

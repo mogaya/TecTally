@@ -17,9 +17,9 @@ import 'package:tectally_app/views/pages/suppPages/assetCategories/others.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/peripherals.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/printer.dart';
 import 'package:tectally_app/views/pages/suppPages/assetCategories/storage.dart';
-import 'package:tectally_app/views/pages/suppPages/assetIdentity.dart';
+import 'package:tectally_app/views/pages/suppPages/add_asset/assetIdentity.dart';
 import 'package:tectally_app/views/pages/suppPages/assetInventory.dart';
-import 'package:tectally_app/views/pages/suppPages/assignInfo.dart';
+import 'package:tectally_app/views/pages/suppPages/add_asset/assignInfo.dart';
 import 'package:tectally_app/views/pages/suppPages/barcodeScanner.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/board.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/finance.dart';
@@ -27,10 +27,10 @@ import 'package:tectally_app/views/pages/suppPages/departments/hr.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/ictUsers.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/other_departments.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/pr.dart';
-import 'package:tectally_app/views/pages/suppPages/licenceInfo.dart';
+import 'package:tectally_app/views/pages/suppPages/add_asset/licenceInfo.dart';
 import 'package:tectally_app/views/pages/suppPages/departments/procurement.dart';
-import 'package:tectally_app/views/pages/suppPages/purchaseInfo.dart';
-import 'package:tectally_app/views/pages/suppPages/search_emp.dart';
+import 'package:tectally_app/views/pages/suppPages/add_asset/purchaseInfo.dart';
+import 'package:tectally_app/views/pages/suppPages/add_asset/search_emp.dart';
 import 'package:tectally_app/views/pages/test.dart';
 
 class Routes {

@@ -21,26 +21,16 @@ class AssignInfo extends StatefulWidget {
 
 class _AssignInfoState extends State<AssignInfo> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> _options = [
-    'Finance',
-    'Human Resource',
-    'ICT',
-    'Procurement',
-    'Others'
-  ];
 
   final List<String> _statusOptions = [
     'Working',
     'Faulty',
   ];
 
-  final TextEditingController _assignedTo = TextEditingController();
   final TextEditingController _dateAssigned = TextEditingController();
-  final TextEditingController _department = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
   AssetidController assetidController = Get.put(AssetidController());
 
-  String? _selectedValue;
   String? _selectedStatus;
 
   // Method to display the date picker and update the Date assigned
@@ -204,48 +194,9 @@ class _AssignInfoState extends State<AssignInfo> {
                     },
                   ),
 
-                  // DropdownButtonFormField<String>(
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Select Department',
-                  //     enabledBorder: OutlineInputBorder(
-                  //       borderSide: BorderSide(
-                  //         color: Colors.blue,
-                  //         width: 2.0,
-                  //       ),
-                  //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderSide: BorderSide(color: Colors.green, width: 2.0),
-                  //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  //     ),
-                  //     errorBorder: OutlineInputBorder(
-                  //       borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                  //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                  //     ),
-                  //     errorStyle: TextStyle(
-                  //       fontSize: 15,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  //   items: _options.map((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (newValue) {
-                  //     setState(
-                  //       () {
-                  //         _selectedValue = newValue;
-                  //         _department.text =
-                  //             newValue ?? ''; // Update text field if needed
-                  //       },
-                  //     );
-                  //   },
-                  //   value: _selectedValue,
-                  // ),
-
-                  const SizedBox(height: 10),
+                  const SizedBox(
+                    height: 10,
+                  ),
 
                   // Date of Expiry input area
                   const Padding(
@@ -403,8 +354,8 @@ class _AssignInfoState extends State<AssignInfo> {
     http.Response response;
     var body = {
       'ast_id': '${assetidController.assetId.value}',
-      'ast_asignee': _assignedTo.text.trim(),
-      'ast_department': _department.text.trim(),
+      'ast_asignee': searchEmpController.selectedEmp.value,
+      'ast_department': searchEmpController.selectedDeparment.value,
       'ast_issue_date': _dateAssigned.text.trim(),
       'ast_status': _statusController.text.trim(),
     };

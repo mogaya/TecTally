@@ -299,6 +299,11 @@ class _SignUpState extends State<SignUp> {
                     fontWeight: FontWeight.w600,
                   ),
                   onPressed: () {
+                    username.clear();
+                    phone.clear();
+                    email.clear();
+                    password.clear();
+
                     // Close the dialog and navigate to sign-in page
                     Get.offAndToNamed("/signin");
                   },

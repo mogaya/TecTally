@@ -212,6 +212,11 @@ class SignIn extends StatelessWidget {
         profileController.updateUserPhone(userData['user_phone']);
         profileController.updateUserId(userData['user_id']);
         profileController.updateUserName(userData['user_name']);
+        profileController.updateUserEmail(userData['user_email']);
+        profileController.updateUserOrganization(userData['user_organization']);
+
+        phone.clear();
+        password.clear();
 
         Get.toNamed("/navigator");
       } else {
