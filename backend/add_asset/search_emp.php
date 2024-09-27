@@ -4,17 +4,17 @@ require '../connect.php';
 // Initialize response array
 $response = [
     'success' => 0,
-    'assets' => []
+    'employees' => []
 ];
 
-$query = "SELECT * FROM assets";
+$query = "SELECT * FROM employees";
 $result = mysqli_query($con, $query);
 
 if ($result) {
     $response['success'] = 1;
 
     // Fetch all rows as an associative array
-    $response['assets'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $response['employees'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
 // Return the response as JSON
