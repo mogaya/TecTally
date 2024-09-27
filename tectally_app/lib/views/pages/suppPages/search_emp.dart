@@ -23,12 +23,12 @@ class _BoardState extends State<SearchEmp> {
   @override
   void initState() {
     super.initState();
-    getBoard();
+    getEmployees();
   }
 
   @override
   Widget build(BuildContext context) {
-    // getBoard();
+    // getEmployees();
     return Scaffold(
       backgroundColor: baseColor,
       appBar: AppBar(
@@ -157,149 +157,19 @@ class _BoardState extends State<SearchEmp> {
     );
   }
 
-  // Show Board Employee Details
-  // Future<dynamic> setSelectedEmp(BuildContext context, int index) {
-  // return showDialog(
-  //   context: context,
-  //   builder: (BuildContext context) {
-  //     return AlertDialog(
-  //       title: Align(
-  //         alignment: Alignment.center,
-  //         child: customText(
-  //           label:
-  //               "${searchEmpController.filteredSearchEmpList[index].emp_name}",
-  //           fontSize: 24,
-  //           labelColor: secondaryColor,
-  //           // fontFamily: 'OpenSans',
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       ),
-  //       content: SizedBox(
-  //         height: 220,
-  //         child: FittedBox(
-  //           fit: BoxFit.contain,
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Row(
-  //                 children: [
-  //                   const customText(
-  //                     label: "Employee ID: ",
-  //                     fontSize: 20,
-  //                     fontFamily: "OpenSans",
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                   customText(
-  //                     label:
-  //                         "${searchEmpController.filteredSearchEmpList[index].emp_id}",
-  //                     fontSize: 20,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ],
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   const customText(
-  //                     label: "Employee Department: ",
-  //                     fontSize: 20,
-  //                     fontFamily: "OpenSans",
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                   customText(
-  //                     label:
-  //                         "${searchEmpController.filteredSearchEmpList[index].emp_dpt}",
-  //                     fontSize: 20,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ],
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   const customText(
-  //                     label: "Employee Role: ",
-  //                     fontSize: 20,
-  //                     fontFamily: "OpenSans",
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                   customText(
-  //                     label:
-  //                         "${searchEmpController.filteredSearchEmpList[index].emp_role}",
-  //                     fontSize: 20,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ],
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   const customText(
-  //                     label: "Employee Email: ",
-  //                     fontSize: 20,
-  //                     fontFamily: "OpenSans",
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                   customText(
-  //                     label:
-  //                         "${searchEmpController.filteredSearchEmpList[index].emp_email}",
-  //                     fontSize: 20,
-  //                     labelColor: Colors.blue,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ],
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //               Row(
-  //                 children: [
-  //                   const customText(
-  //                     label: "Employee Phone: ",
-  //                     fontSize: 20,
-  //                     fontFamily: "OpenSans",
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                   customText(
-  //                     label:
-  //                         "${searchEmpController.filteredSearchEmpList[index].emp_phone}",
-  //                     fontSize: 20,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                 ],
-  //               ),
-  //               const SizedBox(
-  //                 height: 15,
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   },
-  // );
-  // }
-
-  // Connecting to API to Pull Board
-  Future<void> getBoard() async {
+  // Connecting to API to Pull Employees
+  Future<void> getEmployees() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/departments/board.php"),
+      Uri.parse("https://mmogaya.com/tectally/add_asset/search_emp.php"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
-      var boardResponse = serverResponse['board'] as List;
-      var boardList =
-          boardResponse.map((board) => EmployeeModel.fromJson(board)).toList();
-      searchEmpController.updateSearchEmpList(boardList);
+      var employeeResponse = serverResponse['employees'] as List;
+      var employeeList = employeeResponse
+          .map((employees) => EmployeeModel.fromJson(employees))
+          .toList();
+      searchEmpController.updateSearchEmpList(employeeList);
     } else {
       print("Error Occurred");
     }

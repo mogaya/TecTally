@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class customDetailsInput extends StatelessWidget {
@@ -54,7 +52,7 @@ class customDetailsInput extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
       ),
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ),
