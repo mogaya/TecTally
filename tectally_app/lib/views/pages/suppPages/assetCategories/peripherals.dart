@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/peripheral_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/asset_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// peripheralController peripheralController = Get.put(peripheralController());
 PeripheralController peripheralController = Get.put(PeripheralController());
+ProfileController profileController = Get.put(ProfileController());
 
 class Peripherals extends StatefulWidget {
   const Peripherals({super.key});
@@ -19,11 +22,22 @@ class Peripherals extends StatefulWidget {
 
 class _PeripheralsState extends State<Peripherals> {
   final SearchController _searchController = SearchController();
+  bool showNoData = false;
 
   @override
   void initState() {
     super.initState();
     getPeripherals();
+
+    Timer(const Duration(seconds: 6), () {
+      if (peripheralController.peripheralList.isEmpty) {
+        setState(
+          () {
+            showNoData = true;
+          },
+        );
+      }
+    });
   }
 
   @override
@@ -42,6 +56,13 @@ class _PeripheralsState extends State<Peripherals> {
       ),
       body: Obx(
         () {
+          if (showNoData) {
+            return Center(
+              child: Lottie.network(
+                  'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+            );
+          }
+
           if (peripheralController.peripheralList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -94,104 +115,115 @@ class _PeripheralsState extends State<Peripherals> {
 
                 // Assets List
                 Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount:
-                        peripheralController.filteredPeripheralList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showAssetDetails(context, index);
-                                  },
-                                  child: customText(
-                                    label:
-                                        "${peripheralController.filteredPeripheralList[index].ast_name}",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                customText(
-                                  label:
-                                      "Tag No. ${peripheralController.filteredPeripheralList[index].ast_tag}",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          content: const customText(
-                                            label:
-                                                "Do you want to delete this Asset?",
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          actions: [
-                                            // Cancel Button
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () =>
-                                                      Navigator.pop(context),
-                                                  child: const customText(
-                                                    label: "Cancel",
-                                                    labelColor: Colors.green,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-
-                                                // Yes Button
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    deleteAsset(
-                                                      peripheralController
-                                                          .filteredPeripheralList[
-                                                              index]
-                                                          .ast_id,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const customText(
-                                                    label: "Yes",
-                                                    labelColor: Colors.red,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
-                              },
-                              child: const customText(
-                                label: "DELETE",
-                                fontWeight: FontWeight.bold,
-                                labelColor: Colors.red,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                  () {
+                    if (peripheralController.filteredPeripheralList.isEmpty) {
+                      return Center(
+                        child: Lottie.network(
+                            'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
                       );
-                    },
-                  ),
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          peripheralController.filteredPeripheralList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showAssetDetails(context, index);
+                                    },
+                                    child: customText(
+                                      label:
+                                          "${peripheralController.filteredPeripheralList[index].ast_name}",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  customText(
+                                    label:
+                                        "Tag No. ${peripheralController.filteredPeripheralList[index].ast_tag}",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: const customText(
+                                              label:
+                                                  "Do you want to delete this Asset?",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            actions: [
+                                              // Cancel Button
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        Navigator.pop(context),
+                                                    child: const customText(
+                                                      label: "Cancel",
+                                                      labelColor: Colors.green,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+
+                                                  // Yes Button
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      deleteAsset(
+                                                        peripheralController
+                                                            .filteredPeripheralList[
+                                                                index]
+                                                            .ast_id,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const customText(
+                                                      label: "Yes",
+                                                      labelColor: Colors.red,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ));
+                                },
+                                child: const customText(
+                                  label: "DELETE",
+                                  fontWeight: FontWeight.bold,
+                                  labelColor: Colors.red,
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -544,7 +576,7 @@ class _PeripheralsState extends State<Peripherals> {
     http.Response response;
     response = await http.get(
       Uri.parse(
-          "https://mmogaya.com/tectally/asset_categories/peripherals.php"),
+          "https://mmogaya.com/tectally/asset_categories/peripherals.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
