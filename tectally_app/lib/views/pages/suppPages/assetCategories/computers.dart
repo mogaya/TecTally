@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/computer_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/asset_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
 ComputerController computerController = Get.put(ComputerController());
+ProfileController profileController = Get.put(ProfileController());
 
 class Computers extends StatefulWidget {
   const Computers({super.key});
@@ -541,7 +543,8 @@ class _ComputersState extends State<Computers> {
   Future<void> getComputers() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/asset_categories/computers.php"),
+      Uri.parse(
+          "https://mmogaya.com/tectally/asset_categories/computers.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
