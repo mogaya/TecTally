@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/networking_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/asset_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// networkingController networkingController = Get.put(networkingController());
 NetworkingController networkingController = Get.put(NetworkingController());
+ProfileController profileController = Get.put(ProfileController());
 
 class Networking extends StatefulWidget {
   const Networking({super.key});
@@ -19,11 +22,23 @@ class Networking extends StatefulWidget {
 
 class _NetworkingState extends State<Networking> {
   final SearchController _searchController = SearchController();
+  bool showNoData = false;
 
   @override
   void initState() {
     super.initState();
     getNetworking();
+
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        if (networkingController.networkingList.isEmpty) {
+          setState(() {
+            showNoData = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -42,6 +57,13 @@ class _NetworkingState extends State<Networking> {
       ),
       body: Obx(
         () {
+          if (showNoData) {
+            return Center(
+              child: Lottie.network(
+                  'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+            );
+          }
+
           if (networkingController.networkingList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -94,104 +116,114 @@ class _NetworkingState extends State<Networking> {
 
                 // Assets List
                 Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount:
-                        networkingController.filteredNetworkingList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showAssetDetails(context, index);
-                                  },
-                                  child: customText(
-                                    label:
-                                        "${networkingController.filteredNetworkingList[index].ast_name}",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                customText(
-                                  label:
-                                      "Tag No. ${networkingController.filteredNetworkingList[index].ast_tag}",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          content: const customText(
-                                            label:
-                                                "Do you want to delete this Asset?",
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          actions: [
-                                            // Cancel Button
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () =>
-                                                      Navigator.pop(context),
-                                                  child: const customText(
-                                                    label: "Cancel",
-                                                    labelColor: Colors.green,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-
-                                                // Yes Button
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    deleteAsset(
-                                                      networkingController
-                                                          .filteredNetworkingList[
-                                                              index]
-                                                          .ast_id,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const customText(
-                                                    label: "Yes",
-                                                    labelColor: Colors.red,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
-                              },
-                              child: const customText(
-                                label: "DELETE",
-                                fontWeight: FontWeight.bold,
-                                labelColor: Colors.red,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                  () {
+                    if (networkingController.filteredNetworkingList.isEmpty) {
+                      return Center(
+                        child: Lottie.network(
+                            'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
                       );
-                    },
-                  ),
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          networkingController.filteredNetworkingList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showAssetDetails(context, index);
+                                    },
+                                    child: customText(
+                                      label:
+                                          "${networkingController.filteredNetworkingList[index].ast_name}",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  customText(
+                                    label:
+                                        "Tag No. ${networkingController.filteredNetworkingList[index].ast_tag}",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: const customText(
+                                              label:
+                                                  "Do you want to delete this Asset?",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            actions: [
+                                              // Cancel Button
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        Navigator.pop(context),
+                                                    child: const customText(
+                                                      label: "Cancel",
+                                                      labelColor: Colors.green,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+
+                                                  // Yes Button
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      deleteAsset(
+                                                        networkingController
+                                                            .filteredNetworkingList[
+                                                                index]
+                                                            .ast_id,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const customText(
+                                                      label: "Yes",
+                                                      labelColor: Colors.red,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ));
+                                },
+                                child: const customText(
+                                  label: "DELETE",
+                                  fontWeight: FontWeight.bold,
+                                  labelColor: Colors.red,
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -543,7 +575,8 @@ class _NetworkingState extends State<Networking> {
   Future<void> getNetworking() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/asset_categories/networking.php"),
+      Uri.parse(
+          "https://mmogaya.com/tectally/asset_categories/networking.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
