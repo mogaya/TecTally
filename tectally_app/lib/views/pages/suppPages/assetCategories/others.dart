@@ -1,13 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/other_assets_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/asset_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
 OtherAssetsController otherAssetsController = Get.put(OtherAssetsController());
+ProfileController profileController = Get.put(ProfileController());
 
 class OtherAssets extends StatefulWidget {
   const OtherAssets({super.key});
@@ -18,11 +22,23 @@ class OtherAssets extends StatefulWidget {
 
 class _OtherAssetsState extends State<OtherAssets> {
   final SearchController _searchController = SearchController();
+  bool showNoData = false;
 
   @override
   void initState() {
     super.initState();
     getOtherAssets();
+
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        if (otherAssetsController.otherAssetsList.isEmpty) {
+          setState(() {
+            showNoData = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -41,6 +57,13 @@ class _OtherAssetsState extends State<OtherAssets> {
       ),
       body: Obx(
         () {
+          if (showNoData) {
+            return Center(
+              child: Lottie.network(
+                  'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+            );
+          }
+
           if (otherAssetsController.otherAssetsList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -93,104 +116,115 @@ class _OtherAssetsState extends State<OtherAssets> {
 
                 // Assets List
                 Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount:
-                        otherAssetsController.filteredOtherAssetsList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showAssetDetails(context, index);
-                                  },
-                                  child: customText(
-                                    label:
-                                        "${otherAssetsController.filteredOtherAssetsList[index].ast_name}",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                customText(
-                                  label:
-                                      "Tag No. ${otherAssetsController.filteredOtherAssetsList[index].ast_tag}",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          content: const customText(
-                                            label:
-                                                "Do you want to delete this Asset?",
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          actions: [
-                                            // Cancel Button
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () =>
-                                                      Navigator.pop(context),
-                                                  child: const customText(
-                                                    label: "Cancel",
-                                                    labelColor: Colors.green,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-
-                                                // Yes Button
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    deleteAsset(
-                                                      otherAssetsController
-                                                          .filteredOtherAssetsList[
-                                                              index]
-                                                          .ast_id,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const customText(
-                                                    label: "Yes",
-                                                    labelColor: Colors.red,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
-                              },
-                              child: const customText(
-                                label: "DELETE",
-                                fontWeight: FontWeight.bold,
-                                labelColor: Colors.red,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                  () {
+                    if (otherAssetsController.filteredOtherAssetsList.isEmpty) {
+                      return Center(
+                        child: Lottie.network(
+                            'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
                       );
-                    },
-                  ),
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          otherAssetsController.filteredOtherAssetsList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showAssetDetails(context, index);
+                                    },
+                                    child: customText(
+                                      label:
+                                          "${otherAssetsController.filteredOtherAssetsList[index].ast_name}",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  customText(
+                                    label:
+                                        "Tag No. ${otherAssetsController.filteredOtherAssetsList[index].ast_tag}",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: const customText(
+                                              label:
+                                                  "Do you want to delete this Asset?",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            actions: [
+                                              // Cancel Button
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        Navigator.pop(context),
+                                                    child: const customText(
+                                                      label: "Cancel",
+                                                      labelColor: Colors.green,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+
+                                                  // Yes Button
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      deleteAsset(
+                                                        otherAssetsController
+                                                            .filteredOtherAssetsList[
+                                                                index]
+                                                            .ast_id,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const customText(
+                                                      label: "Yes",
+                                                      labelColor: Colors.red,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ));
+                                },
+                                child: const customText(
+                                  label: "DELETE",
+                                  fontWeight: FontWeight.bold,
+                                  labelColor: Colors.red,
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -542,7 +576,8 @@ class _OtherAssetsState extends State<OtherAssets> {
   Future<void> getOtherAssets() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/asset_categories/others.php"),
+      Uri.parse(
+          "https://mmogaya.com/tectally/asset_categories/others.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
