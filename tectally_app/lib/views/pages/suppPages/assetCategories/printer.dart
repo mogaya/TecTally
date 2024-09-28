@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/printer_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/asset_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// printerController printerController = Get.put(printerController());
 PrinterController printerController = Get.put(PrinterController());
+ProfileController profileController = Get.put(ProfileController());
 
 class Printers extends StatefulWidget {
   const Printers({super.key});
@@ -19,11 +22,23 @@ class Printers extends StatefulWidget {
 
 class _PrintersState extends State<Printers> {
   final SearchController _searchController = SearchController();
+  bool showNoData = false;
 
   @override
   void initState() {
     super.initState();
     getPrinters();
+
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        if (printerController.printerList.isEmpty) {
+          setState(() {
+            showNoData = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -42,8 +57,15 @@ class _PrintersState extends State<Printers> {
       ),
       body: Obx(
         () {
-          if (printerController.printerList.isEmpty) {
+          if (showNoData) {
             return Center(
+              child: Lottie.network(
+                  'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+            );
+          }
+
+          if (printerController.printerList.isEmpty) {
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -94,107 +116,114 @@ class _PrintersState extends State<Printers> {
 
                 // Assets List
                 Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: printerController.filteredPrinterList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showAssetDetails(context, index);
-                                  },
-                                  child: customText(
-                                    label:
-                                        "${printerController.filteredPrinterList[index].ast_name}",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                customText(
-                                  label:
-                                      "Tag No. ${printerController.filteredPrinterList[index].ast_tag}",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          content: const customText(
-                                            label:
-                                                "Do you want to delete this Asset?",
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          actions: [
-                                            // Cancel Button
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () =>
-                                                      Navigator.pop(context),
-                                                  child: const customText(
-                                                    label: "Cancel",
-                                                    labelColor: Colors.green,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-
-                                                // Yes Button
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    deleteAsset(
-                                                      printerController
-                                                          .filteredPrinterList[
-                                                              index]
-                                                          .ast_id,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const customText(
-                                                    label: "Yes",
-                                                    labelColor: Colors.red,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
-                              },
-                              child: const customText(
-                                label: "DELETE",
-                                fontWeight: FontWeight.bold,
-                                labelColor: Colors.red,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                  () {
+                    if (printerController.filteredPrinterList.isEmpty) {
+                      return Center(
+                        child: Lottie.network(
+                            'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
                       );
-                      // return ListTile(
-                      //   title: Text(
-                      //       "${printerController.filteredPrinterList[index].ast_name}"),
-                      // );
-                    },
-                  ),
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: printerController.filteredPrinterList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showAssetDetails(context, index);
+                                    },
+                                    child: customText(
+                                      label:
+                                          "${printerController.filteredPrinterList[index].ast_name}",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  customText(
+                                    label:
+                                        "Tag No. ${printerController.filteredPrinterList[index].ast_tag}",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: const customText(
+                                              label:
+                                                  "Do you want to delete this Asset?",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            actions: [
+                                              // Cancel Button
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        Navigator.pop(context),
+                                                    child: const customText(
+                                                      label: "Cancel",
+                                                      labelColor: Colors.green,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+
+                                                  // Yes Button
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      deleteAsset(
+                                                        printerController
+                                                            .filteredPrinterList[
+                                                                index]
+                                                            .ast_id,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const customText(
+                                                      label: "Yes",
+                                                      labelColor: Colors.red,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ));
+                                },
+                                child: const customText(
+                                  label: "DELETE",
+                                  fontWeight: FontWeight.bold,
+                                  labelColor: Colors.red,
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -245,7 +274,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -264,14 +293,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-
-                    // customText(
-                    //   label:
-                    //       "Asset Tag No: ${printerController.filteredPrinterList[index].ast_tag}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -290,8 +312,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -310,13 +331,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Category: ${printerController.filteredPrinterList[index].ast_category}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -335,13 +350,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Purchase Date: ${printerController.filteredPrinterList[index].ast_purchase_date}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -360,13 +369,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Price: ${printerController.filteredPrinterList[index].ast_price}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -385,13 +388,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Supplier: ${printerController.filteredPrinterList[index].ast_supplier}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -410,13 +407,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Waranty No: ${printerController.filteredPrinterList[index].ast_warranty}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -435,13 +426,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Licence Name: ${printerController.filteredPrinterList[index].ast_licence}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -460,13 +445,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Licence Issue Date: ${printerController.filteredPrinterList[index].ast_licence_date}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -485,13 +464,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Licence Expiry Date: ${printerController.filteredPrinterList[index].ast_licence_expiry}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -510,13 +483,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Licence No: ${printerController.filteredPrinterList[index].ast_licence_no}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -535,13 +502,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Assigned to: ${printerController.filteredPrinterList[index].ast_asignee}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -560,13 +521,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Department: ${printerController.filteredPrinterList[index].ast_department}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -585,13 +540,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Date of Issue: ${printerController.filteredPrinterList[index].ast_issue_date}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Row(
@@ -610,13 +559,7 @@ class _PrintersState extends State<Printers> {
                         ),
                       ],
                     ),
-                    // customText(
-                    //   label:
-                    //       "Asset Status: ${printerController.filteredPrinterList[index].ast_status}",
-                    //   fontSize: 20,
-                    //   fontWeight: FontWeight.bold,
-                    // ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                   ],
@@ -630,7 +573,8 @@ class _PrintersState extends State<Printers> {
   Future<void> getPrinters() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/asset_categories/printers.php"),
+      Uri.parse(
+          "https://mmogaya.com/tectally/asset_categories/printers.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
