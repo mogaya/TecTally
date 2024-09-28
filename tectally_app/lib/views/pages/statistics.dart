@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/statistics/asset_tally_controller.dart';
 import 'package:tectally_app/controllers/statistics/employee_tally_controller.dart';
@@ -66,12 +67,18 @@ class PieChart2State extends State<Statistics> {
       body: Obx(
         () {
           if (showNoAssetsText) {
-            return const Center(
-                child: customText(
-              label: 'No Statistics: Add Data',
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              labelColor: Colors.red,
+            return Center(
+                child: Column(
+              children: [
+                Lottie.network(
+                    'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+                const customText(
+                  label: 'No Statistics: Add Data',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  labelColor: Colors.red,
+                ),
+              ],
             ));
           }
 
