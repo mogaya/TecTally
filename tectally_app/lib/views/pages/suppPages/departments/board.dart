@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/departments/board_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/employee_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// boardController boardController = Get.put(boardController());
 BoardController boardController = Get.put(BoardController());
+ProfileController profileController = Get.put(ProfileController());
 
 class Board extends StatefulWidget {
   const Board({super.key});
@@ -19,11 +22,23 @@ class Board extends StatefulWidget {
 
 class _BoardState extends State<Board> {
   final SearchController _searchController = SearchController();
+  bool showNoData = false;
 
   @override
   void initState() {
     super.initState();
     getBoard();
+
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        if (boardController.boardList.isEmpty) {
+          setState(() {
+            showNoData = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -42,6 +57,13 @@ class _BoardState extends State<Board> {
       ),
       body: Obx(
         () {
+          if (showNoData) {
+            return Center(
+              child: Lottie.network(
+                  'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+            );
+          }
+
           if (boardController.boardList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -94,103 +116,114 @@ class _BoardState extends State<Board> {
 
                 // Assets List
                 Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: boardController.filteredBoardList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showAssetDetails(context, index);
-                                  },
-                                  child: customText(
-                                    label:
-                                        "${boardController.filteredBoardList[index].emp_name}",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                customText(
-                                  label:
-                                      "Phone: ${boardController.filteredBoardList[index].emp_phone}",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          content: const customText(
-                                            label:
-                                                "Do you want to delete this Employee?",
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          actions: [
-                                            // Cancel Button
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () =>
-                                                      Navigator.pop(context),
-                                                  child: const customText(
-                                                    label: "Cancel",
-                                                    labelColor: Colors.green,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-
-                                                // Yes Button
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    deleteEmployee(
-                                                      boardController
-                                                          .filteredBoardList[
-                                                              index]
-                                                          .emp_id,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const customText(
-                                                    label: "Yes",
-                                                    labelColor: Colors.red,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
-                              },
-                              child: const customText(
-                                label: "DELETE",
-                                fontWeight: FontWeight.bold,
-                                labelColor: Colors.red,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                  () {
+                    if (boardController.filteredBoardList.isEmpty) {
+                      return Center(
+                        child: Lottie.network(
+                            'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
                       );
-                    },
-                  ),
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: boardController.filteredBoardList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showAssetDetails(context, index);
+                                    },
+                                    child: customText(
+                                      label:
+                                          "${boardController.filteredBoardList[index].emp_name}",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  customText(
+                                    label:
+                                        "Phone: ${boardController.filteredBoardList[index].emp_phone}",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: const customText(
+                                              label:
+                                                  "Do you want to delete this Employee?",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            actions: [
+                                              // Cancel Button
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        Navigator.pop(context),
+                                                    child: const customText(
+                                                      label: "Cancel",
+                                                      labelColor: Colors.green,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+
+                                                  // Yes Button
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      deleteEmployee(
+                                                        boardController
+                                                            .filteredBoardList[
+                                                                index]
+                                                            .emp_id,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const customText(
+                                                      label: "Yes",
+                                                      labelColor: Colors.red,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ));
+                                },
+                                child: const customText(
+                                  label: "DELETE",
+                                  fontWeight: FontWeight.bold,
+                                  labelColor: Colors.red,
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
