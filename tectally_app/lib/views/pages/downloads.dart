@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/views/components/customElevatedBtn.dart';
 import 'dart:io';
 import 'package:tectally_app/views/components/customText.dart';
+
+ProfileController profileController = Get.put(ProfileController());
 
 class Downloads extends StatefulWidget {
   const Downloads({super.key});
@@ -303,7 +307,8 @@ class _DownloadsState extends State<Downloads> {
     try {
       // Step 1: Make the HTTP request to download the file
       final response = await http.get(
-        Uri.parse('https://mmogaya.com/tectally/downloads/$file_name.php'),
+        Uri.parse(
+            'https://mmogaya.com/tectally/downloads/$file_name.php?user_id=${profileController.userId.value}'),
       );
 
       if (response.statusCode == 200) {
@@ -335,6 +340,23 @@ class _DownloadsState extends State<Downloads> {
           ),
         );
       } else {
+        // styled snackbar to notify the user
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const customText(
+              label: "Oops: Failed to download file",
+              labelColor: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            duration: const Duration(seconds: 5),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+        );
         print(
             "Error Occurred: Failed to download file (Status Code: ${response.statusCode})");
       }

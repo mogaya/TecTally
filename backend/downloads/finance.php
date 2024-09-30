@@ -11,8 +11,10 @@ $output = fopen('php://output', 'w');
 // Set the column headers
 fputcsv($output, ['Employee ID', 'Name', 'Department', 'Role', 'Email', 'Phone',]);
 
+$user_id = mysqli_real_escape_string($con, $_GET["user_id"]);
+
 // Query the database for Finance employees
-$query = "SELECT * FROM employees WHERE emp_dpt = 'Finance'";
+$query = "SELECT * FROM employees WHERE emp_dpt = 'Finance' AND user_id = $user_id";
 $result = mysqli_query($con, $query);
 
 // Write data rows to the CSV file

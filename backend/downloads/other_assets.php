@@ -8,11 +8,13 @@ header('Content-Disposition: attachment;filename=other_assets.csv');
 // Open output stream to write the CSV file directly to the browser
 $output = fopen('php://output', 'w');
 
+$user_id = mysqli_real_escape_string($con, $_GET["user_id"]);
+
 // Set the column headers
 fputcsv($output, ['Asset ID', 'Name', 'Tag', 'Serial', 'Category', 'Purchase Date', 'Price', 'Supplier', 'Warranty', 'Licence', 'Licence Date', 'Licence Expiry', 'Licence No', 'Assignee', 'Department', 'Issue Date', 'Status']);
 
 // Query the database for Others assets
-$query = "SELECT * FROM assets WHERE ast_category = 'Others'";
+$query = "SELECT * FROM assets WHERE ast_category = 'Others' AND user_id = $user_id";
 $result = mysqli_query($con, $query);
 
 // Write data rows to the CSV file

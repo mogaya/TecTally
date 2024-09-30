@@ -8,11 +8,13 @@ header('Content-Disposition: attachment;filename=board_members.csv');
 // Open output stream to write the CSV file directly to the browser
 $output = fopen('php://output', 'w');
 
+$user_id = mysqli_real_escape_string($con, $_GET["user_id"]);
+
 // Set the column headers
 fputcsv($output, ['Employee ID', 'Name', 'Department', 'Role', 'Email', 'Phone',]);
 
 // Query the database for Board employees
-$query = "SELECT * FROM employees WHERE emp_dpt = 'Board'";
+$query = "SELECT * FROM employees WHERE emp_dpt = 'Board' AND user_id = $user_id";
 $result = mysqli_query($con, $query);
 
 // Write data rows to the CSV file
