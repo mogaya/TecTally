@@ -367,7 +367,8 @@ class _BoardState extends State<Board> {
   Future<void> getBoard() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/departments/board.php"),
+      Uri.parse(
+          "https://mmogaya.com/tectally/departments/board.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
