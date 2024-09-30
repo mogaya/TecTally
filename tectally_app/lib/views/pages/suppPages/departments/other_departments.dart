@@ -1,15 +1,18 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/departments/other_departments_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/employee_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// OtherDepartmentsController otherDepartmentsController = Get.put(OtherDepartmentsController());
 OtherDepartmentsController otherDepartmentsController =
     Get.put(OtherDepartmentsController());
+ProfileController profileController = Get.put(ProfileController());
 
 class OtherDepartments extends StatefulWidget {
   const OtherDepartments({super.key});
@@ -20,11 +23,23 @@ class OtherDepartments extends StatefulWidget {
 
 class _OtherDepartmentsState extends State<OtherDepartments> {
   final SearchController _searchController = SearchController();
+  bool showNoData = false;
 
   @override
   void initState() {
     super.initState();
     getOtherDepartments();
+
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        if (otherDepartmentsController.otherDepartmentsList.isEmpty) {
+          setState(() {
+            showNoData = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -43,6 +58,13 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
       ),
       body: Obx(
         () {
+          if (showNoData) {
+            return Center(
+              child: Lottie.network(
+                  'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+            );
+          }
+
           if (otherDepartmentsController.otherDepartmentsList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -95,104 +117,116 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
 
                 // Assets List
                 Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: otherDepartmentsController
-                        .filteredOtherDepartmentsList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    showAssetDetails(context, index);
-                                  },
-                                  child: customText(
-                                    label:
-                                        "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_name}",
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                customText(
-                                  label:
-                                      "Phone: ${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_phone}",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                          content: const customText(
-                                            label:
-                                                "Do you want to delete this Employee?",
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          actions: [
-                                            // Cancel Button
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () =>
-                                                      Navigator.pop(context),
-                                                  child: const customText(
-                                                    label: "Cancel",
-                                                    labelColor: Colors.green,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-
-                                                // Yes Button
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    deleteEmployee(
-                                                      otherDepartmentsController
-                                                          .filteredOtherDepartmentsList[
-                                                              index]
-                                                          .emp_id,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const customText(
-                                                    label: "Yes",
-                                                    labelColor: Colors.red,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ));
-                              },
-                              child: const customText(
-                                label: "DELETE",
-                                fontWeight: FontWeight.bold,
-                                labelColor: Colors.red,
-                                fontSize: 18,
-                              ),
-                            )
-                          ],
-                        ),
+                  () {
+                    if (otherDepartmentsController
+                        .filteredOtherDepartmentsList.isEmpty) {
+                      return Center(
+                        child: Lottie.network(
+                            'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
                       );
-                    },
-                  ),
+                    }
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: otherDepartmentsController
+                          .filteredOtherDepartmentsList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      showAssetDetails(context, index);
+                                    },
+                                    child: customText(
+                                      label:
+                                          "${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_name}",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  customText(
+                                    label:
+                                        "Phone: ${otherDepartmentsController.filteredOtherDepartmentsList[index].emp_phone}",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: const customText(
+                                              label:
+                                                  "Do you want to delete this Employee?",
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            actions: [
+                                              // Cancel Button
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () =>
+                                                        Navigator.pop(context),
+                                                    child: const customText(
+                                                      label: "Cancel",
+                                                      labelColor: Colors.green,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+
+                                                  // Yes Button
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      deleteEmployee(
+                                                        otherDepartmentsController
+                                                            .filteredOtherDepartmentsList[
+                                                                index]
+                                                            .emp_id,
+                                                      );
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const customText(
+                                                      label: "Yes",
+                                                      labelColor: Colors.red,
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ));
+                                },
+                                child: const customText(
+                                  label: "DELETE",
+                                  fontWeight: FontWeight.bold,
+                                  labelColor: Colors.red,
+                                  fontSize: 18,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),
@@ -339,7 +373,7 @@ class _OtherDepartmentsState extends State<OtherDepartments> {
     http.Response response;
     response = await http.get(
       Uri.parse(
-          "https://mmogaya.com/tectally/departments/other_departments.php"),
+          "https://mmogaya.com/tectally/departments/other_departments.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
