@@ -3,6 +3,8 @@ require '../connect.php';
 
 $flag = ['success' => 0];
 
+$user_id = mysqli_real_escape_string($con, $_GET["user_id"]);
+
 // Query to count the total number of assets and count assets by category
 $count_query = "SELECT 
     COUNT(*) as total_assets, 
@@ -13,7 +15,7 @@ $count_query = "SELECT
     SUM(CASE WHEN ast_category = 'Peripheral' THEN 1 ELSE 0 END) as peripheral_assets,
     SUM(CASE WHEN ast_category = 'Storage' THEN 1 ELSE 0 END) as storage_assets,
     SUM(CASE WHEN ast_category = 'Others' THEN 1 ELSE 0 END) as other_assets
-    FROM assets";
+    FROM assets WHERE user_id = $user_id";
 
 $count_result = mysqli_query($con, $count_query);
 

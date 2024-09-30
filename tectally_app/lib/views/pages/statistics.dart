@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/controllers/statistics/asset_tally_controller.dart';
 import 'package:tectally_app/controllers/statistics/employee_tally_controller.dart';
 import 'package:tectally_app/views/components/customText.dart';
@@ -16,6 +17,7 @@ import 'package:tectally_app/views/components/indicator.dart';
 AssetTallyController assetTallyController = Get.put(AssetTallyController());
 EmployeeTallyController employeeTallyController =
     Get.put(EmployeeTallyController());
+ProfileController profileController = Get.put(ProfileController());
 
 class Statistics extends StatefulWidget {
   const Statistics({super.key});
@@ -313,8 +315,10 @@ class PieChart2State extends State<Statistics> {
 
   Future<void> getStatistics() async {
     try {
-      final response = await http
-          .get(Uri.parse("https://mmogaya.com/tectally/statistics.php"));
+      final response = await http.get(
+        Uri.parse(
+            "https://mmogaya.com/tectally/statistics.php?user_id=${profileController.userId.value}"),
+      );
 
       if (response.statusCode == 200) {
         final serverResponse = json.decode(response.body);
