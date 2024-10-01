@@ -244,11 +244,13 @@ class _PurchaseInfoState extends State<PurchaseInfo> {
 
                   // Save Button
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       customButton(
                         text: "SKIP",
-                        onPressed: () => {},
+                        onPressed: () => {
+                          Get.toNamed("/licence_info"),
+                        },
                         borderRadius: 30,
                         txtFontSize: 18,
                         color: baseColor,

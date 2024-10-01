@@ -318,11 +318,13 @@ class _LicenceInfoState extends State<LicenceInfo> {
 
                   // Save Button
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       customButton(
                         text: "SKIP",
-                        onPressed: () => {},
+                        onPressed: () => {
+                          Get.toNamed("/assign_info"),
+                        },
                         borderRadius: 30,
                         txtFontSize: 18,
                         color: baseColor,

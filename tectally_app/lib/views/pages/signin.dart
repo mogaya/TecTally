@@ -197,6 +197,15 @@ class SignIn extends StatelessWidget {
 
   // Login Logic
   Future<void> remoteLogin(BuildContext context) async {
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     });
+    // Navigator.of(context).pop();
+
     http.Response response;
     response = await http.get(
       Uri.parse(

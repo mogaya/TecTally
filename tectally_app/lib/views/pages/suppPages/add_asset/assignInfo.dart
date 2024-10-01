@@ -369,6 +369,24 @@ class _AssignInfoState extends State<AssignInfo> {
       var serverResponse = json.decode(response.body);
       int success = serverResponse['success'];
 
+      // Snackbar to notify the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const customText(
+            label: "Asset added Successfully",
+            labelColor: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+          duration: const Duration(seconds: 5),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      );
+
       if (success == 1) {
         Get.toNamed("/navigator");
       }
