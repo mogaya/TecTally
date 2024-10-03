@@ -4,8 +4,8 @@ import 'package:tectally_app/utils/routes.dart';
 
 void main() {
   runApp(GetMaterialApp(
-    initialRoute: "/",
-    // initialRoute: "/assign_info",
+    // initialRoute: "/",
+    initialRoute: "/chat_bot",
     theme: ThemeData(fontFamily: "Outfit"),
     getPages: Routes.routes,
     debugShowCheckedModeBanner: false,
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: "/",
-      // initialRoute: "/assign_info",
+      // initialRoute: "/",
+      initialRoute: "/chat_bot",
       theme: ThemeData(fontFamily: "Outfit"),
       getPages: Routes.routes,
       debugShowCheckedModeBanner: false,

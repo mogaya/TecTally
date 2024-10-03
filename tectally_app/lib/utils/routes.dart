@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tectally_app/views/pages/chatBot.dart';
 import 'package:tectally_app/views/pages/edit_profile.dart';
 import 'package:tectally_app/views/pages/home.dart';
 import 'package:tectally_app/views/pages/landing.dart';
@@ -44,6 +45,7 @@ class Routes {
     GetPage(name: "/profile", page: () => const Profile()),
     GetPage(name: "/edit_profile", page: () => const EditProfile()),
     GetPage(name: "/downloads", page: () => const Downloads()),
+    GetPage(name: "/chat_bot", page: () => ChatBot()),
 
     // Test
     GetPage(name: "/test", page: () => const Test()),
