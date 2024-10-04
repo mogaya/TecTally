@@ -119,19 +119,19 @@ class SignIn extends StatelessWidget {
                   ),
 
                   // forgot password
-                  GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/'),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        customText(
-                          label: "Forgot Password?",
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ],
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () => Navigator.pushNamed(context, '/'),
+                  //   child: const Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       customText(
+                  //         label: "Forgot Password?",
+                  //         fontSize: 18,
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
 
                   const SizedBox(
                     height: 80,
@@ -197,15 +197,6 @@ class SignIn extends StatelessWidget {
 
   // Login Logic
   Future<void> remoteLogin(BuildContext context) async {
-    // showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return const Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     });
-    // Navigator.of(context).pop();
-
     http.Response response;
     response = await http.get(
       Uri.parse(
@@ -215,6 +206,24 @@ class SignIn extends StatelessWidget {
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);
       int loginStatus = serverResponse['success'];
+
+      // Snackbar to notify the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const customText(
+            label: "Sign In Successful, Karibu TecTally",
+            labelColor: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+          duration: const Duration(seconds: 5),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      );
 
       if (loginStatus == 1) {
         var userData = serverResponse['userdata'];

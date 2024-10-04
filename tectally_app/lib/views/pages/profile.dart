@@ -59,8 +59,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 height: 25,
               ),
               const CircleAvatar(
-                radius: 85,
-                backgroundColor: ascentColor,
+                radius: 100,
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage(
+                  'assets/img/profile_holder.png',
+                ),
               ),
               const SizedBox(
                 height: 20,

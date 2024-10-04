@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/search_emp_controller.dart';
 import 'package:tectally_app/models/employee_model.dart';
@@ -19,11 +21,23 @@ class SearchEmp extends StatefulWidget {
 
 class _BoardState extends State<SearchEmp> {
   final SearchController _searchController = SearchController();
+  bool showNoData = false;
 
   @override
   void initState() {
     super.initState();
     getEmployees();
+
+    Timer(
+      const Duration(seconds: 6),
+      () {
+        if (searchEmpController.searchEmpList.isEmpty) {
+          setState(() {
+            showNoData = true;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -42,6 +56,12 @@ class _BoardState extends State<SearchEmp> {
       ),
       body: Obx(
         () {
+          if (showNoData) {
+            return Center(
+              child: Lottie.network(
+                  'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
+            );
+          }
           if (searchEmpController.searchEmpList.isEmpty) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -96,57 +116,67 @@ class _BoardState extends State<SearchEmp> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Obx(
-                    () => ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount:
-                          searchEmpController.filteredSearchEmpList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      // setSelectedEmp(context, index);
-                                      searchEmpController.updateSelectedEmp(
-                                          searchEmpController
-                                              .filteredSearchEmpList[index]
-                                              .emp_name);
-                                      searchEmpController
-                                          .updateSelectedDepartment(
-                                              searchEmpController
-                                                  .filteredSearchEmpList[index]
-                                                  .emp_dpt);
-                                      Get.toNamed('/assign_info');
-                                      print(
-                                          '${searchEmpController.selectedEmp.value}');
-                                    },
-                                    child: customText(
-                                      label:
-                                          "${searchEmpController.filteredSearchEmpList[index].emp_name}",
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  customText(
-                                    label:
-                                        "Phone: ${searchEmpController.filteredSearchEmpList[index].emp_phone}",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                    () {
+                      if (searchEmpController.filteredSearchEmpList.isEmpty) {
+                        return Center(
+                          child: Lottie.network(
+                              'https://lottie.host/730a99d0-773b-43d9-8802-81ab339f51a4/JUTQ5PziHR.json'),
                         );
-                      },
-                    ),
+                      }
+
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount:
+                            searchEmpController.filteredSearchEmpList.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        // setSelectedEmp(context, index);
+                                        searchEmpController.updateSelectedEmp(
+                                            searchEmpController
+                                                .filteredSearchEmpList[index]
+                                                .emp_name);
+                                        searchEmpController
+                                            .updateSelectedDepartment(
+                                                searchEmpController
+                                                    .filteredSearchEmpList[
+                                                        index]
+                                                    .emp_dpt);
+                                        Get.toNamed('/assign_info');
+                                        print(
+                                            '${searchEmpController.selectedEmp.value}');
+                                      },
+                                      child: customText(
+                                        label:
+                                            "${searchEmpController.filteredSearchEmpList[index].emp_name}",
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    customText(
+                                      label:
+                                          "Phone: ${searchEmpController.filteredSearchEmpList[index].emp_phone}",
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               ],

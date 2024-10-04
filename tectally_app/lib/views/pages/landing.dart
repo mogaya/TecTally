@@ -17,7 +17,7 @@ class Landing extends StatefulWidget {
 
 class _LandingState extends State<Landing> {
   // keeps track of the page we are on
-  PageController _controller = PageController();
+  final PageController _controller = PageController();
 
   // check if on the last page
   bool onLastPage = false;
@@ -34,7 +34,7 @@ class _LandingState extends State<Landing> {
                 onLastPage = (index == 3);
               });
             },
-            children: [
+            children: const [
               Landing1(),
               Landing2(),
               Landing3(),
@@ -51,7 +51,7 @@ class _LandingState extends State<Landing> {
                 SmoothPageIndicator(
                   controller: _controller,
                   count: 4,
-                  effect: ScrollingDotsEffect(
+                  effect: const ScrollingDotsEffect(
                     radius: 20,
                     dotHeight: 12,
                     dotWidth: 12,
@@ -59,7 +59,7 @@ class _LandingState extends State<Landing> {
                   ),
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 25,
                 ),
 
@@ -107,7 +107,7 @@ class _LandingState extends State<Landing> {
                             txtFontWeight: FontWeight.bold,
                             onPressed: () {
                               _controller.nextPage(
-                                duration: Duration(milliseconds: 500),
+                                duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInCirc,
                               );
                             },
@@ -115,7 +115,7 @@ class _LandingState extends State<Landing> {
                   ],
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 35,
                 ),
               ],

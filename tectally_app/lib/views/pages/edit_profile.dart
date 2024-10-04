@@ -210,7 +210,7 @@ class _EditProfileState extends State<EditProfile> {
     showDialog(
       context: context,
       builder: (context) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },
