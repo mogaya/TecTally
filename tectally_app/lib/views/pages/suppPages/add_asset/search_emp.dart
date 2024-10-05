@@ -6,11 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:tectally_app/configs/constants.dart';
 import 'package:tectally_app/controllers/asset_categories_controllers/search_emp_controller.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/models/employee_model.dart';
 import 'package:tectally_app/views/components/customText.dart';
 
-// searchEmpController searchEmpController = Get.put(searchEmpController());
 SearchEmpController searchEmpController = Get.put(SearchEmpController());
+ProfileController profileController = Get.put(ProfileController());
 
 class SearchEmp extends StatefulWidget {
   const SearchEmp({super.key});
@@ -191,7 +192,8 @@ class _BoardState extends State<SearchEmp> {
   Future<void> getEmployees() async {
     http.Response response;
     response = await http.get(
-      Uri.parse("https://mmogaya.com/tectally/add_asset/search_emp.php"),
+      Uri.parse(
+          "https://mmogaya.com/tectally/add_asset/search_emp.php?user_id=${profileController.userId.value}"),
     );
     if (response.statusCode == 200) {
       var serverResponse = json.decode(response.body);

@@ -29,7 +29,7 @@ $employee_count_query = "SELECT
     SUM(CASE WHEN emp_dpt = 'ICT' THEN 1 ELSE 0 END) as ict_employees,
     SUM(CASE WHEN emp_dpt = 'Procurement' THEN 1 ELSE 0 END) as procurement_employees,
     SUM(CASE WHEN emp_dpt = 'Other Departments' THEN 1 ELSE 0 END) as other_department_employees
-    FROM employees";
+    FROM employees WHERE user_id = $user_id";
 
 $employee_count_result = mysqli_query($con, $employee_count_query);
 

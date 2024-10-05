@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tectally_app/configs/constants.dart';
+import 'package:tectally_app/controllers/profile/profile_controller.dart';
 import 'package:tectally_app/views/components/customButton.dart';
 import 'package:tectally_app/views/components/customDetailsInput.dart';
 import 'package:tectally_app/views/components/customText.dart';
+
+ProfileController profileController = Get.put(ProfileController());
 
 class AddUser extends StatefulWidget {
   const AddUser({Key? key}) : super(key: key);
@@ -42,7 +45,7 @@ class _AddUserState extends State<AddUser> {
         backgroundColor: baseColor,
         centerTitle: true,
         title: const customText(
-          label: 'Add User',
+          label: 'Add Employee',
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
@@ -277,6 +280,7 @@ class _AddUserState extends State<AddUser> {
       'emp_role': _empRole.text.trim(),
       'emp_email': _emEmail.text.trim(),
       'emp_phone': _empPhone.text.trim(),
+      'user_id': '${profileController.userId.value}'
     };
 
     response = await http.post(
