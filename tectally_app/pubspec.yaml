@@ -50,7 +50,8 @@ dependencies:
   open_file: ^3.5.5
   barcode_scan2: ^4.3.3
   animated_number: ^1.0.2
-  flutter_launcher_icons: ^0.14.1
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.2
 
 dev_dependencies:
   flutter_test:
@@ -106,10 +107,10 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 
 flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: "AppIcon"
+  android: true
+  ios: true
   image_path: "assets/logo.png"
-  # adaptive_icon_background: "#ffffff"
+  adaptive_icon_background: "#000000"
   # adaptive_icon_foreground: "assets/logo.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   # web:
@@ -125,7 +126,15 @@ flutter_launcher_icons:
   #   generate: true
   #   image_path: "assets/logo.png"
 
-flutter_icons:
-  image_path: "assets/logo.png"
+# flutter_icons:
+#   image_path: "assets/logo.png"
+#   android: true
+#   ios: true
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/splashLogo.png
+  android_12:
+    image: assets/android12_splash.png
   android: true
   ios: true
